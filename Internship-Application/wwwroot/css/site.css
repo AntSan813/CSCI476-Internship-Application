@@ -57,3 +57,22 @@ body {
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
 }
+
+/*END DEFAULT CSS*/
+/*Following was taken from winthrop.edu's front page css source*/
+.audienceMenuText {
+    font-family: 'Raleway', Arial, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: bold;
+    color: #000;
+    letter-spacing: 0px;
+    margin-left: 35px;
+    margin-right: 35px;
+    text-decoration: none;
+}
+
+#gradientAudience {
+    line-height: 46px;
+    text-align: center;
+}

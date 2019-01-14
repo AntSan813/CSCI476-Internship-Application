@@ -23,3 +23,5 @@
 /Users/antoniosantos/Projects/CSCI476-Internship-Application/Internship-Application/obj/Debug/netcoreapp2.2/Internship-Application.pdb
 /Users/antoniosantos/Projects/CSCI476-Internship-Application/Internship-Application/obj/Debug/netcoreapp2.2/Internship-Application.csproj.CopyComplete
 /Users/antoniosantos/Projects/CSCI476-Internship-Application/Internship-Application/obj/Debug/netcoreapp2.2/Razor/Views/Shared/_Layout.g.cshtml.cs
+/Users/antoniosantos/Projects/CSCI476-Internship-Application/Internship-Application/obj/Debug/netcoreapp2.2/Razor/Views/Home/Index.g.cshtml.cs
+/Users/antoniosantos/Projects/CSCI476-Internship-Application/Internship-Application/obj/Debug/netcoreapp2.2/Razor/Views/SignIn/Index.g.cshtml.cs
