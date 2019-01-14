@@ -12083,11 +12083,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/antoniosantos/Projects/Internship-Application/Internship-Application/Internship-Application.csproj",
+      "projectUniqueName": "/Users/antoniosantos/Projects/CSCI476-Internship-Application/Internship-Application/Internship-Application.csproj",
       "projectName": "Internship-Application",
-      "projectPath": "/Users/antoniosantos/Projects/Internship-Application/Internship-Application/Internship-Application.csproj",
+      "projectPath": "/Users/antoniosantos/Projects/CSCI476-Internship-Application/Internship-Application/Internship-Application.csproj",
       "packagesPath": "/Users/antoniosantos/.nuget/packages/",
-      "outputPath": "/Users/antoniosantos/Projects/Internship-Application/Internship-Application/obj",
+      "outputPath": "/Users/antoniosantos/Projects/CSCI476-Internship-Application/Internship-Application/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
