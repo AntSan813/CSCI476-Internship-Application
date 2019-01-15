@@ -57,7 +57,7 @@ namespace Internship_Application
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=SignIn}/{action=Index}/{id?}");
             });
         }
     }
