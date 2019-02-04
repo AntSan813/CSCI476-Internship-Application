@@ -1,17 +1,9 @@
 ﻿<Properties StartupConfiguration="{FFD628D1-5A7C-4D7D-8E7E-C098B283E688}|Default">
   <MonoDevelop.Ide.ItemProperties.Internship-Application PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Internship-Application/Models/ErrorViewModel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CSCI476-Internship-Application.git Status">
     <Files>
-      <File FileName="Internship-Application/Views/Shared/_Layout.cshtml" Line="35" Column="22" />
-      <File FileName="Internship-Application/Controllers/HomeController.cs" Line="17" Column="10" />
-      <File FileName="Internship-Application/Controllers/SignIn.cs" Line="23" Column="6" />
-      <File FileName="Internship-Application/Views/SignIn/Index.cshtml" Line="1" Column="1" />
-      <File FileName="Internship-Application/wwwroot/css/site.css" Line="62" Column="66" />
-      <File FileName="Internship-Application/Views/_ViewStart.cshtml" Line="1" Column="1" />
-      <File FileName="Internship-Application/Program.cs" Line="1" Column="1" />
-      <File FileName="Internship-Application/Startup.cs" Line="1" Column="1" />
-      <File FileName="Internship-Application/Views/Home/Index.cshtml" Line="1" Column="10" />
-      <File FileName="Internship-Application/Models/ErrorViewModel.cs" Line="1" Column="1" />
+      <File FileName="CSCI476-Internship-Application.git Status" />
+      <File FileName=".vs/Internship-Application/xs/UserPrefs.xml" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

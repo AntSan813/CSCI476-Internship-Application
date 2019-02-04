@@ -11918,11 +11918,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< Updated upstream
       "projectUniqueName": "/Users/christinasadak/Google Drive/CSCI 476/CSCI476-Internship-Application/Internship-Application/Internship-Application.csproj",
       "projectName": "Internship-Application",
       "projectPath": "/Users/christinasadak/Google Drive/CSCI 476/CSCI476-Internship-Application/Internship-Application/Internship-Application.csproj",
       "packagesPath": "/Users/christinasadak/.nuget/packages/",
       "outputPath": "/Users/christinasadak/Google Drive/CSCI 476/CSCI476-Internship-Application/Internship-Application/obj",
+=======
+      "projectUniqueName": "/Users/antoniosantos/Projects/AntSan813/CSCI476-Internship-Application.git/Internship-Application/Internship-Application.csproj",
+      "projectName": "Internship-Application",
+      "projectPath": "/Users/antoniosantos/Projects/AntSan813/CSCI476-Internship-Application.git/Internship-Application/Internship-Application.csproj",
+      "packagesPath": "/Users/antoniosantos/.nuget/packages/",
+      "outputPath": "/Users/antoniosantos/Projects/AntSan813/CSCI476-Internship-Application.git/Internship-Application/obj",
+>>>>>>> Stashed changes
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
