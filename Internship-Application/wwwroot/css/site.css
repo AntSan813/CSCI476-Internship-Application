@@ -46,6 +46,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    font-family: 'Raleway';
 }
 
 .footer {
@@ -60,11 +61,24 @@ body {
 
 /*END DEFAULT CSS*/
 /*Following was taken from winthrop.edu's front page css source*/
-.audienceMenuText {
+#gradientAudience {
+    background: #F0B323;
+    -o-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    width: 100%;
+    min-width: 1003px;
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+}
+
+.audienceMenuText:link, .audienceMenuText:visited, .audienceMenuText:active {
     font-family: 'Raleway', Arial, sans-serif;
     font-size: 18px;
     font-style: normal;
-    font-weight: bold;
+    font-weight: bolder;
     color: #000;
     letter-spacing: 0px;
     margin-left: 35px;
@@ -72,7 +86,64 @@ body {
     text-decoration: none;
 }
 
-#gradientAudience {
-    line-height: 46px;
-    text-align: center;
+a.audienceMenuText:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
+
+/*ADDED BY CHRISTINA & KELEIGH 1/30/2019*/
+.topLinks {
+    position: relative;
+    /* top: 92px; */
+    /* top: 88px; */
+    top: 0px;
+    width: 320px;
+    z-index: 10;
+    float: right;
+    margin-left: -5px;
+    float: left;
+    color: #000;
+    font-family: 'Raleway', Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    word-spacing: 0px;
+    letter-spacing: .5px;
+    text-align: left;
+}
+
+a.topWhiteLinks:link, a.topWhiteLinks:active, a.topWhiteLinks:visited {
+    margin-right: 10px;
+    color: #000;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+a.topWhiteLinks:hover {
+    margin-right: 10px;
+    color: #000;
+    text-decoration: underline;
+}
+
+h1 {
+    font-family: 'Raleway';
+    font-weight: bold;
+}
+
+h2 {
+    font-family: 'Raleway';
+    font-weight: bold;
+
+}
+
+#loginSection {
+    width: 43%;
+}
+
+#loginSection {
+    float: left;
+}
+
+div {
+    display: block;
+}
+

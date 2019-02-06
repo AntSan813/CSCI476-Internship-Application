@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
+using System.Data.Entity;
+
 namespace Internship_Application
 {
     public class Program
