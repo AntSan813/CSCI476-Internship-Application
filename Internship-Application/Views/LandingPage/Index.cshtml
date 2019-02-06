@@ -1,0 +1,267 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+
+    #gradientAudience {
+        display: none;
+    }
+
+    #adminLandingPageUI {
+        padding-bottom: 100px;
+        position: relative;
+        z-index: 1;
+    }
+
+    tr {
+        border: white 2px solid;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    table {
+        margin: 0px auto;
+    }
+
+    #needsAdminContainer td {
+        color: white;
+        background-color: #660000;  
+    }
+
+    #needsAdminContainer {
+        padding-bottom: 50px;
+    }
+
+    #needsAdminContainer th {
+        padding-bottom: 25px;
+    }
+
+    #radioFilter {
+         display: inline;
+         margin-right: 5px;
+     }
+
+    #adminHeaderBar {
+        background-color: black;
+        display: inline;
+    }
+
+    .navbar {
+        overflow: hidden;
+        color: black;
+        background-color: #F0B323;
+        font-family: Arial, Helvetica, sans-serif;
+        z-index: 1;
+    }
+
+        .navbar a {
+            float: left;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+    .dropdown {
+        float: left;
+        overflow: hidden;
+        position: relative;
+        z-index: 9999; 
+
+    }
+
+        .dropdown .dropbtn {
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            color: black;
+            padding: 14px 16px;
+            background-color: inherit;
+            font-family: inherit;
+            margin: 0;
+        }
+
+    .dropdown-content {
+        display: none;
+        background: #F0B323;
+    }
+
+    .navbar a:hover, .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+        .navbar a:hover, .dropdown:hover .dropdown-content:hover {
+            color: #660000;
+        }
+
+        .dropdown-content a {
+            float: none;
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            z-index: 100000;
+            position: relative;
+        }
+
+    #loggingInfo {
+        display: block;
+        text-align: right;
+    }
+
+    #tableTitle {
+        display: inline-block;
+    }
+
+    #titleAndSortContent {
+        padding: 20px;
+        width: 100%;
+        display: inline-block;
+    }
+
+    #radioFilter {
+        display: inline-block;
+        text-align: right;
+        float: right;
+    }
+
+    #tablesDiv {
+        padding-top: 25px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        box-shadow: 0px 0px 10px grey;
+        border-radius: 3px;
+    }
+
+    #remFormsContainer {
+        padding-bottom: 25px;
+    }
+
+    button {
+        color: white;
+        background-color: #F0B323;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: none;
+        border-radius: 3px;
+    }
+ }
+
+</style>
+
+<div id="adminLandingPageUI">
+
+    <div class="navbar">
+        <div class="dropdown">
+            <button class="dropbtn" onclick="myFunction()">
+                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-content" id="myDropdown">
+                <a href="#">View Active Forms</a>
+                <a href="#">View Archived Forms</a>
+                <a href="#">Add/Remove User</a>
+                <a href="#">View/Edit Form Template</a>
+                <a href="#">Account Settings</a>
+                <a href="#">Log Out</a>
+            </div>
+        </div>
+        <big><b>Winthrop University Internship Portal</b></big>
+        <div id="loggingInfo">
+            <div>
+                <small>ADMIN VIEW</small>
+            </div>
+            <div>
+                <small>SIGNED IN: 2/5/2019 9:06AM</small>
+            </div>
+        </div>
+    </div>
+
+    <div id="titleAndSortContent">
+        <div id="tableTitle">
+            <h2>ALL ACTIVE FORMS</h2>
+        </div>
+        <div id="radioFilter">
+            <h2>Order By</h2>
+            <form name="filterAdminUIForm">
+                <input type="radio" id="orderByLU" name="orderBy" value="orderByLU">
+                <label for="orderByLU">Last Updated</label>
+                <input type="radio" id="orderByStatus" name="orderBy" value="orderByStatus">
+                <label for="orderByLU">Status</label>
+            </form>
+        </div>
+        <div>
+            <h2>
+                <i class="fa fa-bell" aria-hidden="true"></i>
+                2
+            </h2>
+        </div>
+    </div>
+
+    <div id="tablesDiv">
+        <div id="needsAdminContainer">
+            <table style="width:90%">
+                <tr>
+                    <th>STUDENT NAME</th>
+                    <th>LAST UPDATED</th>
+                    <th>STATUS</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td>John Doe</td>
+                    <td>2/4/2019 7:04PM</td>
+                    <td>NAA</td>
+                    <td><button type="button">View</button></td>
+                </tr>
+                <tr>
+                    <td>Jane Doe</td>
+                    <td>2/5/2019 10:16AM</td>
+                    <td>NAA</td>
+                    <td><button type="button">View</button></td>
+                </tr>
+            </table>
+        </div>
+        <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
+        <div id="remFormsContainer">
+            <table style="width:90%">
+                <thead style='visibility: hidden; line-height:0%'>
+                <th>STUDENT NAME</th>
+                <th>LAST UPDATED</th>
+                <th>STATUS</th>
+                <th></th>
+                </thead>
+                <tr>
+                    <td>John Doe</td>
+                    <td>2/1/2019 9:56AM</td>
+                    <td>PPA</td>
+                    <td><button type="button">View</button></td>
+                </tr>
+                <tr>
+                    <td>Allison Rivera</td>
+                    <td>2/3/2019 11:16AM</td>
+                    <td>PES</td>
+                    <td><button type="button">View</button></td>
+                </tr>
+                <tr>
+                    <td>Michael Rollin</td>
+                    <td>2/3/2019 11:20AM</td>
+                    <td>PFS</td>
+                    <td><button type="button">View</button></td>
+                </tr>
+                <tr>
+                    <td>Oliver Sykes</td>
+                    <td>2/6/2019 7:53PM</td>
+                    <td>PFS</td>
+                    <td><button type="button">View</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
