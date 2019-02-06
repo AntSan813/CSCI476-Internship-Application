@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <RootNamespace>Internship_Application</RootNamespace>
+    <RootNamespace>Internship-Application</RootNamespace>
   </PropertyGroup>
 
 
@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
   </ItemGroup>
 
   <ItemGroup>

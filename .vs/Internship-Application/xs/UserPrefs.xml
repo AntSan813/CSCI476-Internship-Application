@@ -1,9 +1,9 @@
-<Properties StartupConfiguration="{FFD628D1-5A7C-4D7D-8E7E-C098B283E688}|Default">
+﻿<Properties StartupConfiguration="{FFD628D1-5A7C-4D7D-8E7E-C098B283E688}|Default">
   <MonoDevelop.Ide.ItemProperties.Internship-Application PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="CSCI476-Internship-Application.git Status">
     <Files>
+      <File FileName="Internship-Application/Program.cs" Line="25" Column="6" />
       <File FileName="CSCI476-Internship-Application.git Status" />
-      <File FileName=".vs/Internship-Application/xs/UserPrefs.xml" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
