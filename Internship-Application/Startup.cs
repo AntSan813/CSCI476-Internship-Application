@@ -58,6 +58,7 @@ namespace Internship_Application
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=SignIn}/{action=Index}/{id?}");
+            //    routes.MapRoute("adminLandingPage", "{controller=landingPage_Admin}/{action=landingPage_Admin}/{id?}");
             });
         }
     }
