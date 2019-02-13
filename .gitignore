@@ -341,4 +341,5 @@ ASALocalRun/
 healthchecksdb
 
 
-Internship-Application/obj/*
+./obj/*
+
