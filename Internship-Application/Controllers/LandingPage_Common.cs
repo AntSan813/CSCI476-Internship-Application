@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Internship_Application.Controllers
 {
-    public class LandingPage : Controller
+    public class LandingPage_Common : Controller
+{
+    // GET: /<controller>/
+    public IActionResult Index()
     {
-        // GET: /<controller>/
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
     }
+}
 }
