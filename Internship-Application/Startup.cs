@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace Internship_Application
 {
@@ -24,8 +25,10 @@ namespace Internship_Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
+            services.AddMvc();
+
+            //added for winthrop startup configuration
+            services.Configure<CookiePolicyOptions>(options => {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
@@ -49,9 +52,17 @@ namespace Internship_Application
                 app.UseHsts();
             }
 
+            //added for winthrop startup configuration
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+
+            app.UseAuthentication();
+            app.UseMvc();
+
 
             app.UseMvc(routes =>
             {
@@ -60,6 +71,7 @@ namespace Internship_Application
                     template: "{controller=SignIn}/{action=Index}/{id?}");
             //    routes.MapRoute("adminLandingPage", "{controller=landingPage_Admin}/{action=landingPage_Admin}/{id?}");
             });
+
         }
     }
 }

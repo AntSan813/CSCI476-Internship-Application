@@ -13,10 +13,27 @@
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Views\SignIn\" />
     <Folder Include="Views\Home\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Areas\Identity\Data\IdentityDataContext.cs" />
+    <Compile Remove="Areas\Identity\IdentityHostingStartup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
+    <Content Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
   </ItemGroup>
 </Project>

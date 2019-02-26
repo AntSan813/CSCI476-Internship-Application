@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<Internship_Application.Models.Form>
+
 <!DOCTYPE html>
 
 <html>
@@ -17,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.winthrop.edu/css/menus/wu_smart_dropdown2018.css" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
     <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="~/css/site.css"/>
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
 
 </head>
 <body>
@@ -47,20 +48,62 @@
 
         <div id="mastheadHomePage"></div>
         <div id="gradientAudience">
-    <!-- navigation bar -->
+            <!-- navigation bar -->
             <a class="audienceMenuText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
             <a class="audienceMenuText" asp-area="" asp-controller="SignIn" asp-action="Index">Sign In</a>
 
         </div>
     </header>
-    
 
-    
+
+
     <div class="body-content">
         <!--The following renders the current pages body-->
         @RenderBody()
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StudentId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FacultyId)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
 
-     <!--  <div style="min-height:645px">CSCI 475 Team One</div> -->
+        </table>
+
+        <!--
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StudentId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FacultyId)
+                </th>
+                <th></th>
+            </tr>
+          @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    item
+                </td>
+
+            </tr>
+    }
+        </table>
+        -->
+        <!--  <div style="min-height:645px">CSCI 475 Team One</div> -->
     </div>
 
 
@@ -79,3 +122,8 @@
 </body>
 
 </html>
+
+
+
+
+
