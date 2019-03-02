@@ -1,0 +1,80 @@
+﻿@model Internship_Application.Models.Signatures
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Signatures</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DeletedAt" class="control-label"></label>
+                <input asp-for="DeletedAt" class="form-control" />
+                <span asp-validation-for="DeletedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StudentSigned" /> @Html.DisplayNameFor(model => model.StudentSigned)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="EmployerSigned" /> @Html.DisplayNameFor(model => model.EmployerSigned)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="FacultySigned" /> @Html.DisplayNameFor(model => model.FacultySigned)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StudentServicesSigned" /> @Html.DisplayNameFor(model => model.StudentServicesSigned)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="DirectorSigned" /> @Html.DisplayNameFor(model => model.DirectorSigned)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="StudentSignDate" class="control-label"></label>
+                <input asp-for="StudentSignDate" class="form-control" />
+                <span asp-validation-for="StudentSignDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployerSignDate" class="control-label"></label>
+                <input asp-for="EmployerSignDate" class="form-control" />
+                <span asp-validation-for="EmployerSignDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FacultySignDate" class="control-label"></label>
+                <input asp-for="FacultySignDate" class="form-control" />
+                <span asp-validation-for="FacultySignDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StudentServicesSignDate" class="control-label"></label>
+                <input asp-for="StudentServicesSignDate" class="form-control" />
+                <span asp-validation-for="StudentServicesSignDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DirectorSignDate" class="control-label"></label>
+                <input asp-for="DirectorSignDate" class="form-control" />
+                <span asp-validation-for="DirectorSignDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

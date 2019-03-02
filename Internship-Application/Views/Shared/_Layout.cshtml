@@ -47,7 +47,7 @@
 
         <div id="mastheadHomePage"></div>
         <div id="gradientAudience">
-    <!-- navigation bar -->
+            <!-- navigation bar -->
             <a class="audienceMenuText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
             <a class="audienceMenuText" asp-area="" asp-controller="SignIn" asp-action="Index">Sign In</a>
 
@@ -57,10 +57,18 @@
 
     
     <div class="body-content">
+        <div>
+            Database tables:<br />
+            @Html.ActionLink("Forms", "Index", "Forms")<br />
+            @Html.ActionLink("EmployerDetails", "Index", "EmployerDetails")<br />
+            @Html.ActionLink("OfficeDetails", "Index", "OfficeDetails")<br />
+            @Html.ActionLink("Signatures", "Index", "Signatures")<br />
+            @Html.ActionLink("StudentDetails", "Index", "StudentDetails")<br />
+        </div>
         <!--The following renders the current pages body-->
         @RenderBody()
 
-     <!--  <div style="min-height:645px">CSCI 475 Team One</div> -->
+        <!--  <div style="min-height:645px">CSCI 475 Team One</div> -->
     </div>
 
 
