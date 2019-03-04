@@ -23,6 +23,7 @@
     <Folder Include="Views\StudentServices_Application_Page\" />
     <Folder Include="Views\FacofRecord_Application_Page\" />
     <Folder Include="Views\Student_Application_Page\" />
+    <Folder Include="Views\Admin_Query_Page\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Employer_Application_Page\Index.cshtml" />
@@ -30,6 +31,7 @@
     <Content Remove="Views\StudentServices_Application_Page\Index.cshtml" />
     <Content Remove="Views\FacofRecord_Application_Page\Index.cshtml" />
     <Content Remove="Views\Student_Application_Page\Index.cshtml" />
+    <Content Remove="Views\Admin_Query_Page\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Employer_Application_Page\Index.cshtml" />
@@ -37,5 +39,6 @@
     <None Include="Views\StudentServices_Application_Page\Index.cshtml" />
     <None Include="Views\FacofRecord_Application_Page\Index.cshtml" />
     <None Include="Views\Student_Application_Page\Index.cshtml" />
+    <None Include="Views\Admin_Query_Page\Index.cshtml" />
   </ItemGroup>
 </Project>
