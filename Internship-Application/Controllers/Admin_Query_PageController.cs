@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Internship_Application.Controllers
 {
-    public class FacofRecord_Application_Page : Controller
+    public class Admin_Query_PageController : Controller
     {
         // GET: /<controller>/
         public IActionResult Index()
