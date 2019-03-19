@@ -1,0 +1,255 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+
+    #gradientAudience {
+        display: none;
+    }
+
+    #adminHeaderBar {
+        background-color: black;
+        display: inline;
+    }
+
+    .navbar {
+        overflow: hidden;
+        color: black;
+        background-color: #F0B323;
+        font-family: Arial, Helvetica, sans-serif;
+        z-index: 1;
+    }
+
+    label {
+        display: block;
+        padding-top: 20px;
+    }
+
+    input {
+        display: block;
+        padding: 5px;
+    }
+
+    #editButton { 
+        display: block;
+    }
+
+    #editButton, #addQButton, #removeQButton, #modifyQButton, #saveButton, #cancelButton {
+        margin: 5px;
+        padding: 5px;
+        width: 100px;
+        border-radius: 1em;
+    }
+
+    .activeStyle {
+        background-color: #660000;
+        color: white;
+    }
+
+    .disabledStyle {
+        background-color: grey;
+        color: black;
+        opacity: .5;
+    }
+ 
+
+</style>
+
+<div id="formTemplateEditorUI" style="height: 100vh">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <div class="row">
+        <div id="editColumn" style="display: block" class="col-2">
+            <button id="editButton" class="disabledStyle" onclick="toggleEditMode()">Edit Mode</button>
+            <div id="allFormOptionsDiv" style="display: none;">
+                <div id="editChoiceButtonsDiv">
+                    <button id="addQButton" class="activeStyle" onclick="addQClicked()">Add New</button>
+                    <button id="removeQButton" class="disabledStyle" onclick="deleteQClicked()">Delete</button>
+                    <button id="modifyQButton" class="disabledStyle" onclick="modifyQClicked()">Modify</button>
+                </div>
+                <div id="questionTemplateDiv" style="padding-left: 50px;">
+                    <label>Input the number that this question should appear after (type 0 if it should be the first question): </label>
+                    <input />
+                    <label>Input Type:</label>
+                    <div class="dropdown">
+                        <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">
+                            Input Type
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" value="smallText">Small Text</a>
+                            <a class="dropdown-item" value="largeText">Large Text</a>
+                            <a class="dropdown-item" value="signature">Signature</a>
+                            <a class="dropdown-item" value="checkbox">Checkbox</a>
+                            <a class="dropdown-item" value="radio">Radio Button</a>
+                            <a class="dropdown-item" value="date">Date</a>
+                            <a class="dropdown-item" value="dateRange">Date Range</a>
+                            <a class="dropdown-item" value="money">Dollar Amount</a>
+                        </div>
+                    </div>
+                    <label>Prompt:</label>
+                    <input />
+                    <label>Helper Text:</label>
+                    <input />
+                    <label style="display: block;">Person to Answer This Question: </label>
+                    <input type="checkbox" name="answerer1" value="student" style="display: inline-block">Student<br>
+                    <input type="checkbox" name="answerer2" value="employer" style="display: inline-block">Employer<br>
+                    <input type="checkbox" name="answerer3" value="faculty" style="display: inline-block">Faculty of Record<br>
+                    <input type="checkbox" name="answerer4" value="studentServices" style="display: inline-block">Student Services<br>
+                    <input type="checkbox" name="answerer5" value="admin" style="display: inline-block">Administrator<br>
+                </div>
+                <div id="delQuestionDiv" style="padding-left: 50px; display: none;">
+                    <label>Input the question number to be deleted: </label>
+                    <input />
+                </div>
+                <div id="modifyQuestionDiv" style="padding-left: 50px; display: none;">
+                    <label>Input the question number to be modified: </label>
+                    <input />
+                    <label>Input Type:</label>
+                    <div class="dropdown">
+                        <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">
+                            Input Type
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" value="smallText">Small Text</a>
+                            <a class="dropdown-item" value="largeText">Large Text</a>
+                            <a class="dropdown-item" value="signature">Signature</a>
+                            <a class="dropdown-item" value="checkbox">Checkbox</a>
+                            <a class="dropdown-item" value="radio">Radio Button</a>
+                            <a class="dropdown-item" value="date">Date</a>
+                            <a class="dropdown-item" value="dateRange">Date Range</a>
+                            <a class="dropdown-item" value="money">Dollar Amount</a>
+                        </div>
+                    </div>
+                    <label>Prompt:</label>
+                    <input />
+                    <label>Helper Text:</label>
+                    <input />
+                    <label style="display: block;">Person to Answer This Question: </label>
+                    <input type="checkbox" name="answerer1" value="student" style="display: inline-block">Student<br>
+                    <input type="checkbox" name="answerer2" value="employer" style="display: inline-block">Employer<br>
+                    <input type="checkbox" name="answerer3" value="faculty" style="display: inline-block">Faculty of Record<br>
+                    <input type="checkbox" name="answerer4" value="studentServices" style="display: inline-block">Student Services<br>
+                    <input type="checkbox" name="answerer5" value="admin" style="display: inline-block">Administrator<br>
+                </div>
+                <div id="saveCancelButtonDiv">
+                    <button id="saveButton" class="activeStyle" onclick="saveFormChanges()">Save</button>
+                    <button id="cancelButton" class="activeStyle" onclick="cancelFormChanges()">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <div id="formColumn" class="col-10">
+            <h3>Form: spring2019</h3>
+            <button id="activateOrRetireFormButton">Make active form</button>
+            <br />
+            <label>1. Enter your name: </label>
+            <input />
+        </div>
+
+    </div>
+
+<script>
+
+    function toggleEditMode() {
+        var editButton = document.getElementById("editButton");
+        //var choiceButtons = document.getElementById("editChoiceButtonsDiv");
+        //var questionOptions = document.getElementById("questionTemplateDiv");
+        //var saveCancelButtons = document.getElementById("saveCancelButtonDiv");
+        var editColumn = document.getElementById("editColumn");
+        var formColumn = document.getElementById("formColumn");
+        var allFormOptions = document.getElementById("allFormOptionsDiv");
+        if (!editButton.disabled || editButton.disabled == undefined) {
+            editButton.className = "activeStyle";
+            editButton.disabled = true;
+
+            // make buttons visible
+            allFormOptions.style.display = "block";
+        //    choiceButtons.style.display = "inline-block";
+         //   questionOptions.style.display = "block";
+          //  saveCancelButtons.style.display = "inline-block";
+            editColumn.className = "col-6";
+            formColumn.className = "col-6";
+        }
+        else {
+            editButton.className = "disabledStyle";
+            editButton.disabled = false;
+
+            // make buttons not visible
+            allFormOptions.style.display = "none";
+            //choiceButtons.style.display = "none";
+            //questionOptions.style.display = "none";
+            //saveCancelButtons.style.display = "none";
+            editColumn.className = "col-2";
+            formColumn.className = "col-10";
+        }
+
+        if (editButton.disabled) {
+            // display help text to save or cancel to exit edit mode
+        }
+    }
+
+    function addQClicked() {
+        var delButton = document.getElementById("removeQButton");
+        var addButton = document.getElementById("addQButton");
+        var modButton = document.getElementById("modifyQButton");
+        var addDiv = document.getElementById("questionTemplateDiv");
+        var delDiv = document.getElementById("delQuestionDiv");
+        var modDiv = document.getElementById("modifyQuestionDiv");
+        if (!(addButton.className == "activeStyle")) {
+            addButton.className = "activeStyle";
+            delButton.className = "disabledStyle";
+            modButton.className = "disabledStyle";
+            addDiv.style.display = "block";
+            delDiv.style.display = "none";
+            modDiv.style.display = "none";
+        }
+    }
+
+    function deleteQClicked() {
+        var delButton = document.getElementById("removeQButton");
+        var addButton = document.getElementById("addQButton");
+        var modButton = document.getElementById("modifyQButton");
+        var addDiv = document.getElementById("questionTemplateDiv");
+        var delDiv = document.getElementById("delQuestionDiv");
+        var modDiv = document.getElementById("modifyQuestionDiv");
+        if (!(delButton.className == "activeStyle")) {
+            delButton.className = "activeStyle";
+            addButton.className = "disabledStyle";
+            modButton.className = "disabledStyle";
+            addDiv.style.display = "none";
+            delDiv.style.display = "block";
+            modDiv.style.display = "none";
+        }
+    }
+
+    function modifyQClicked() {
+        var delButton = document.getElementById("removeQButton");
+        var addButton = document.getElementById("addQButton");
+        var modButton = document.getElementById("modifyQButton");
+        var addDiv = document.getElementById("questionTemplateDiv");
+        var delDiv = document.getElementById("delQuestionDiv");
+        var modDiv = document.getElementById("modifyQuestionDiv");
+        if (!(modButton.className == "activeStyle")) {
+            modButton.className = "activeStyle";
+            addButton.className = "disabledStyle";
+            delButton.className = "disabledStyle";
+            addDiv.style.display = "none";
+            delDiv.style.display = "none";
+            modDiv.style.display = "block";
+        }
+    }
+
+    function saveFormChanges() {
+        // on save repopulate form column with updated form
+        toggleEditMode();
+    }
+
+    function cancelFormChanges() {
+        toggleEditMode();
+    }
+
+</script>

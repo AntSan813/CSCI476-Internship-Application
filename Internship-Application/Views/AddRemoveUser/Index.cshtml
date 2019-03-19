@@ -1,0 +1,205 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+
+    #gradientAudience {
+        display: none;
+    }
+
+    #adminHeaderBar {
+        background-color: black;
+        display: inline;
+    }
+
+    .navbar {
+        background-color: #F0B323;
+    }
+
+    #vl {
+        border-left: 2px solid black;
+        height: 42%;
+        left: 50%;
+        margin-left: -3px;
+        top: 250pt;
+        position: absolute;
+    }
+
+    label {
+        display: block;
+        padding-top: 20px;
+    }
+
+    input {
+        display: block;
+        padding: 5px;
+    }
+
+    #addUserButton, #removeUserButton, #submitAddButton, #submitRemoveButton {
+        display: block;
+        margin: 20px;
+        padding: 10px;
+        width: 150px;
+        border-radius: 1em;
+    }
+
+    .activeStyle {
+        background-color: #660000;
+        color: white;
+    }
+
+    .disabledStyle {
+        background-color: grey;
+        color: black;
+        opacity: .5;
+    }
+
+</style>
+
+<div id="formTemplateEditorUI">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <div class="navbar">
+        <div class="dropdown">
+            <button type="button" id="addRoleInput" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: #F0B323; border: none; color: black; text-align: left;">
+                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-menu" style="z-index: 1">
+                <a class="dropdown-item" href="#">View Active Forms</a>
+                <a class="dropdown-item" href="#">View Archived Forms</aa>
+                <a class="dropdown-item" href="#">Add/Remove User</a>
+                <a class="dropdown-item" href="#">View/Edit Form Template</a>
+                <a class="dropdown-item" href="#">Account Settings</a>
+                <a class="dropdown-item" href="#">Log Out</a>
+            </div>
+        </div>
+        <big style="font-size:18pt"><b>Winthrop University Internship Portal</b></big>
+        <div id="loggingInfo">
+            <div>
+                <small>ADMIN VIEW</small>
+            </div>
+            <div>
+                <small>SIGNED IN: 2/5/2019 9:06AM</small>
+            </div>
+        </div>
+    </div>
+    <div style="box-shadow: 0px 0px 10px grey; border-radius: 3px; margin: 50px; margin-left: 50px; margin-right: 50px; padding: 25px;">
+        <div id="vl"></div>
+        <div class="row" style="height: 15%">
+            <div style="display: block" class="col-6">
+                <button style="float: right;" id="addUserButton" onclick="addUserClick()" disabled class="activeStyle">Add User</button>
+            </div>
+            <div class="col-6">
+                <button id="removeUserButton" style="float: left" onclick="removeUserClick()" class="disabledStyle">Remove User</button>
+            </div>
+        </div>
+        <div class="row" style="height: 60%">
+            <div style="display: block;" class="col-6">
+                <div style="display: block; padding-left: 250px;">
+                    <label>WINTHROP EMAIL:</label>
+                    <input id="addEmailInput" />
+                    <label>WINTHROP ID:</label>
+                    <input id="addWIDInput" />
+                    <label>SELECT ROLE:</label>
+                    <div class="dropdown">
+                        <button type="button" id="addRoleInput" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">
+                            New User Role
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" value="student">Student</a>
+                            <a class="dropdown-item" value="employer">Employer</a>
+                            <a class="dropdown-item" value="faculty">Faculty of Record</a>
+                            <a class="dropdown-item" value="studentServices">Student Services</a>
+                            <a class="dropdown-item" value="admin">Administrator</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: block" class="col-6">
+                <div style="display: block; padding-right: 250px; float: right;">
+                    <label>WINTHROP EMAIL:</label>
+                    <input id="removeEmailInput" disabled />
+                </div>
+            </div>
+        </div>
+        <div class="row" style="height: 15%; margin-bottom: 50pt;">
+            <div style="display: block; padding-left: 250px; padding-top: 25px;" class="col-6">
+                <button id="submitAddButton" class="activeStyle" onclick="submitAdd()">Submit</button>
+            </div>
+            <div class="col-6" style="padding-right: 250px; padding-top: 25px;">
+                <button id="submitRemoveButton" style="float: right;" disabled class="disabledStyle" onclick="submitRemove">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function addUserClick() {
+        var addUserButton = document.getElementById("addUserButton");
+        if (!addUserButton.disabled) {
+            toggleStyle("add");
+        }
+    }
+
+    function removeUserClick() {
+        var removeUserButton = document.getElementById("removeUserButton");
+        if (!removeUserButton.disabled) {
+            toggleStyle("remove");
+        }
+    }
+
+    function toggleStyle(toggleString) {
+        var addUserButton = document.getElementById("addUserButton");
+        var submitAddButton = document.getElementById("submitAddButton");
+        var removeUserButton = document.getElementById("removeUserButton");
+        var submitRemoveButton = document.getElementById("submitRemoveButton");
+        var addEmailInput = document.getElementById("addEmailInput");
+        var addWIDInput = document.getElementById("addWIDInput");
+        var addRoleInput = document.getElementById("addRoleInput");
+        var removeEmailInput = document.getElementById("removeEmailInput");
+        if (toggleString == "add") {
+            addUserButton.className = "activeStyle";
+            submitAddButton.className = "activeStyle";
+            removeUserButton.className = "disabledStyle";
+            submitRemoveButton.className = "disabledStyle";
+            addUserButton.disabled = true;
+            submitAddButton.disabled = false;
+            removeUserButton.disabled = false;
+            submitRemoveButton.disabled = true;
+
+            addEmailInput.disabled = false;
+            addWIDInput.disabled = false;
+            addRoleInput.disabled = false;
+            removeEmailInput.disabled = true;
+        } else {
+            addUserButton.className = "disabledStyle";
+            submitAddButton.className = "disabledStyle";
+            removeUserButton.className = "activeStyle";
+            submitRemoveButton.className = "activeStyle";
+            addUserButton.disabled = false;
+            submitAddButton.disabled = true;
+            removeUserButton.disabled = true;
+            submitRemoveButton.disabled = false;
+
+            addEmailInput.disabled = true;
+            addWIDInput.disabled = true;
+            addRoleInput.disabled = true;
+            removeEmailInput.disabled = false;
+        }
+    } 
+
+    function submitAdd() {
+        console.log("Adding new user...");
+    }
+
+    function submitRemove() {
+        console.log("Removing new user...");
+    }
+
+</script>

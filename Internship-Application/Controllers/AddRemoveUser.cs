@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Internship_Application.Controllers
 {
-    public class FacofRecord_Application_Page : Controller
+    public class AddRemoveUser : Controller
+{
+    // GET: /<controller>/
+    public IActionResult Index()
     {
-        // GET: /<controller>/
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
     }
+}
 }
