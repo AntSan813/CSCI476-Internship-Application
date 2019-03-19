@@ -47,20 +47,26 @@
 
         <div id="mastheadHomePage"></div>
         <div id="gradientAudience">
-    <!-- navigation bar -->
+            <!-- navigation bar -->
             <a class="audienceMenuText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
             <a class="audienceMenuText" asp-area="" asp-controller="SignIn" asp-action="Index">Sign In</a>
-
         </div>
     </header>
     
 
     
     <div class="body-content">
-        <!--The following renders the current pages body-->
+        <div>
+            Database tables:<br />
+            @Html.ActionLink("Forms", "Index", "Forms")<br />
+            @Html.ActionLink("Templates", "Index", "Templates")<br />
+        </div>
+        <!--await Html.PartialAsync("_LoginPartial")-->
+
+    <!--The following renders the current pages body-->
         @RenderBody()
 
-     <!--  <div style="min-height:645px">CSCI 475 Team One</div> -->
+        <!--  <div style="min-height:645px">CSCI 475 Team One</div> -->
     </div>
 
 
