@@ -50,7 +50,6 @@
             <!-- navigation bar -->
             <a class="audienceMenuText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
             <a class="audienceMenuText" asp-area="" asp-controller="SignIn" asp-action="Index">Sign In</a>
-
         </div>
     </header>
     
@@ -60,12 +59,11 @@
         <div>
             Database tables:<br />
             @Html.ActionLink("Forms", "Index", "Forms")<br />
-            @Html.ActionLink("EmployerDetails", "Index", "EmployerDetails")<br />
-            @Html.ActionLink("OfficeDetails", "Index", "OfficeDetails")<br />
-            @Html.ActionLink("Signatures", "Index", "Signatures")<br />
-            @Html.ActionLink("StudentDetails", "Index", "StudentDetails")<br />
+            @Html.ActionLink("Templates", "Index", "Templates")<br />
         </div>
-        <!--The following renders the current pages body-->
+        <!--await Html.PartialAsync("_LoginPartial")-->
+
+    <!--The following renders the current pages body-->
         @RenderBody()
 
         <!--  <div style="min-height:645px">CSCI 475 Team One</div> -->

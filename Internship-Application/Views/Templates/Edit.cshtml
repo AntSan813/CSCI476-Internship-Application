@@ -1,4 +1,4 @@
-﻿@model Internship_Application.Models.Forms
+﻿@model Internship_Application.Models.Templates
 
 @{
     ViewData["Title"] = "Edit";
@@ -7,7 +7,7 @@
 
 <h1>Edit</h1>
 
-<h4>Forms</h4>
+<h4>Templates</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -30,9 +30,9 @@
                 <span asp-validation-for="DeletedAt" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="WuId" class="control-label"></label>
-                <input asp-for="WuId" class="form-control" />
-                <span asp-validation-for="WuId" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StudentQuestions" class="control-label"></label>
@@ -59,10 +59,10 @@
                 <input asp-for="AdministratorQuestions" class="form-control" />
                 <span asp-validation-for="AdministratorQuestions" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TemplateId" class="control-label"></label>
-                <input asp-for="TemplateId" class="form-control" />
-                <span asp-validation-for="TemplateId" class="text-danger"></span>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

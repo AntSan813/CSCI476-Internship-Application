@@ -9,22 +9,22 @@ using Internship_Application.Models;
 
 namespace Internship_Application.Controllers
 {
-    public class FormsController : Controller
+    public class TemplatesController : Controller
     {
         private readonly CSCI476Context _context;
 
-        public FormsController(CSCI476Context context)
+        public TemplatesController(CSCI476Context context)
         {
             _context = context;
         }
 
-        // GET: Forms
+        // GET: Templates
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Forms.ToListAsync());
+            return View(await _context.Templates.ToListAsync());
         }
 
-        // GET: Forms/Details/5
+        // GET: Templates/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace Internship_Application.Controllers
                 return NotFound();
             }
 
-            var forms = await _context.Forms
+            var templates = await _context.Templates
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (forms == null)
+            if (templates == null)
             {
                 return NotFound();
             }
 
-            return View(forms);
+            return View(templates);
         }
 
-        // GET: Forms/Create
+        // GET: Templates/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Forms/Create
+        // POST: Templates/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CreatedAt,UpdatedAt,DeletedAt,WuId,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,TemplateId")] Forms forms)
+        public async Task<IActionResult> Create([Bind("Id,CreatedAt,UpdatedAt,DeletedAt,Name,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive")] Templates templates)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(forms);
+                _context.Add(templates);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(forms);
+            return View(templates);
         }
 
-        // GET: Forms/Edit/5
+        // GET: Templates/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace Internship_Application.Controllers
                 return NotFound();
             }
 
-            var forms = await _context.Forms.FindAsync(id);
-            if (forms == null)
+            var templates = await _context.Templates.FindAsync(id);
+            if (templates == null)
             {
                 return NotFound();
             }
-            return View(forms);
+            return View(templates);
         }
 
-        // POST: Forms/Edit/5
+        // POST: Templates/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,WuId,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,TemplateId")] Forms forms)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,Name,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive")] Templates templates)
         {
-            if (id != forms.Id)
+            if (id != templates.Id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace Internship_Application.Controllers
             {
                 try
                 {
-                    _context.Update(forms);
+                    _context.Update(templates);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FormsExists(forms.Id))
+                    if (!TemplatesExists(templates.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace Internship_Application.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(forms);
+            return View(templates);
         }
 
-        // GET: Forms/Delete/5
+        // GET: Templates/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace Internship_Application.Controllers
                 return NotFound();
             }
 
-            var forms = await _context.Forms
+            var templates = await _context.Templates
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (forms == null)
+            if (templates == null)
             {
                 return NotFound();
             }
 
-            return View(forms);
+            return View(templates);
         }
 
-        // POST: Forms/Delete/5
+        // POST: Templates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var forms = await _context.Forms.FindAsync(id);
-            _context.Forms.Remove(forms);
+            var templates = await _context.Templates.FindAsync(id);
+            _context.Templates.Remove(templates);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FormsExists(int id)
+        private bool TemplatesExists(int id)
         {
-            return _context.Forms.Any(e => e.Id == id);
+            return _context.Templates.Any(e => e.Id == id);
         }
     }
 }

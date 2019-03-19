@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.EntityFrameworkCore;
 using Internship_Application.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Internship_Application
 {
@@ -28,18 +30,31 @@ namespace Internship_Application
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddDbContext<CSCI476Context>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+             services.AddDbContext<CSCI476Context>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+             services.AddIdentity<Internship_Application.Areas.Identity.Data.InternshipApplicationUser, Internship_Application.Areas.Identity.Data.InternshipApplicationRole>()
+                //services.AddDefaultIdentity<InternshipApplicationUser>()
+                 .AddEntityFrameworkStores<InternshipApplicationIdentityContext>()
+                 .AddDefaultTokenProviders();
 
+             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                 .AddRazorPagesOptions(options =>
+                 {
+                     options.AllowAreas = true;
+                     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                 });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+             services.ConfigureApplicationCookie(options =>
+             {
+                 options.LoginPath = $"/Identity/Account/Login";
+                 options.LogoutPath = $"/Identity/Account/Logout";
+                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+             });
+
+             // using Microsoft.AspNetCore.Identity.UI.Services;
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +74,7 @@ namespace Internship_Application
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

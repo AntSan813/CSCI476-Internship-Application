@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <RootNamespace>Internship_Application</RootNamespace>
+    <AssemblyName>Internship_Application</AssemblyName>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\SignIn\" />
+    <Folder Include="Views\Home\" />
+    <Folder Include="Views\Employer_Application_Page\" />
+    <Folder Include="Views\Admin_Application_Page\" />
+    <Folder Include="Views\StudentServices_Application_Page\" />
+    <Folder Include="Views\FacofRecord_Application_Page\" />
+    <Folder Include="Views\Student_Application_Page\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Employer_Application_Page\Index.cshtml" />
+    <Content Remove="Views\Admin_Application_Page\Index.cshtml" />
+    <Content Remove="Views\StudentServices_Application_Page\Index.cshtml" />
+    <Content Remove="Views\FacofRecord_Application_Page\Index.cshtml" />
+    <Content Remove="Views\Student_Application_Page\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Views\Employer_Application_Page\Index.cshtml" />
+    <None Include="Views\Admin_Application_Page\Index.cshtml" />
+    <None Include="Views\StudentServices_Application_Page\Index.cshtml" />
+    <None Include="Views\FacofRecord_Application_Page\Index.cshtml" />
+    <None Include="Views\Student_Application_Page\Index.cshtml" />
+  </ItemGroup>
+</Project>
