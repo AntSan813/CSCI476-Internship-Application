@@ -8,7 +8,7 @@ using Internship_Application.Models;
 
 namespace Internship_Application.Controllers
 {
-    public class Reciept_Submission_PageController : Controller
+    public class Receipt_Submission_PageController : Controller
     {
 
         public IActionResult Index()
