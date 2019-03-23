@@ -9,6 +9,7 @@
     <title>CSCI 475 Team One | Winthrop University</title>
     <link rel="icon" href="https://www.winthrop.edu/favicon.ico" type="image/x-icon" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Pragati+Narrow" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://www.winthrop.edu/css/main2018.css" />
@@ -17,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.winthrop.edu/css/menus/wu_smart_dropdown2018.css" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" />
     <link href='https://fonts.googleapis.com/css?family=Raleway:700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="~/css/site.css"/>
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
 
 </head>
 <body>
@@ -50,6 +51,65 @@
             <!-- navigation bar -->
             <a class="audienceMenuText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
             <a class="audienceMenuText" asp-area="" asp-controller="SignIn" asp-action="Index">Sign In</a>
+        </div>
+        <!-- Admin Nav Bar -->
+        <div id="adminNavBar" class="navbar">
+            <div class="row">
+                <div class="col-4">
+                    <div class="dropdown" style="line-height: 10px;">
+                        <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
+                            <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu" style="z-index: 1">
+                            <a class="dropdown-item" href="#">View Active Forms</a>
+                            <a class="dropdown-item" href="#">View Archived Forms</a>
+                            <a class="dropdown-item" href="#">Add/Remove User</a>
+                            <a class="dropdown-item" href="#">View/Edit Form Template</a>
+                            <a class="dropdown-item" href="#">Account Settings</a>
+                            <a class="dropdown-item" href="#">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <big class="gradientAudience"><b>Winthrop University Internship Portal</b></big>
+                </div>
+                <div class="col-4">
+                    <div class="loggingInfo">
+                        ADMIN VIEW
+                    </div>
+                    <div class="loggingInfo">
+                        SIGNED IN: 4:01PM 3/17/19
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Nav Bar -->
+        <div id="commonNavBar" class="navbar">
+            <div class="row">
+                <div class="col-4">
+                    <div class="dropdown" style="line-height: 10px;">
+                        <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
+                            <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu" style="z-index: 1">
+                            <a class="dropdown-item" href="#">View Forms</a>
+                            <a class="dropdown-item" href="#">Log Out</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <big class="gradientAudience"><b>Winthrop University Internship Portal</b></big>
+                </div>
+                <div class="col-4">
+                    <div class="loggingInfo">
+                        USER VIEW
+                    </div>
+                    <div class="loggingInfo">
+                        SIGNED IN: 4:01PM 3/17/19
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
     

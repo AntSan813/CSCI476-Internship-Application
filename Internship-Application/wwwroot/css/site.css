@@ -91,6 +91,31 @@ a.audienceMenuText:hover {
     text-decoration: underline;
 }
 
+#adminNavBar, #commonNavBar {
+    background: #F0B323;
+    font-family: 'Raleway', Arial, sans-serif;
+    -o-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    width: 100%;
+    min-width: 1003px;
+    height: 46px;
+    line-height: 40px;
+    text-align: center;
+}
+
+    #adminNavBar:focus, #commonNavBar::after focus {
+        outline: none;
+    }
+
+.loggingInfo {
+    font-family: 'Raleway', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bolder;
+    line-height: 16px;
+}
+
 /*ADDED BY CHRISTINA & KELEIGH 1/30/2019*/
 .topLinks {
     position: relative;
