@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Internship_Application.Areas.Identity.Data
 
-@inject SignInManager<InternshipApplicationUser> SignInManager
-@inject UserManager<InternshipApplicationUser> UserManager
+@inject SignInManager<AspNetUsers> SignInManager
+@inject UserManager<AspNetUsers> UserManager
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))

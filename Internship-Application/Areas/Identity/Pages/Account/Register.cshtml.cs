@@ -16,14 +16,14 @@ namespace Internship_Application.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<InternshipApplicationUser> _signInManager;
-        private readonly UserManager<InternshipApplicationUser> _userManager;
+        private readonly SignInManager<Data.AspNetUsers> _signInManager;
+        private readonly UserManager<Data.AspNetUsers> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<InternshipApplicationUser> userManager,
-            SignInManager<InternshipApplicationUser> signInManager,
+            UserManager<Data.AspNetUsers> userManager,
+            SignInManager<Data.AspNetUsers> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -33,7 +33,7 @@ namespace Internship_Application.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
-        [BindProperty]
+    [BindProperty]
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
@@ -62,13 +62,26 @@ namespace Internship_Application.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
+        //Since username is only alphanumerical, we must update the email to be alphanumerical 
+        public string GenerateUserName(string email)
+        {
+            return email.Replace("@", "").Replace(".", "").Replace("-", "");
+        }
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new InternshipApplicationUser { UserName = Input.Email, Email = Input.Email };
+            
+                var user = new Data.AspNetUsers { UserName = GenerateUserName(Input.Email), Email = Input.Email };
+                _logger.LogInformation(user.UserName);
+                _logger.LogInformation(user.Email);
+                _logger.LogInformation(Input.Password);
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
+               
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

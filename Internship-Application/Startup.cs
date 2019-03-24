@@ -14,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using Internship_Application.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity.UI;
+using Internship_Application.Areas.Identity.Data;
 
 namespace Internship_Application
 {
@@ -29,32 +31,111 @@ namespace Internship_Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-             services.AddDbContext<CSCI476Context>(options =>
-                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
-             services.AddIdentity<Internship_Application.Areas.Identity.Data.InternshipApplicationUser, Internship_Application.Areas.Identity.Data.InternshipApplicationRole>()
-                //services.AddDefaultIdentity<InternshipApplicationUser>()
-                 .AddEntityFrameworkStores<InternshipApplicationIdentityContext>()
-                 .AddDefaultTokenProviders();
-
-             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                 .AddRazorPagesOptions(options =>
-                 {
-                     options.AllowAreas = true;
-                     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
-                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
-                 });
-
-             services.ConfigureApplicationCookie(options =>
-             {
-                 options.LoginPath = $"/Identity/Account/Login";
-                 options.LogoutPath = $"/Identity/Account/Logout";
-                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-             });
-
-             // using Microsoft.AspNetCore.Identity.UI.Services;
+            //All data for the application will be stored in this database context
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DataConnection")));
             
+            //All data for the users will be stored in this database context
+            services.AddDbContext<IdentityContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("IdentityConnection")));
+            services.AddIdentity<AspNetUsers,AspNetRoles>()
+                .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddEntityFrameworkStores<IdentityContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Identity/Account/Login";
+                //options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
+
+
+            /*
+            services.AddDbContext<IdentityContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+
+            services.AddIdentity<AspNetUsers,AspNetRoles>(options => {                 
+                // Default Lockout settings.                 
+                options.Lockout.DefaultLockoutTimeSpan =                    
+                TimeSpan.FromMinutes(5);                 
+                options.Lockout.MaxFailedAccessAttempts = 5;                 
+                options.Lockout.AllowedForNewUsers = true; 
+
+                // Default Password settings.                 
+                options.Password.RequireDigit = false;                 
+                options.Password.RequireLowercase = false;                 
+                options.Password.RequireNonAlphanumeric = false;                 
+                options.Password.RequireUppercase = false;                 
+                options.Password.RequiredLength = 6;                 
+                options.Password.RequiredUniqueChars = 1;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/";
+            })                 
+                .AddDefaultUI(UIFramework.Bootstrap4)                 
+                .AddRoles<IdentityRole>()                 
+                .AddEntityFrameworkStores<IdentityContext>();
+
+
+            // Add framework services.
+            //   services.AddDbContext<CSCI476Context>(options =>
+            //     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            /*services.AddIdentity<Internship_Application.Areas.Identity.Data.InternshipApplicationUser, Internship_Application.Areas.Identity.Data.InternshipApplicationRole>()
+               //services.AddDefaultIdentity<InternshipApplicationUser>()
+                .AddEntityFrameworkStores<InternshipApplicationIdentityContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddRazorPagesOptions(options =>
+                {
+                    options.AllowAreas = true;
+                    options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
+                    options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+            */
+            // using Microsoft.AspNetCore.Identity.UI.Services;
+            services.AddMvc();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

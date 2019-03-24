@@ -16,10 +16,10 @@ namespace Internship_Application.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<InternshipApplicationUser> _signInManager;
+        private readonly SignInManager<Data.AspNetUsers> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<InternshipApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<Data.AspNetUsers> signInManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

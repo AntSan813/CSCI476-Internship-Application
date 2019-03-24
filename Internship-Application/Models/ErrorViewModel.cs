@@ -1,4 +1,3 @@
-using System;
 
 namespace Internship_Application.Models
 {

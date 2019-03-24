@@ -11,9 +11,9 @@ namespace Internship_Application.Controllers
 {
     public class TemplatesController : Controller
     {
-        private readonly CSCI476Context _context;
+        private readonly DataContext _context;
 
-        public TemplatesController(CSCI476Context context)
+        public TemplatesController(DataContext context)
         {
             _context = context;
         }
