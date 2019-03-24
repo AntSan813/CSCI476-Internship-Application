@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Internship_Application.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Internship_Application.Models
 {
-    public class InternshipApplicationIdentityContext : IdentityDbContext<InternshipApplicationUser>
+    public class IdentityContext : IdentityDbContext<IdentityUser>
     {
-        public InternshipApplicationIdentityContext(DbContextOptions<InternshipApplicationIdentityContext> options)
+        public IdentityContext(DbContextOptions<IdentityContext> options)
             : base(options)
         {
         }

@@ -15,6 +15,12 @@ namespace Internship_Application.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
+                services.AddDbContext<IdentityContext>(options =>
+                    options.UseSqlServer(
+                        context.Configuration.GetConnectionString("IdentityContextConnection")));
+
+                services.AddDefaultIdentity<IdentityUser>()
+                    .AddEntityFrameworkStores<IdentityContext>();
             });
         }
     }
