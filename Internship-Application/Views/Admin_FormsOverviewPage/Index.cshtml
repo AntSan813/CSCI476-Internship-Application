@@ -23,40 +23,6 @@
         margin: 0px auto;
     }
 
-    #needsAdminContainer td {
-        color: white;
-        background-color: #660000;
-    }
-
-    #needsAdminContainer {
-        padding-bottom: 50px;
-    }
-
-        #needsAdminContainer th {
-            padding-bottom: 25px;
-        }
-
-    #radioFilter {
-        display: inline;
-        margin-right: 5px;
-    }
-
-    #tableTitle {
-        display: inline-block;
-    }
-
-    #titleAndSortContent {
-        padding: 20px;
-        width: 100%;
-        display: inline-block;
-    }
-
-    #radioFilter {
-        display: inline-block;
-        text-align: right;
-        float: right;
-    }
-
     #tablesDiv {
         padding-top: 25px;
         display: block;
@@ -74,18 +40,22 @@
     button {
         color: white;
         background-color: #F0B323;
-        padding: 5px;
-        padding-left: 20px;
-        padding-right: 20px;
+        display: block;
+        padding: 10px;
+        width: 150px;
+        border-radius: 1em;
         border: none;
-        border-radius: 3px;
+    }
+
+    h2 {
+        margin: 15pt;
     }
 
 </style>
 
-<div id="adminFormsOverviewUI">
+<div id="adminFormsOverviewUI" style="margin-bottom: 50pt">
     <div id="tablesDiv" style="margin-top:25pt">
-        <h2 style="margin-left:10pt">Active Form</h2>
+        <h2 style="margin-left:30pt">Active Form</h2>
         <div id="activeFormsTable">
             <table style="width:90%">
                 <col width="16%" />
@@ -112,8 +82,8 @@
                 </tr>
             </table>
         </div>
-        <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
-        <h2 style="margin-left:10pt">In-Progress Forms</h2>
+        <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto;">-</div>
+        <h2 style="margin-left:30pt">In-Progress Forms</h2>
         <div id="inProgressFormsTable">
             <table style="width:90%">
                 <col width="16%" />
@@ -131,17 +101,25 @@
                     <th></th>
                 </tr>
                 <tr>
-                    <td>fall2018</td>
+                    <td>summer2019</td>
                     <td>In Progress</td>
-                    <td>03/01/2018</td>
+                    <td>03/01/2019</td>
                     <td>NA</td>
                     <td>12346</td>
                     <td><button type="button">View</button></td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><button type="button">New Form</button></td>
+                </tr>
             </table>
         </div>
         <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
-        <h2 style="margin-left:10pt">Retired Forms</h2>
+        <h2 style="margin-left:30pt">Retired Forms</h2>
         <div id="retiredFormsTable">
             <table style="width:90%">
                 <col width="16%" />
@@ -159,11 +137,27 @@
                     <th></th>
                 </tr>
                 <tr>
-                    <td>fall2018</td>
-                    <td>In Progress</td>
-                    <td>03/01/2018</td>
+                    <td>spring2017</td>
+                    <td>Retired</td>
+                    <td>11/01/2016</td>
                     <td>NA</td>
-                    <td>12346</td>
+                    <td>12344</td>
+                    <td><button type="button">View</button></td>
+                </tr>
+                <tr>
+                    <td>fall2017</td>
+                    <td>Retired</td>
+                    <td>11/01/2016</td>
+                    <td>NA</td>
+                    <td>12344</td>
+                    <td><button type="button">View</button></td>
+                </tr>
+                <tr>
+                    <td>summer2017</td>
+                    <td>Retired</td>
+                    <td>04/01/2017</td>
+                    <td>NA</td>
+                    <td>12343</td>
                     <td><button type="button">View</button></td>
                 </tr>
             </table>

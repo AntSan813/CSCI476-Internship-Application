@@ -24,23 +24,19 @@
         margin: 0px auto;
     }
 
-    #needsAdminContainer td {
+    #queryResultsTable td {
         color: white;
         background-color: #660000;
     }
 
-    #needsAdminContainer {
-        padding-bottom: 50px;
+    #queryResultsTable {
+        width: 100%;
+        padding: 25px;
     }
 
-        #needsAdminContainer th {
+        #queryResultsTable th {
             padding-bottom: 25px;
         }
-
-    #radioFilter {
-        display: inline;
-        margin-right: 5px;
-    }
 
     #tableTitle {
         display: inline-block;
@@ -90,14 +86,18 @@
 
     .vl {
         border-left: thick solid #660000;
-        height: 100%;
+        height: 90%;
+    }
+
+    #exportButton {
+        margin-left: 50pt;
     }
 
 </style>
 
 <div id="adminQueryPageUI">
     <div>
-        <div class="row">
+        <div class="row" style="padding: 10pt;">
             <!--split page into two columns-->
             <br />
             <div class="col-4">
@@ -111,13 +111,13 @@
                     </div>
                 </div>
 
-                <div id="tablesDiv">
+                <div id="tablesDiv" style="padding: 10pt;">
                     <div id="needsAdminContainer">
                         <p> </p>
                         <h5>Company:</h5>
                         <select>
                             <option value="-1"> -- select an option -- </option>
-                            <option value="-1"> ALL </option>
+                            <option value="-1">All </option>
                             <option value="0">Ally</option>
                             <option value="1">Delta Bravo</option>
                             <option value="2">Lending Tree</option>
@@ -162,7 +162,7 @@
             <div class="col-8">
                 <!--right side of page-->
                 <br />
-                <div class="vl"> 
+                <div class="vl"/> 
                 <div id="titleAndSortContent">
                     <div id="tableTitle">
                         <h2>RESULTS OF QUERY: </h2>
@@ -170,11 +170,9 @@
                     <div>
                     </div>
                 </div>
-
                 <div id="tablesDiv">
-                    <div id="needsAdminContainer">
+                    <div id="queryResultsTable">
                         <table style="width:100%">
-
                             <h3 style="text-align:center;">Your search returned (2) results: </h3>
                             <tr>
                                 <th>STUDENT NAME</th>
@@ -199,7 +197,9 @@
                     <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
                 </div>
                 <br />
-                <button type="button">Export to Excel document</button>
+                <div>
+                    <button type="button" id="exportButton">Export to Excel document</button>
+                </div>
             </div>
             </div>
         </div>
