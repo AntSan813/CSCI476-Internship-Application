@@ -1,22 +1,15 @@
-﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<style>
+﻿<style>
 
     #gradientAudience {
         display: none;
     }
 
-    #adminHeaderBar {
-        background-color: black;
-        display: inline;
+    #adminNavBar {
+        display: block;
     }
 
-    .navbar {
-        overflow: hidden;
-        color: black;
-        background-color: #F0B323;
-        font-family: Arial, Helvetica, sans-serif;
-        z-index: 1;
+    #commonNavBar {
+        display: none;
     }
 
     label {
@@ -33,11 +26,18 @@
         display: block;
     }
 
-    #editButton, #addQButton, #removeQButton, #modifyQButton, #saveButton, #cancelButton {
-        margin: 5px;
-        padding: 5px;
-        width: 100px;
+    #editButton, #addQButton, #removeQButton, #modifyQButton, #saveButton, #cancelButton, #makeActiveOrRetiredButton {
+        display: inline-block !important;
+        margin: 10px;
+        padding: 10px;
+        width: 125px;
         border-radius: 1em;
+        border: none;
+    }
+
+    #makeActiveOrRetiredButton {
+        background-color: #F0B323;
+        color: black;
     }
 
     .activeStyle {
@@ -54,14 +54,6 @@
 @model Internship_Application.Models.Templates
 
 <div id="formTemplateEditorUI" style="height: 100vh">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <div class="row">
         <div id="editColumn" style="display: block" class="col-2">
             <button id="editButton" class="disabledStyle" onclick="toggleEditMode()">Edit Mode</button>
@@ -106,13 +98,13 @@
                     <label>Helper Text:</label>
                     <input />
                     <label style="display: block;">Person to Answer This Question: </label>
-                    <input type="checkbox" name="answerer1" value="student" style="display: inline-block">Student<br>
-                    <input type="checkbox" name="answerer2" value="employer" style="display: inline-block">Employer<br>
-                    <input type="checkbox" name="answerer3" value="faculty" style="display: inline-block">Faculty of Record<br>
-                    <input type="checkbox" name="answerer4" value="studentServices" style="display: inline-block">Student Services<br>
-                    <input type="checkbox" name="answerer5" value="admin" style="display: inline-block">Administrator<br>
+                    <input type="radio" name="answerer1" value="student" style="display: inline-block;">Student<br>
+                    <input type="radio" name="answerer2" value="employer" style="display: inline-block">Employer<br>
+                    <input type="radio" name="answerer3" value="faculty" style="display: inline-block">Faculty of Record<br>
+                    <input type="radio" name="answerer4" value="studentServices" style="display: inline-block">Student Services<br>
+                    <input type="radio" name="answerer5" value="admin" style="display: inline-block">Administrator<br>
                 </div>
-                <div id="saveCancelButtonDiv">
+                <div id="saveCancelButtonDiv" style="margin-top: 10pt;">
                     <button id="saveButton" class="activeStyle" onclick="saveFormChanges()">Save</button>
                     <button id="cancelButton" class="activeStyle" onclick="cancelFormChanges()">Cancel</button>
                 </div>
@@ -200,7 +192,8 @@
             <input />
         </div>
 
-    </div>
+            </div>
+</div>
 
     <script>
 

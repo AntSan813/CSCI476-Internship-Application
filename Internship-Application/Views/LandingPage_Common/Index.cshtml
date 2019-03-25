@@ -1,15 +1,15 @@
-﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<style>
+﻿<style>
 
     #gradientAudience {
         display: none;
     }
 
-    #adminLandingPageUI {
-        padding-bottom: 100px;
-        position: relative;
-        z-index: 1;
+    #adminNavBar {
+        display: none;
+    }
+
+    #commonNavBar {
+        display: block;
     }
 
     tr {
@@ -41,77 +41,6 @@
          display: inline;
          margin-right: 5px;
      }
-
-    #adminHeaderBar {
-        background-color: black;
-        display: inline;
-    }
-
-    .navbar {
-        overflow: hidden;
-        color: black;
-        background-color: #F0B323;
-        font-family: Arial, Helvetica, sans-serif;
-        z-index: 1;
-    }
-
-        .navbar a {
-            float: left;
-            font-size: 16px;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-    .dropdown {
-        float: left;
-        overflow: hidden;
-        position: relative;
-        z-index: 9999; 
-
-    }
-
-        .dropdown .dropbtn {
-            cursor: pointer;
-            font-size: 16px;
-            border: none;
-            outline: none;
-            color: black;
-            padding: 14px 16px;
-            background-color: inherit;
-            font-family: inherit;
-            margin: 0;
-        }
-
-    .dropdown-content {
-        display: none;
-        background: #F0B323;
-    }
-
-    .navbar a:hover, .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-        .navbar a:hover, .dropdown:hover .dropdown-content:hover {
-            color: #660000;
-        }
-
-        .dropdown-content a {
-            float: none;
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-            z-index: 100000;
-            position: relative;
-        }
-
-    #loggingInfo {
-        display: block;
-        text-align: right;
-    }
 
     #tableTitle {
         display: inline-block;
@@ -159,30 +88,8 @@
 
 </style>
 
-<div id="adminLandingPageUI">
-
-    <div class="navbar">
-        <div class="dropdown">
-            <button class="dropbtn" onclick="myFunction()">
-                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-            </button>
-            <div class="dropdown-content" id="myDropdown">
-                <a href="#">View Your Forms</a>
-                <a href="#">Log Out</a>
-            </div>
-        </div>
-        <big style="font-size:18pt"><b>Winthrop University Internship Portal</b></big>
-        <div id="loggingInfo">
-            <div>
-                <small>STUDENT VIEW</small>
-            </div>
-            <div>
-                <small>SIGNED IN: 2/5/2019 9:06AM</small>
-            </div>
-        </div>
-    </div>
-
-    <div id="tablesDiv" style="padding-top:20px">
+<div id="commonLandingPageUI">
+    <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
         <div >
             <h2 style="padding-left:30px; padding-top: 25px; padding-bottom: 25px">Active Forms</h2>
         </div>
@@ -204,13 +111,16 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><button style="height:55px; background-color:#660000">Start New Form</button></td>
+                    <td><form asp-controller="Student_Application_Page" asp-action="Index" method="post">
+                        <button type="submit" style="height:55px; background-color:#660000">Start New Form</button>
+                        </form><!--<button style="height:55px; background-color:#660000">Start New Form</button>-->
+                    </td>
                 </tr>
             </table>
         </div>
         <h2 style="padding-left:30px; padding-top: 25px">Archived Forms</h2>
-        <div style="text-align:center; padding-top:px; padding-bottom:50px; display:block" id="emptyArchiveText">You don't have any archived forms yet...</div>
-           <div style="display:none">
+        <div style="text-align:center; padding-bottom:25px; padding-bottom:50px; display:block" id="emptyArchiveText">You don't have any archived forms yet...</div>
+           <div style="display:none;">
                <div id="archivedFormsContainer">
                    <table style="width:90%">
                        <thead style="border-bottom:3px solid black">

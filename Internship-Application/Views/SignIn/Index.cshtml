@@ -1,3 +1,16 @@
+<style>
+    #gradientAudience {
+        display: block;
+    }
+
+    #adminNavBar {
+        display: none;
+    }
+
+    #commonNavBar {
+        display: none;
+    }
+</style>
 
 ﻿<br />
 <br />
@@ -9,11 +22,7 @@
     <br />
     <h2 align="center">User Login</h2>
 
-
-    <body>
-
-    </body>
-
+<div>
     <fieldset>
         <div id="loginUI">
             <div align="center">
@@ -33,7 +42,10 @@
                     <div>
                         <br />
                         <input id="chkRememberMe" type="checkbox" name="chkRememberMe" checked="checked" tabindex="4"><label for="chkRememberMe">Remember me on this computer</label>
-                        <input type="submit" name="btnLogin" value="Login" id="btnLogin" tabindex="5" title="Click to login... ">
+                        <!--<input type="submit" name="btnLogin" value="Login" id="btnLogin" tabindex="5" title="Click to login... ">-->
+                        <form asp-controller="LandingPage_Common" asp-action="Index" method="post">
+                            <button type="submit">Login</button>
+                        </form>
                     </div>
                     <br />
                     <form asp-controller="Employee_SignIn_Page" asp-action="Index" method="post">
@@ -43,4 +55,5 @@
                 </div>
             </div>
          </div>
-</fieldset>
+    </fieldset>
+</div>
