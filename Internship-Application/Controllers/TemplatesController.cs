@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Internship_Application.Models;
+using System;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Internship_Application.Controllers
 {
@@ -53,8 +54,69 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CreatedAt,UpdatedAt,DeletedAt,Name,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive")] Templates templates)
+        public async Task<IActionResult> Create(IFormCollection collection, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,Name,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive")] Templates templates)
         {
+            List<JsonModel> jsonStr = new List<JsonModel>();
+            // Console.WriteLine(collection["prompt"] + collection["input-type"] + collection["helper-text"] + collection["order"]);
+
+            //generate first json
+            JsonModel item = new JsonModel { };
+            item.Prompt = collection["prompt"];
+            item.InputType = collection["input-type"];
+            item.Order = collection["order"];
+            item.HelperText = collection["helperText"];
+            
+            if (collection["input-type"] == "signature")
+            {
+                //get form data
+                item.DatedSigned = "";
+                item.Signed = false;
+               
+            } 
+
+            //Console.WriteLine(item);
+
+            //default empty array of questions for each section
+            templates.StudentQuestions = "[]";
+            templates.EmployerQuestions = "[]";
+            templates.FacultyQuestions = "[]";
+            templates.StudentServicesQuestions = "[]";
+            templates.AdministratorQuestions = "[]";
+
+            //TODO: separate following iff stmts to be a function that returns the serialized json by taking in the collection.
+            if (collection["person"] == "student")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.StudentQuestions);
+                jsonStr.Add(item);
+                string serializedJson = JsonConvert.SerializeObject(jsonStr);
+                templates.StudentQuestions = serializedJson;
+            }
+            else if (collection["person"] == "employer")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.EmployerQuestions);
+                jsonStr.Add(item);
+                templates.EmployerQuestions = JsonConvert.SerializeObject(jsonStr);
+            }
+            else if (collection["person"] == "faculty")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.FacultyQuestions);
+                jsonStr.Add(item);
+                templates.FacultyQuestions = JsonConvert.SerializeObject(jsonStr);
+            }
+            else if (collection["person"] == "student-services")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.StudentServicesQuestions);
+                jsonStr.Add(item);
+                templates.StudentServicesQuestions = JsonConvert.SerializeObject(jsonStr);
+            }
+            else if (collection["person"] == "admin")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.AdministratorQuestions);
+                jsonStr.Add(item);
+                templates.AdministratorQuestions = JsonConvert.SerializeObject(jsonStr);
+            }
+            //Console.WriteLine(jsonStr);
+
             if (ModelState.IsValid)
             {
                 _context.Add(templates);
@@ -85,13 +147,64 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,Name,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive")] Templates templates)
+        public async Task<IActionResult> Edit(int id, IFormCollection collection, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,Name,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive")] Templates templates)
         {
             if (id != templates.Id)
             {
                 return NotFound();
             }
 
+            List<JsonModel> jsonStr = new List<JsonModel>();
+
+            //generate first json
+            JsonModel item = new JsonModel { };
+            item.Prompt = collection["prompt"];
+            item.InputType = collection["input-type"];
+            item.Order = collection["order"];
+            item.HelperText = collection["helperText"];
+
+            if (collection["input-type"] == "signature")
+            {
+                //get form data
+                item.DatedSigned = "";
+                item.Signed = false;
+
+            }
+
+            //TODO: separate following iff stmts to be a function that returns the serialized json by taking in the collection.
+            if (collection["person"] == "student")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.StudentQuestions);
+                jsonStr.Add(item);
+                string serializedJson = JsonConvert.SerializeObject(jsonStr);
+                templates.StudentQuestions = serializedJson;
+            }
+            else if (collection["person"] == "employer")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.EmployerQuestions);
+                jsonStr.Add(item);
+                templates.EmployerQuestions = JsonConvert.SerializeObject(jsonStr);
+            }
+            else if (collection["person"] == "faculty")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.FacultyQuestions);
+                jsonStr.Add(item);
+                templates.FacultyQuestions = JsonConvert.SerializeObject(jsonStr);
+            }
+            else if (collection["person"] == "student-services")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.StudentServicesQuestions);
+                jsonStr.Add(item);
+                templates.StudentServicesQuestions = JsonConvert.SerializeObject(jsonStr);
+            }
+            else if (collection["person"] == "admin")
+            {
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.AdministratorQuestions);
+                jsonStr.Add(item);
+                templates.AdministratorQuestions = JsonConvert.SerializeObject(jsonStr);
+            }
+
+            
             if (ModelState.IsValid)
             {
                 try

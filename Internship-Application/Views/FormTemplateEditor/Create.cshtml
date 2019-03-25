@@ -6,9 +6,6 @@
 }
 
 <h1>Create</h1>
-
-<h4>Templates</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -26,7 +23,7 @@
             <div class="dropdown">
                 <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">Input Type</button>
                 <select name="input-type">
-                    <option type ="text" value="small-text">Small Text</option>
+                    <option type="text" value="small-text">Small Text</option>
                     <option value="large-text">Large Text</option>
                     <option value="signature">Signature</option>
                     <option value="checkbox">Checkbox</option>
@@ -37,18 +34,21 @@
                 </select>
             </div>
             <div class="form-group">
-                <label class="control-label">Order: </label>
-                <input type="text" name="order" class="form-control" />
+
+                <label>Order:</label>
+                <input type="text" name="order" />
             </div>
             <div class="form-group">
-                <label class="control-label">Prompt</label>
-                <input type="text" name="prompt" class="form-control" />
+
+                <label>Prompt:</label>
+                <input type="text" name="prompt" />
+            </div>
+            <div class="form-group">
+
+                <label>Helper Text:</label>
+                <input type="text" name="helper-text" />
             </div>
 
-            <div class="form-group">
-                <label class="control-label">Helper Text</label>
-                <input type="text" name="helper-text" class="form-control" />
-            </div>
             <label style="display: block;">Person to Answer This Question: </label>
             <input type="checkbox" name="person" value="student" style="display: inline-block">Student<br>
             <input type="checkbox" name="person" value="employer" style="display: inline-block">Employer<br>
@@ -61,8 +61,3 @@
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back</a>
-</div>
-
