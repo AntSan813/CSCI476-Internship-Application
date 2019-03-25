@@ -14,10 +14,8 @@
 
     #vl {
         border-left: 2px solid black;
-        height: 42%;
+        height: 125%;
         left: 50%;
-        margin-left: -3px;
-        top: 250pt;
         position: absolute;
     }
 
@@ -31,30 +29,30 @@
         padding: 5px;
     }
 
-    #addUserButton, #removeUserButton, #submitAddButton, #submitRemoveButton {
-        display: block;
-        margin: 20px;
-        padding: 10px;
-        width: 150px;
-        border-radius: 1em;
-    }
-
     .activeStyle {
         background-color: #660000;
         color: white;
     }
 
     .disabledStyle {
+        color: grey;
         background-color: grey;
         color: black;
         opacity: .5;
     }
 
+    .disabledText {
+        color: grey;
+    }
+
+    .activeText {
+        color: black;
+    }
+
 </style>
 
-<div id="addRemoveUserUI">
-    <div style="box-shadow: 0px 0px 10px grey; border-radius: 3px; margin: 50px; margin-left: 50px; margin-right: 50px; padding: 25px;">
-        <div id="vl"></div>
+<div id="addRemoveUserUI" style="margin: 50pt;">
+    <div style="box-shadow: 0px 0px 10px grey; border-radius: 3px;">
         <div class="row" style="height: 15%">
             <div style="display: block" class="col-6">
                 <button style="float: right;" id="addUserButton" onclick="addUserClick()" disabled class="activeStyle">Add User</button>
@@ -64,8 +62,8 @@
             </div>
         </div>
         <div class="row" style="height: 60%">
-            <div style="display: block;" class="col-6">
-                <div style="display: block; padding-left: 250px;">
+            <div style="display: block;" class="col-5">
+                <div id="addDiv" style="display: block; padding-left: 250px;">
                     <label>WINTHROP EMAIL:</label>
                     <input id="addEmailInput" />
                     <label>WINTHROP ID:</label>
@@ -85,8 +83,11 @@
                     </div>
                 </div>
             </div>
-            <div style="display: block" class="col-6">
-                <div style="display: block; padding-right: 250px; float: right;">
+            <div class="col-2">
+                <div id="vl"></div>
+            </div>
+            <div style="display: block" class="col-5">
+                <div id="removeDiv" style="display: block; padding-right: 250px; float: right;" class="disabledText">
                     <label>WINTHROP EMAIL:</label>
                     <input id="removeEmailInput" disabled />
                 </div>
@@ -128,11 +129,15 @@
         var addWIDInput = document.getElementById("addWIDInput");
         var addRoleInput = document.getElementById("addRoleInput");
         var removeEmailInput = document.getElementById("removeEmailInput");
+        var addDiv = document.getElementById("addDiv");
+        var removeDiv = document.getElementById("removeDiv");
         if (toggleString == "add") {
             addUserButton.className = "activeStyle";
             submitAddButton.className = "activeStyle";
+            addDiv.className = "activeText";
             removeUserButton.className = "disabledStyle";
             submitRemoveButton.className = "disabledStyle";
+            removeDiv.className = "disabledText";
             addUserButton.disabled = true;
             submitAddButton.disabled = false;
             removeUserButton.disabled = false;
@@ -145,8 +150,10 @@
         } else {
             addUserButton.className = "disabledStyle";
             submitAddButton.className = "disabledStyle";
+            addDiv.className = "disabledText";
             removeUserButton.className = "activeStyle";
             submitRemoveButton.className = "activeStyle";
+            removeDiv.className = "activeText";
             addUserButton.disabled = false;
             submitAddButton.disabled = true;
             removeUserButton.disabled = true;

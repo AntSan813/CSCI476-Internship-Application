@@ -26,11 +26,18 @@
         display: block;
     }
 
-    #editButton, #addQButton, #removeQButton, #modifyQButton, #saveButton, #cancelButton {
-        margin: 5px;
-        padding: 5px;
-        width: 100px;
+    #editButton, #addQButton, #removeQButton, #modifyQButton, #saveButton, #cancelButton, #makeActiveOrRetiredButton {
+        display: inline-block !important;
+        margin: 10px;
+        padding: 10px;
+        width: 125px;
         border-radius: 1em;
+        border: none;
+    }
+
+    #makeActiveOrRetiredButton {
+        background-color: #F0B323;
+        color: black;
     }
 
     .activeStyle {
@@ -81,11 +88,11 @@
                     <label>Helper Text:</label>
                     <input />
                     <label style="display: block;">Person to Answer This Question: </label>
-                    <input type="checkbox" name="answerer1" value="student" style="display: inline-block">Student<br>
-                    <input type="checkbox" name="answerer2" value="employer" style="display: inline-block">Employer<br>
-                    <input type="checkbox" name="answerer3" value="faculty" style="display: inline-block">Faculty of Record<br>
-                    <input type="checkbox" name="answerer4" value="studentServices" style="display: inline-block">Student Services<br>
-                    <input type="checkbox" name="answerer5" value="admin" style="display: inline-block">Administrator<br>
+                    <input type="radio" name="answerer1" value="student" style="display: inline-block;">Student<br>
+                    <input type="radio" name="answerer2" value="employer" style="display: inline-block">Employer<br>
+                    <input type="radio" name="answerer3" value="faculty" style="display: inline-block">Faculty of Record<br>
+                    <input type="radio" name="answerer4" value="studentServices" style="display: inline-block">Student Services<br>
+                    <input type="radio" name="answerer5" value="admin" style="display: inline-block">Administrator<br>
                 </div>
                 <div id="delQuestionDiv" style="padding-left: 50px; display: none;">
                     <label>Input the question number to be deleted: </label>
@@ -115,27 +122,33 @@
                     <label>Helper Text:</label>
                     <input />
                     <label style="display: block;">Person to Answer This Question: </label>
-                    <input type="checkbox" name="answerer1" value="student" style="display: inline-block">Student<br>
-                    <input type="checkbox" name="answerer2" value="employer" style="display: inline-block">Employer<br>
-                    <input type="checkbox" name="answerer3" value="faculty" style="display: inline-block">Faculty of Record<br>
-                    <input type="checkbox" name="answerer4" value="studentServices" style="display: inline-block">Student Services<br>
-                    <input type="checkbox" name="answerer5" value="admin" style="display: inline-block">Administrator<br>
+                    <input type="radio" name="answerer1" value="student" style="display: inline-block;">Student<br>
+                    <input type="radio" name="answerer2" value="employer" style="display: inline-block">Employer<br>
+                    <input type="radio" name="answerer3" value="faculty" style="display: inline-block">Faculty of Record<br>
+                    <input type="radio" name="answerer4" value="studentServices" style="display: inline-block">Student Services<br>
+                    <input type="radio" name="answerer5" value="admin" style="display: inline-block">Administrator<br>
                 </div>
-                <div id="saveCancelButtonDiv">
+                <div id="saveCancelButtonDiv" style="margin-top: 10pt;">
                     <button id="saveButton" class="activeStyle" onclick="saveFormChanges()">Save</button>
                     <button id="cancelButton" class="activeStyle" onclick="cancelFormChanges()">Cancel</button>
                 </div>
             </div>
         </div>
         <div id="formColumn" class="col-10">
-            <h3>Form: spring2019</h3>
-            <button id="activateOrRetireFormButton">Make active form</button>
-            <br />
-            <label>1. Enter your name: </label>
-            <input />
-        </div>
+            <div style="box-shadow: 0px 0px 10px grey; border-radius: 3px; padding: 20px; width: 90%;">
+                <div style="box-shadow: 0px 0px 10px grey; border-radius: 3px; padding: 20px; width: 90%;">
+                    <h2>Form Details:</h2>
+                    <label>Form Name: spring2019</label>
+                    <label>Current Active Form: None</label>
+                    <label>Make this the active form?</label>
+                    <button id="makeActiveOrRetiredButton">Activate</button>
+                  </div>
+                <h2 style="text-align: center; padding: 20px;">spring2019 Form Preview:</h2>
+                    <label>1. Enter your name: </label>
+                    <input />
+                </div>
 
-    </div>
+            </div>
 </div>
 
 <script>
