@@ -10,6 +10,17 @@
     #commonNavBar {
         display: block;
     }
+
+    button {
+        background-color: #660000;
+        color: white;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: none;
+        border-radius: 3px;
+    }
+
 </style>
 
 <br />
@@ -37,7 +48,7 @@
         <input type="text" name="classEnrolled"><br><br>
 
         Explaination of How Internship will Enhance Winthrop Experience: <br />
-        <textarea name="enhanceExperience"></textarea> <br/> <br/>
+        <textarea name="enhanceExperience"></textarea> <br /> <br />
 
         Desired Professional and Personal Goals Hoped to Achieve During Internship: <br />
         <textarea name="goals"></textarea><br><br>
@@ -51,9 +62,10 @@
         Student ID #:  <br />
         <input type="text" name="WUID"><br><br>
     </form>
+    <form asp-controller="Receipt_Submission_Page" asp-action="Index" method="post">
+        <button type="submit">Submit</button>
+    </form>
 </div>
 
-<form asp-controller="Receipt_Submission_Page" asp-action="Index" method="post">
-    <button type="submit" style="height:55px; background-color:#660000; color:white">Submit</button>
-</form>
+
 
