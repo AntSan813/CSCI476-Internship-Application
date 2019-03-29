@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Internship_Application.Migrations.CSCI476
+namespace Internship_Application.Migrations.Data
 {
-    [DbContext(typeof(CSCI476Context))]
-    partial class CSCI476ContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DataContext))]
+    partial class DataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -30,7 +30,7 @@ namespace Internship_Application.Migrations.CSCI476
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("administrator_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
@@ -48,7 +48,7 @@ namespace Internship_Application.Migrations.CSCI476
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("employer_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
@@ -56,7 +56,7 @@ namespace Internship_Application.Migrations.CSCI476
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("faculty_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
@@ -64,7 +64,7 @@ namespace Internship_Application.Migrations.CSCI476
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("student_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
@@ -72,7 +72,7 @@ namespace Internship_Application.Migrations.CSCI476
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("student_services_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
@@ -107,7 +107,7 @@ namespace Internship_Application.Migrations.CSCI476
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("administrator_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
@@ -121,11 +121,17 @@ namespace Internship_Application.Migrations.CSCI476
                         .HasColumnName("deleted_at")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("Disclaimer")
+                        .IsRequired()
+                        .HasColumnName("disclaimer")
+                        .HasMaxLength(1000)
+                        .IsUnicode(false);
+
                     b.Property<string>("EmployerQuestions")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("employer_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
@@ -133,24 +139,30 @@ namespace Internship_Application.Migrations.CSCI476
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("faculty_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
+                        .IsUnicode(false);
+
+                    b.Property<string>("FormTitle")
+                        .IsRequired()
+                        .HasColumnName("form_title")
+                        .HasMaxLength(256)
                         .IsUnicode(false);
 
                     b.Property<bool>("IsActive")
                         .HasColumnName("is_active");
 
-                    b.Property<string>("Name")
+                    b.Property<bool?>("IsModifiable")
                         .IsRequired()
-                        .HasColumnName("name")
-                        .HasMaxLength(256)
-                        .IsUnicode(false);
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("is_modifiable")
+                        .HasDefaultValueSql("((1))");
 
                     b.Property<string>("StudentQuestions")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("student_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
                         .IsUnicode(false);
 
@@ -158,8 +170,14 @@ namespace Internship_Application.Migrations.CSCI476
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnName("student_services_questions")
-                        .HasDefaultValueSql("('')")
+                        .HasDefaultValueSql("('{}')")
                         .HasMaxLength(1000)
+                        .IsUnicode(false);
+
+                    b.Property<string>("TemplateName")
+                        .IsRequired()
+                        .HasColumnName("template_name")
+                        .HasMaxLength(256)
                         .IsUnicode(false);
 
                     b.Property<DateTime>("UpdatedAt")

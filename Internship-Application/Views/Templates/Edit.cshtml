@@ -30,9 +30,19 @@
                 <span asp-validation-for="DeletedAt" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="FormTitle" class="control-label"></label>
+                <input asp-for="FormTitle" class="form-control" />
+                <span asp-validation-for="FormTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Disclaimer" class="control-label"></label>
+                <input asp-for="Disclaimer" class="form-control" />
+                <span asp-validation-for="Disclaimer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemplateName" class="control-label"></label>
+                <input asp-for="TemplateName" class="form-control" />
+                <span asp-validation-for="TemplateName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StudentQuestions" class="control-label"></label>
@@ -63,6 +73,11 @@
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                 </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsModifiable" class="control-label"></label>
+                <input asp-for="IsModifiable" class="form-control" />
+                <span asp-validation-for="IsModifiable" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

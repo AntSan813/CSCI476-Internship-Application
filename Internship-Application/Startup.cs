@@ -25,7 +25,7 @@ namespace Internship_Application
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-             services.AddDbContext<CSCI476Context>(options =>
+             services.AddDbContext<DataContext>(options =>
                  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             

@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Internship_Application.Migrations.CSCI476
+namespace Internship_Application.Migrations.Data
 {
-    public partial class initialize_identity_framework : Migration
+    public partial class DataContextMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,11 +18,11 @@ namespace Internship_Application.Migrations.CSCI476
                     updated_at = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     deleted_at = table.Column<DateTime>(type: "datetime", nullable: true),
                     wu_id = table.Column<string>(unicode: false, maxLength: 30, nullable: false),
-                    student_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
-                    employer_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
-                    faculty_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
-                    student_services_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
-                    administrator_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
+                    student_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
+                    employer_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
+                    faculty_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
+                    student_services_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
+                    administrator_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
                     template_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -39,13 +39,16 @@ namespace Internship_Application.Migrations.CSCI476
                     created_at = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     updated_at = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     deleted_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    name = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
-                    student_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
-                    employer_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
-                    faculty_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
-                    student_services_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
-                    administrator_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('')"),
-                    is_active = table.Column<bool>(nullable: false)
+                    form_title = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
+                    disclaimer = table.Column<string>(unicode: false, maxLength: 1000, nullable: false),
+                    template_name = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
+                    student_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
+                    employer_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
+                    faculty_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
+                    student_services_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
+                    administrator_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
+                    is_active = table.Column<bool>(nullable: false),
+                    is_modifiable = table.Column<bool>(nullable: false, defaultValueSql: "((1))")
                 },
                 constraints: table =>
                 {

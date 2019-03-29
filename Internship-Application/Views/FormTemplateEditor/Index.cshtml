@@ -51,7 +51,7 @@
         opacity: .5;
     }
 </style>
-@model Internship_Application.Models.Templates
+@model Internship_Application.Models.TemplateViewModel
 
 <div id="formTemplateEditorUI" style="height: 100vh">
     <div class="row">
@@ -62,10 +62,13 @@
                     <button id="addQButton" class="activeStyle" onclick="addQClicked()">Add New</button>
                     <button id="removeQButton" class="disabledStyle" onclick="deleteQClicked()">Delete</button>
                     <button id="modifyQButton" class="disabledStyle" onclick="modifyQClicked()">Modify</button>
+                    <a asp-action="Edit" asp-route-id="@Model.Template.Id">Edit</a> |
+
                 </div>
                 <div id="questionTemplateDiv" style="padding-left: 50px;">
                     <p>
-                        <a asp-action="Create">Create New</a>
+                        <!--<partial name="Create" />-->
+                        <!--<a asp-action="Create">Create New</a>-->
                     </p>
 
                 </div>
@@ -75,42 +78,71 @@
                     <input />
                 </div>
                 <div id="modifyQuestionDiv" style="padding-left: 50px; display: none;">
-                    <label>Input    the question number to be modified: </label>
-                    <input />
-                    <label>Input Type:</label>
-                    <div class="dropdown">
-                        <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">
-                            Input Type
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" value="smallText">Small Text</a>
-                            <a class="dropdown-item" value="largeText">Large Text</a>
-                            <a class="dropdown-item" value="signature">Signature</a>
-                            <a class="dropdown-item" value="checkbox">Checkbox</a>
-                            <a class="dropdown-item" value="radio">Radio Button</a>
-                            <a class="dropdown-item" value="date">Date</a>
-                            <a class="dropdown-item" value="dateRange">Date Range</a>
-                            <a class="dropdown-item" value="money">Dollar Amount</a>
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Template.TemplateName" class="control-label"></label>
+                            <input asp-for="Template.TemplateName" class="form-control" />
+                            <span asp-validation-for="Template.TemplateName" class="text-danger"></span>
                         </div>
-                    </div>
-                    <label>Prompt:</label>
-                    <input />
-                    <label>Helper Text:</label>
-                    <input />
-                    <label style="display: block;">Person to Answer This Question: </label>
-                    <input type="radio" name="answerer1" value="student" style="display: inline-block;">Student<br>
-                    <input type="radio" name="answerer2" value="employer" style="display: inline-block">Employer<br>
-                    <input type="radio" name="answerer3" value="faculty" style="display: inline-block">Faculty of Record<br>
-                    <input type="radio" name="answerer4" value="studentServices" style="display: inline-block">Student Services<br>
-                    <input type="radio" name="answerer5" value="admin" style="display: inline-block">Administrator<br>
-                </div>
-                <div id="saveCancelButtonDiv" style="margin-top: 10pt;">
-                    <button id="saveButton" class="activeStyle" onclick="saveFormChanges()">Save</button>
-                    <button id="cancelButton" class="activeStyle" onclick="cancelFormChanges()">Cancel</button>
-                </div>
-            </div>
+                        <div class="form-group">
+                            <label asp-for="Template.FormTitle" class="control-label"></label>
+                            <input asp-for="Template.FormTitle" class="form-control" />
+                            <span asp-validation-for="Template.FormTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Template.Disclaimer" class="control-label"></label>
+                            <input asp-for="Template.Disclaimer" class="form-control" />
+                            <span asp-validation-for="Template.Disclaimer" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="Template.IsActive" /> @Html.DisplayNameFor(model => model.Template.IsActive)
+                            </label>
+                        </div>
+                        <div class="dropdown">
+                            <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">Input Type</button>
+                            <select name="input-type">
+                                <option value="small-text">Small Text</option>
+                                <option value="large-text">Large Text</option>
+                                <option value="signature">Signature</option>
+                                <option value="checkbox">Checkbox</option>
+                                <option value="radio">Radio Button</option>
+                                <option value="date">Date</option>
+                                <option value="dateRange">Date Range</option>
+                                <option value="money">Dollar Amount</option>
+                                <option value="options">Dropdown</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+
+                            <label>Order:</label>
+                            <input type="number" name="order" value=1/>
+                        </div>
+                        <div class="form-group">
+
+                            <label>Prompt:</label>
+                            <input type="text" name="prompt" value="Example Prompt" />
+                        </div>
+                        <div class="form-group">
+
+                            <label>Helper Text:</label>
+                            <input type="text" name="helper-text" value="Helper text" />
+                        </div>
+
+                        <label style="display: block;">Person to Answer This Question: </label>
+                        <input type="checkbox" name="person" value="student" style="display: inline-block">Student<br>
+                        <input type="checkbox" name="person" value="employer" style="display: inline-block">Employer<br>
+                        <input type="checkbox" name="person" value="faculty" style="display: inline-block">Faculty of Record<br>
+                        <input type="checkbox" name="person" value="student-services" style="display: inline-block">Student Services<br>
+                        <input type="checkbox" name="person" value="admin" style="display: inline-block">Administrator<br>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </form>
         </div>
         <div id="formColumn" class="col-10">
+
             <h3>Form: spring2019</h3>
             <button id="activateOrRetireFormButton">Make active form</button>
             <div>
@@ -122,72 +154,116 @@
                 <hr />
                 <dl class="row">
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Name)
+                        @Html.DisplayNameFor(model => model.Template.TemplateName)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Name)
+                        @Html.DisplayFor(model => model.Template.TemplateName)
                     </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.StudentQuestions)
-                    </dt>
-                    <dd class="col-sm-10">
-                        <p id="studentQuestions"></p>
-                        <script>
+                    </dl>
+                    <table class="table">
+                        <tbody>
+                            @foreach (var item in Model.StudentQuestions)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Order)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InputType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Prompt)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HelperText)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Options)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Signed)
+                                    </td>
 
-                            https://www.freecodecamp.org/forum/t/translating-a-json-data-to-html-element/137934/3
 
-
-                            //TODO: Test this by outputting the order number as well to verify they are in order
-                            var studentQuestions = Json.Parse(Model.StudentQuestions);
-                            document.getElementById("studentQuestions").innerHTML = studentQuestions[0].Prompt;
-                            var sortedSQ = studentQuestions.OrderBy(q => q.Order).ToList();
-                            for (var question in sortedSQ) {
-                                if (question.InputType == "signature") {
-                                    document.getElementById("studentQuestions").innerHTML += "Prompt: " + question.Prompt +
-                                        "<br>Helper Text: " + question.HelperText +
-                                        "<br>Input Type: " + question.InputType +
-                                        "<br>Signed: " + question.Signed +
-                                        "<br>Date Signed: " + question.DateSigned + "<br><br>";
-                                } else {
-                                    document.getElementById("studentQuestions").innerHTML += "Prompt: " + question.Prompt +
-                                        "<br>Helper Text: " + question.HelperText +
-                                        "<br>Input Type: " + question.InputType;
-                                }
+                                    <td>
+                                        <a asp-action="EditJson" asp-route-id="@item.Order">Edit</a> |
+                                        <a asp-action="DeleteJson" asp-route-id="@item.Order">Delete</a>
+                                    </td>
+                                </tr>
                             }
-                        </script>
-                        @Html.DisplayFor(model => model.StudentQuestions)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.EmployerQuestions)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.EmployerQuestions)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.FacultyQuestions)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.FacultyQuestions)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.StudentServicesQuestions)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.StudentServicesQuestions)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.AdministratorQuestions)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.AdministratorQuestions)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.IsActive)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.IsActive)
-                    </dd>
-                </dl>
+                        </tbody>
+                    </table>
+
+
+
+                    <!--<dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Template.TemplateName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Template.TemplateName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.StudentQuestions)
+            </dt>
+            <dd class="col-sm-10">
+                <p id="studentQuestions"></p>
+                <script>
+
+                    //https://www.freecodecamp.org/forum/t/translating-a-json-data-to-html-element/137934/3
+
+
+                    //TODO: Test this by outputting the order number as well to verify they are in order
+                    var studentQuestions = Json.Parse(Model.StudentQuestions);
+                    document.getElementById("studentQuestions").innerHTML = studentQuestions[0].Prompt;
+                    var sortedSQ = studentQuestions.OrderBy(q => q.Order).ToList();
+                    for (var question in sortedSQ) {
+                        if (question.InputType == "signature") {
+                            document.getElementById("studentQuestions").innerHTML += "Prompt: " + question.Prompt +
+                                "<br>Helper Text: " + question.HelperText +
+                                "<br>Input Type: " + question.InputType +
+                                "<br>Signed: " + question.Signed +
+                                "<br>Date Signed: " + question.DateSigned + "<br><br>";
+                        } else {
+                            document.getElementById("studentQuestions").innerHTML += "Prompt: " + question.Prompt +
+                                "<br>Helper Text: " + question.HelperText +
+                                "<br>Input Type: " + question.InputType;
+                        }
+                    }
+                </script>
+                @Html.DisplayFor(model => model.StudentQuestions)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.EmployerQuestions)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.EmployerQuestions)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FacultyQuestions)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FacultyQuestions)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.StudentServicesQuestions)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StudentServicesQuestions)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AdministratorQuestions)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AdministratorQuestions)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Template.IsActive)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Template.IsActive)
+            </dd>
+        </dl>-->
             </div>
             <input />
         </div>

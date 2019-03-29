@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Internship_Application.Models
 {
-    public partial class CSCI476Context : DbContext
+    public partial class DataContext : DbContext
     {
-        public CSCI476Context()
+        public DataContext()
         {
         }
 
-        public CSCI476Context(DbContextOptions<CSCI476Context> options)
+        public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {
         }
@@ -23,7 +23,7 @@ namespace Internship_Application.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=Data;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-J0RA1I9;Database=Data;Trusted_Connection=True;");
             }
         }
 
@@ -40,7 +40,7 @@ namespace Internship_Application.Models
                     .HasColumnName("administrator_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
@@ -56,28 +56,28 @@ namespace Internship_Application.Models
                     .HasColumnName("employer_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
 
                 entity.Property(e => e.FacultyQuestions)
                     .IsRequired()
                     .HasColumnName("faculty_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
 
                 entity.Property(e => e.StudentQuestions)
                     .IsRequired()
                     .HasColumnName("student_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
 
                 entity.Property(e => e.StudentServicesQuestions)
                     .IsRequired()
                     .HasColumnName("student_services_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
 
                 entity.Property(e => e.TemplateId).HasColumnName("template_id");
 
@@ -102,7 +102,7 @@ namespace Internship_Application.Models
                     .HasColumnName("administrator_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
@@ -113,41 +113,58 @@ namespace Internship_Application.Models
                     .HasColumnName("deleted_at")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.Disclaimer)
+                    .IsRequired()
+                    .HasColumnName("disclaimer")
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.EmployerQuestions)
                     .IsRequired()
                     .HasColumnName("employer_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
 
                 entity.Property(e => e.FacultyQuestions)
                     .IsRequired()
                     .HasColumnName("faculty_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
+
+                entity.Property(e => e.FormTitle)
+                    .IsRequired()
+                    .HasColumnName("form_title")
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.IsActive).HasColumnName("is_active");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.IsModifiable)
                     .IsRequired()
-                    .HasColumnName("name")
-                    .HasMaxLength(256)
-                    .IsUnicode(false);
+                    .HasColumnName("is_modifiable")
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.StudentQuestions)
                     .IsRequired()
                     .HasColumnName("student_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
 
                 entity.Property(e => e.StudentServicesQuestions)
                     .IsRequired()
                     .HasColumnName("student_services_questions")
                     .HasMaxLength(1000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .HasDefaultValueSql("('{}')");
+
+                entity.Property(e => e.TemplateName)
+                    .IsRequired()
+                    .HasColumnName("template_name")
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updated_at")

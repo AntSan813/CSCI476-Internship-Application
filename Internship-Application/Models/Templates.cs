@@ -10,9 +10,17 @@ namespace Internship_Application.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
+        [Display(Name = "Form Title")]
+        [Required]
+        public string FormTitle { get; set; }
 
+        [Required]
+        [Display(Name = "Disclaimer")]
+        public string Disclaimer { get; set; }
+
+        [Required]
         [Display(Name = "Template Name")]
-        public string Name { get; set; }
+        public string TemplateName { get; set; }
 
         [Display(Name = "Student Section")]
         public string StudentQuestions { get; set; }
@@ -29,8 +37,11 @@ namespace Internship_Application.Models
         [Display(Name = "Administrator Section")]
         public string AdministratorQuestions { get; set; }
 
+        [Required]
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+
+        [Required]
+        public bool? IsModifiable { get; set; }
     }
-
-
 }

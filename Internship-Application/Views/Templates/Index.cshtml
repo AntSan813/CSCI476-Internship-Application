@@ -23,7 +23,13 @@
                 @Html.DisplayNameFor(model => model.DeletedAt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.FormTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Disclaimer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TemplateName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StudentQuestions)
@@ -43,6 +49,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.IsActive)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsModifiable)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -59,7 +68,13 @@
                 @Html.DisplayFor(modelItem => item.DeletedAt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.FormTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Disclaimer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemplateName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StudentQuestions)
@@ -78,6 +93,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsModifiable)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -25,15 +25,41 @@
         width: 1000px;
         height: 250px;
     }
-
 </style>
 
 <br />
 <h1 style="text-align:center;"> Undergraduate Application Form</h1>
 <br />
+@model Internship_Application.Models.TemplateViewModel
 
 <div style="box-shadow: 0px 0px 10px grey; border-radius: 3px; margin: 25pt; padding: 50pt;">
-    <form>
+    <form asp-action="Edit">
+        @foreach (var item in Model.StudentQuestions)
+        {
+            @Html.DisplayFor(modelItem => item.Order)<br />
+            @Html.DisplayFor(modelItem => item.Prompt)<br />
+
+            @Html.DisplayFor(modelItem => item.HelperText)<br /><br />
+            if (item.Options.Length != 0)
+            {
+                <div class="dropdown">
+                    <button class="dropbtn">Choose one</button>
+                    <div class="dropdown-content">
+                        @foreach (var option in item.Options)
+                        {
+                            <a href="@option">@option</a>
+                        }
+
+                    </div>
+                </div>
+                @Html.DisplayFor(modelItem => item.Options)
+            }
+            else
+            {
+                <input type="@item.InputType" name="@item.Order"><br />
+            }
+        }
+
         First name:<br>
         <input type="text" name="firstname"><br><br>
 

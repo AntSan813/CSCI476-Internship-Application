@@ -4,48 +4,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Internship_Application.Models;
 using System;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
 
 namespace Internship_Application.Controllers
 {
-    public class FormTemplateEditor : Controller
+    public class TemplatesController : Controller
     {
         private readonly DataContext _context;
 
-        public FormTemplateEditor(DataContext context)
+        public TemplatesController(DataContext context)
         {
             _context = context;
         }
 
         // GET: Templates
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            //if (id == null)
-            // {
-            //    return NotFound();
-            //}
-
-            var template = _context.Templates
-                    .Where(b => b.IsActive == true)
-                    .FirstOrDefault();
-
-            if (template == null)
-            {
-                return NotFound();
-            }
-            TemplateViewModel templateView = new TemplateViewModel { };
-            templateView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentQuestions);
-            templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
-            templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
-            templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
-            templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
-            templateView.Template = template;
-            return View(templateView);
+            return View(await _context.Templates.ToListAsync());
         }
-
-
 
         // GET: Templates/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -76,7 +54,7 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IFormCollection collection, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive,IsModifiable,TemplateName,FormTitle,Disclaimer")] Templates templates)
+        public async Task<IActionResult> Create(IFormCollection collection, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,Name,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive")] Templates templates)
         {
             List<JsonModel> jsonStr = new List<JsonModel>();
             // Console.WriteLine(collection["prompt"] + collection["input-type"] + collection["helper-text"] + collection["order"]);
@@ -87,17 +65,15 @@ namespace Internship_Application.Controllers
             item.InputType = collection["input-type"];
             item.Order = Int32.Parse(collection["order"]);
             item.HelperText = collection["helperText"];
-            item.Options = new string[] { };
+            
             if (collection["input-type"] == "signature")
             {
                 //get form data
                 item.DatedSigned = "";
                 item.Signed = false;
-
-            }
+            } 
 
             //Console.WriteLine(item);
-            templates.IsModifiable = true;
 
             //default empty array of questions for each section
             templates.StudentQuestions = "[]";
@@ -157,11 +133,7 @@ namespace Internship_Application.Controllers
                 return NotFound();
             }
 
-            var templates = await _context.Templates.FirstOrDefaultAsync(m => m.Id == id);
-
-            Console.WriteLine(templates.StudentQuestions);
-
-
+            var templates = await _context.Templates.FindAsync(id);
             if (templates == null)
             {
                 return NotFound();
@@ -174,16 +146,13 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormCollection collection, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive,IsModifiable,TemplateName,FormTitle,Disclaimer")] Templates templates)
+        public async Task<IActionResult> Edit(int id, IFormCollection collection, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,Name,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive")] Templates templates)
         {
             if (id != templates.Id)
             {
                 return NotFound();
             }
-            if (templates.IsModifiable == false){
-                //TODO: change this to return the previous page and a flash message saying that you cannot edit the form since a form has been made from it
-                return Create();
-            }
+
             List<JsonModel> jsonStr = new List<JsonModel>();
 
             //generate first json
@@ -198,13 +167,12 @@ namespace Internship_Application.Controllers
                 //get form data
                 item.DatedSigned = "";
                 item.Signed = false;
+
             }
-            
+
             //TODO: separate following iff stmts to be a function that returns the serialized json by taking in the collection.
             if (collection["person"] == "student")
             {
-                Console.WriteLine(templates.StudentQuestions);
-
                 jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.StudentQuestions);
                 jsonStr.Add(item);
                 string serializedJson = JsonConvert.SerializeObject(jsonStr);
@@ -235,7 +203,7 @@ namespace Internship_Application.Controllers
                 templates.AdministratorQuestions = JsonConvert.SerializeObject(jsonStr);
             }
 
-
+            
             if (ModelState.IsValid)
             {
                 try
@@ -291,22 +259,6 @@ namespace Internship_Application.Controllers
         private bool TemplatesExists(int id)
         {
             return _context.Templates.Any(e => e.Id == id);
-        }
-
-        // GET: Templates/Edit/5
-        public async Task<IActionResult> EditJson(int id)
-        {
-
-            var templates = await _context.Templates.FirstOrDefaultAsync(m => m.Id == id);
-
-            Console.WriteLine(templates.StudentQuestions);
-
-
-            if (templates == null)
-            {
-                return NotFound();
-            }
-            return View(templates);
         }
     }
 }

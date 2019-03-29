@@ -11,9 +11,9 @@ namespace Internship_Application.Controllers
 {
     public class FormsController : Controller
     {
-        private readonly CSCI476Context _context;
+        private readonly DataContext _context;
 
-        public FormsController(CSCI476Context context)
+        public FormsController(DataContext context)
         {
             _context = context;
         }
