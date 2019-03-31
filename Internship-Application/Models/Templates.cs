@@ -7,9 +7,15 @@ namespace Internship_Application.Models
     public partial class Templates
     {
         public int Id { get; set; }
+        [Display(Name = "Created At")]
         public DateTime CreatedAt { get; set; }
+
+        [Display(Name = "Updated At")]
         public DateTime UpdatedAt { get; set; }
+
+        [Display(Name = "Deleted At")]
         public DateTime? DeletedAt { get; set; }
+
         [Display(Name = "Form Title")]
         [Required]
         public string FormTitle { get; set; }
@@ -41,7 +47,8 @@ namespace Internship_Application.Models
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
 
-        [Required]
-        public bool? IsModifiable { get; set; }
+        //  [Required]
+        [Display(Name = "Is Modifiable")]
+        public bool IsModifiable { get; set; }
     }
 }

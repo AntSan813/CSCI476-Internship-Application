@@ -56,319 +56,161 @@
 <div id="formTemplateEditorUI" style="height: 100vh">
     <div class="row">
         <div id="editColumn" style="display: block" class="col-2">
-            <button id="editButton" class="disabledStyle" onclick="toggleEditMode()">Edit Mode</button>
-            <div id="allFormOptionsDiv" style="display: none;">
-                <div id="editChoiceButtonsDiv">
-                    <button id="addQButton" class="activeStyle" onclick="addQClicked()">Add New</button>
-                    <button id="removeQButton" class="disabledStyle" onclick="deleteQClicked()">Delete</button>
-                    <button id="modifyQButton" class="disabledStyle" onclick="modifyQClicked()">Modify</button>
-                    <a asp-action="Edit" asp-route-id="@Model.Template.Id">Edit</a> |
+            <a  asp-action="Create">Add New</a>
 
-                </div>
-                <div id="questionTemplateDiv" style="padding-left: 50px;">
-                    <p>
-                        <!--<partial name="Create" />-->
-                        <!--<a asp-action="Create">Create New</a>-->
-                    </p>
+            @*@if (Model.Template.Count() != 0)
+            {*@
 
-                </div>
-
-                <div id="delQuestionDiv" style="padding-left: 50px; display: none;">
-                    <label>Input the question number to be deleted: </label>
-                    <input />
-                </div>
-                <div id="modifyQuestionDiv" style="padding-left: 50px; display: none;">
-                    <form asp-action="Edit">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="Template.TemplateName" class="control-label"></label>
-                            <input asp-for="Template.TemplateName" class="form-control" />
-                            <span asp-validation-for="Template.TemplateName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Template.FormTitle" class="control-label"></label>
-                            <input asp-for="Template.FormTitle" class="form-control" />
-                            <span asp-validation-for="Template.FormTitle" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Template.Disclaimer" class="control-label"></label>
-                            <input asp-for="Template.Disclaimer" class="form-control" />
-                            <span asp-validation-for="Template.Disclaimer" class="text-danger"></span>
-                        </div>
-                        <div class="form-group form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" asp-for="Template.IsActive" /> @Html.DisplayNameFor(model => model.Template.IsActive)
-                            </label>
-                        </div>
-                        <div class="dropdown">
-                            <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">Input Type</button>
-                            <select name="input-type">
-                                <option value="small-text">Small Text</option>
-                                <option value="large-text">Large Text</option>
-                                <option value="signature">Signature</option>
-                                <option value="checkbox">Checkbox</option>
-                                <option value="radio">Radio Button</option>
-                                <option value="date">Date</option>
-                                <option value="dateRange">Date Range</option>
-                                <option value="money">Dollar Amount</option>
-                                <option value="options">Dropdown</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-
-                            <label>Order:</label>
-                            <input type="number" name="order" value=1/>
-                        </div>
-                        <div class="form-group">
-
-                            <label>Prompt:</label>
-                            <input type="text" name="prompt" value="Example Prompt" />
-                        </div>
-                        <div class="form-group">
-
-                            <label>Helper Text:</label>
-                            <input type="text" name="helper-text" value="Helper text" />
-                        </div>
-
-                        <label style="display: block;">Person to Answer This Question: </label>
-                        <input type="checkbox" name="person" value="student" style="display: inline-block">Student<br>
-                        <input type="checkbox" name="person" value="employer" style="display: inline-block">Employer<br>
-                        <input type="checkbox" name="person" value="faculty" style="display: inline-block">Faculty of Record<br>
-                        <input type="checkbox" name="person" value="student-services" style="display: inline-block">Student Services<br>
-                        <input type="checkbox" name="person" value="admin" style="display: inline-block">Administrator<br>
-                        <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                        </div>
-                    </form>
-        </div>
-        <div id="formColumn" class="col-10">
-
-            <h3>Form: spring2019</h3>
-            <button id="activateOrRetireFormButton">Make active form</button>
-            <div>
-                <script>
-
-                </script>
-
-                <h4>Templates</h4>
-                <hr />
-                <dl class="row">
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Template.TemplateName)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Template.TemplateName)
-                    </dd>
-                    </dl>
-                    <table class="table">
-                        <tbody>
-                            @foreach (var item in Model.StudentQuestions)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Order)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.InputType)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Prompt)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.HelperText)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Options)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Signed)
-                                    </td>
-
-
-                                    <td>
-                                        <a asp-action="EditJson" asp-route-id="@item.Order">Edit</a> |
-                                        <a asp-action="DeleteJson" asp-route-id="@item.Order">Delete</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-
-
-                    <!--<dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Template.TemplateName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Template.TemplateName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.StudentQuestions)
-            </dt>
-            <dd class="col-sm-10">
-                <p id="studentQuestions"></p>
-                <script>
-
-                    //https://www.freecodecamp.org/forum/t/translating-a-json-data-to-html-element/137934/3
-
-
-                    //TODO: Test this by outputting the order number as well to verify they are in order
-                    var studentQuestions = Json.Parse(Model.StudentQuestions);
-                    document.getElementById("studentQuestions").innerHTML = studentQuestions[0].Prompt;
-                    var sortedSQ = studentQuestions.OrderBy(q => q.Order).ToList();
-                    for (var question in sortedSQ) {
-                        if (question.InputType == "signature") {
-                            document.getElementById("studentQuestions").innerHTML += "Prompt: " + question.Prompt +
-                                "<br>Helper Text: " + question.HelperText +
-                                "<br>Input Type: " + question.InputType +
-                                "<br>Signed: " + question.Signed +
-                                "<br>Date Signed: " + question.DateSigned + "<br><br>";
-                        } else {
-                            document.getElementById("studentQuestions").innerHTML += "Prompt: " + question.Prompt +
-                                "<br>Helper Text: " + question.HelperText +
-                                "<br>Input Type: " + question.InputType;
-                        }
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Templates[0].TemplateName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Templates[0].CreatedAt)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Templates[0].UpdatedAt)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Templates[0].IsActive)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Templates[0].IsModifiable)
+                        </th>
+                        <th></th>
+                      </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Templates)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TemplateName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdatedAt)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsActive)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsModifiable)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
                     }
-                </script>
-                @Html.DisplayFor(model => model.StudentQuestions)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.EmployerQuestions)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.EmployerQuestions)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FacultyQuestions)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FacultyQuestions)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.StudentServicesQuestions)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StudentServicesQuestions)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.AdministratorQuestions)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.AdministratorQuestions)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Template.IsActive)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Template.IsActive)
-            </dd>
-        </dl>-->
-            </div>
-            <input />
+                </tbody>
+            </table>
+            @*}*@
         </div>
-
-            </div>
+    </div>
 </div>
 
-    <script>
+<script>
 
-        function toggleEditMode() {
-            var editButton = document.getElementById("editButton");
-            //var choiceButtons = document.getElementById("editChoiceButtonsDiv");
-            //var questionOptions = document.getElementById("questionTemplateDiv");
-            //var saveCancelButtons = document.getElementById("saveCancelButtonDiv");
-            var editColumn = document.getElementById("editColumn");
-            var formColumn = document.getElementById("formColumn");
-            var allFormOptions = document.getElementById("allFormOptionsDiv");
-            if (!editButton.disabled || editButton.disabled == undefined) {
-                editButton.className = "activeStyle";
-                editButton.disabled = true;
+    function toggleEditMode() {
+        var editButton = document.getElementById("editButton");
+        //var choiceButtons = document.getElementById("editChoiceButtonsDiv");
+        //var questionOptions = document.getElementById("questionTemplateDiv");
+        //var saveCancelButtons = document.getElementById("saveCancelButtonDiv");
+        var editColumn = document.getElementById("editColumn");
+        var formColumn = document.getElementById("formColumn");
+        var allFormOptions = document.getElementById("allFormOptionsDiv");
+        if (!editButton.disabled || editButton.disabled == undefined) {
+            editButton.className = "activeStyle";
+            editButton.disabled = true;
 
-                // make buttons visible
-                allFormOptions.style.display = "block";
-                //    choiceButtons.style.display = "inline-block";
-                //   questionOptions.style.display = "block";
-                //  saveCancelButtons.style.display = "inline-block";
-                editColumn.className = "col-6";
-                formColumn.className = "col-6";
-            }
-            else {
-                editButton.className = "disabledStyle";
-                editButton.disabled = false;
+            // make buttons visible
+            allFormOptions.style.display = "block";
+            //    choiceButtons.style.display = "inline-block";
+            //   questionOptions.style.display = "block";
+            //  saveCancelButtons.style.display = "inline-block";
+            editColumn.className = "col-6";
+            formColumn.className = "col-6";
+        }
+        else {
+            editButton.className = "disabledStyle";
+            editButton.disabled = false;
 
-                // make buttons not visible
-                allFormOptions.style.display = "none";
-                //choiceButtons.style.display = "none";
-                //questionOptions.style.display = "none";
-                //saveCancelButtons.style.display = "none";
-                editColumn.className = "col-2";
-                formColumn.className = "col-10";
-            }
-
-            if (editButton.disabled) {
-                // display help text to save or cancel to exit edit mode
-            }
+            // make buttons not visible
+            allFormOptions.style.display = "none";
+            //choiceButtons.style.display = "none";
+            //questionOptions.style.display = "none";
+            //saveCancelButtons.style.display = "none";
+            editColumn.className = "col-2";
+            formColumn.className = "col-10";
         }
 
-        function addQClicked() {
-            var delButton = document.getElementById("removeQButton");
-            var addButton = document.getElementById("addQButton");
-            var modButton = document.getElementById("modifyQButton");
-            var addDiv = document.getElementById("questionTemplateDiv");
-            var delDiv = document.getElementById("delQuestionDiv");
-            var modDiv = document.getElementById("modifyQuestionDiv");
-            if (!(addButton.className == "activeStyle")) {
-                addButton.className = "activeStyle";
-                delButton.className = "disabledStyle";
-                modButton.className = "disabledStyle";
-                addDiv.style.display = "block";
-                delDiv.style.display = "none";
-                modDiv.style.display = "none";
-            }
+        if (editButton.disabled) {
+            // display help text to save or cancel to exit edit mode
         }
+    }
 
-        function deleteQClicked() {
-            var delButton = document.getElementById("removeQButton");
-            var addButton = document.getElementById("addQButton");
-            var modButton = document.getElementById("modifyQButton");
-            var addDiv = document.getElementById("questionTemplateDiv");
-            var delDiv = document.getElementById("delQuestionDiv");
-            var modDiv = document.getElementById("modifyQuestionDiv");
-            if (!(delButton.className == "activeStyle")) {
-                delButton.className = "activeStyle";
-                addButton.className = "disabledStyle";
-                modButton.className = "disabledStyle";
-                addDiv.style.display = "none";
-                delDiv.style.display = "block";
-                modDiv.style.display = "none";
-            }
+    function addQClicked() {
+        var delButton = document.getElementById("removeQButton");
+        var addButton = document.getElementById("addQButton");
+        var modButton = document.getElementById("modifyQButton");
+        var addDiv = document.getElementById("questionTemplateDiv");
+        var delDiv = document.getElementById("delQuestionDiv");
+        var modDiv = document.getElementById("modifyQuestionDiv");
+        if (!(addButton.className == "activeStyle")) {
+            addButton.className = "activeStyle";
+            delButton.className = "disabledStyle";
+            modButton.className = "disabledStyle";
+            addDiv.style.display = "block";
+            delDiv.style.display = "none";
+            modDiv.style.display = "none";
         }
+    }
 
-        function modifyQClicked() {
-            var delButton = document.getElementById("removeQButton");
-            var addButton = document.getElementById("addQButton");
-            var modButton = document.getElementById("modifyQButton");
-            var addDiv = document.getElementById("questionTemplateDiv");
-            var delDiv = document.getElementById("delQuestionDiv");
-            var modDiv = document.getElementById("modifyQuestionDiv");
-            if (!(modButton.className == "activeStyle")) {
-                modButton.className = "activeStyle";
-                addButton.className = "disabledStyle";
-                delButton.className = "disabledStyle";
-                addDiv.style.display = "none";
-                delDiv.style.display = "none";
-                modDiv.style.display = "block";
-            }
+    function deleteQClicked() {
+        var delButton = document.getElementById("removeQButton");
+        var addButton = document.getElementById("addQButton");
+        var modButton = document.getElementById("modifyQButton");
+        var addDiv = document.getElementById("questionTemplateDiv");
+        var delDiv = document.getElementById("delQuestionDiv");
+        var modDiv = document.getElementById("modifyQuestionDiv");
+        if (!(delButton.className == "activeStyle")) {
+            delButton.className = "activeStyle";
+            addButton.className = "disabledStyle";
+            modButton.className = "disabledStyle";
+            addDiv.style.display = "none";
+            delDiv.style.display = "block";
+            modDiv.style.display = "none";
         }
+    }
 
-        function saveFormChanges() {
-            // on save repopulate form column with updated form
-            toggleEditMode();
+    function modifyQClicked() {
+        var delButton = document.getElementById("removeQButton");
+        var addButton = document.getElementById("addQButton");
+        var modButton = document.getElementById("modifyQButton");
+        var addDiv = document.getElementById("questionTemplateDiv");
+        var delDiv = document.getElementById("delQuestionDiv");
+        var modDiv = document.getElementById("modifyQuestionDiv");
+        if (!(modButton.className == "activeStyle")) {
+            modButton.className = "activeStyle";
+            addButton.className = "disabledStyle";
+            delButton.className = "disabledStyle";
+            addDiv.style.display = "none";
+            delDiv.style.display = "none";
+            modDiv.style.display = "block";
         }
+    }
 
-        function cancelFormChanges() {
-            toggleEditMode();
-        }
+    function saveFormChanges() {
+        // on save repopulate form column with updated form
+        toggleEditMode();
+    }
 
-    </script>
+    function cancelFormChanges() {
+        toggleEditMode();
+    }
+</script>

@@ -1,12 +1,12 @@
 ﻿@model Internship_Application.Models.Templates
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "New Template";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Create</h1>
-<div class="row">
+<div class="row"> 
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -30,41 +30,6 @@
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                 </label>
             </div>
-            <div class="dropdown">
-                <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">Input Type</button>
-                <select name="input-type">
-                    <option value="small-text">Small Text</option>
-                    <option value="large-text">Large Text</option>
-                    <option value="signature">Signature</option>
-                    <option value="checkbox">Checkbox</option>
-                    <option value="radio">Radio Button</option>
-                    <option value="date">Date</option>
-                    <option value="dateRange">Date Range</option>
-                    <option value="money">Dollar Amount</option>
-                </select>
-            </div>
-            <div class="form-group">
-
-                <label>Order:</label>
-                <input type="text" name="order" />
-            </div>
-            <div class="form-group">
-
-                <label>Prompt:</label>
-                <input type="text" name="prompt" />
-            </div>
-            <div class="form-group">
-
-                <label>Helper Text:</label>
-                <input type="text" name="helper-text" />
-            </div>
-
-            <label style="display: block;">Person to Answer This Question: </label>
-            <input type="checkbox" name="person" value="student" style="display: inline-block">Student<br>
-            <input type="checkbox" name="person" value="employer" style="display: inline-block">Employer<br>
-            <input type="checkbox" name="person" value="faculty" style="display: inline-block">Faculty of Record<br>
-            <input type="checkbox" name="person" value="student-services" style="display: inline-block">Student Services<br>
-            <input type="checkbox" name="person" value="admin" style="display: inline-block">Administrator<br>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

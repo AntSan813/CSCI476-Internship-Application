@@ -36,7 +36,7 @@ namespace Internship_Application.Controllers
             templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
             templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
             templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
-            templateView.Template = template;
+            templateView.Templates[0] = template;
             return View(templateView);
         }
     }

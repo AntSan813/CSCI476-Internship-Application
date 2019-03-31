@@ -10,7 +10,7 @@ namespace Internship_Application.Models
         public List<JsonModel> FacultyQuestions { get; set; }
         public List<JsonModel> StudentServicesQuestions { get; set; }
         public List<JsonModel> AdministratorQuestions { get; set; }
-        public Templates Template { get; set; }
+        public List<Templates> Templates { get; set; }
 
     }
 }

@@ -1,74 +1,220 @@
-﻿@model Internship_Application.Models.Templates
+﻿@model Internship_Application.Models.TemplateViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Template";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
 
-<h1>Create</h1>
+    label {
+        display: block;
+        padding-top: 20px;
+    }
+
+    input {
+        display: block;
+        padding: 5px;
+    }
+
+    #editButton {
+        display: block;
+    }
+
+    #addQButton {
+        display: block;
+        margin: 10px;
+        padding: 10px;
+        width: 125px;
+        border-radius: 1em;
+        border: none;
+    }
+
+    #makeActiveOrRetiredButton {
+        background-color: #F0B323;
+        color: black;
+    }
+
+    .activeStyle {
+        background-color: #660000;
+        color: white;
+    }
+
+    .disabledStyle {
+        background-color: grey;
+        color: black;
+        opacity: .5;
+    }
+</style>
+
+
+
+
+<h1>@Model.Templates[0].TemplateName</h1>
 <div class="row">
-    <div class="col-md-4">
+
+        <a id="addQButton" class="activeStyle" asp-action="Create">Add New</a>
+        <button id="addQButton" class="activeStyle" onclick="addQClicked()">Add Question</button>
+        <!--<button id="modifyQButton" class="disabledStyle" onclick="modifyQClicked()">Modify</button>
+        <!--<a asp-action="Edit" asp-route-id="Model.Id">Edit</a> |-->
+    <div id="delQuestionDiv" style="padding-left: 50px; display: none;">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="@Model.Templates[0].Id" />
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <button id="backToList" class="activeStyle" onclick="">Back to List</button>
+        </form>
+        <label style="display: block;">Section: </label>
+        <input type="checkbox" name="person" value="student" style="display: inline-block">Student<br>
+        <input type="checkbox" name="person" value="employer" style="display: inline-block">Employer<br>
+        <input type="checkbox" name="person" value="faculty" style="display: inline-block">Faculty of Record<br>
+        <input type="checkbox" name="person" value="student-services" style="display: inline-block">Student Services<br>
+        <input type="checkbox" name="person" value="admin" style="display: inline-block">Administrator<br>
+        <label>Input the question number to be deleted: </label>
+        <a asp-action="DeleteQuestion" asp-route-id="@Model.Templates[0].Id">Delete</a>
+    </div>
+
+    <div id="formColumn" class="col-10">
+        <h3>Template View</h3><br />
+        @*<button id="activateOrRetireFormButton">Make active form</button>*@
+        <div>
+
+            <h4>@Html.DisplayNameFor(model => Model.Templates[0].TemplateName)</h4>
+            <hr />
+            <table class="table">
+                <tbody>
+                    @foreach (var item in Model.StudentQuestions)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Order)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Prompt)<br />
+                            @Html.DisplayFor(modelItem => item.HelperText)
+                        </td>
+                        <td>
+
+                            @if (item.Options.Count != 0)
+                            {
+                                <div class="dropdown">
+                                    <button class="dropbtn">Choose one</button>
+                                    <div class="dropdown-content">
+                                        @foreach (var option in item.Options)
+                                        {
+                                            <a href="@option">@option</a>
+                                        }
+
+                                    </div>
+                                </div>
+                                @Html.DisplayFor(modelItem => item.Options)
+                            }
+                            els
+                            {
+                                <input type="@item.InputType" name="@item.Order">
+                                <br />
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="EditJson" asp-route-id="@item.Order">Edit</a> |
+                            <a asp-action="DeleteJson" asp-route-id="@item.Order">Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <input />
+    </div>
+    <div id="editColumn" style="display: block" class="col-10">
+
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="TemplateName" class="control-label"></label>
-                <input asp-for="TemplateName" class="form-control" />
-                <span asp-validation-for="TemplateName" class="text-danger"></span>
+                <label asp-for="@Model.Templates[0].TemplateName" class="control-label"></label>
+                <input asp-for="@Model.Templates[0].TemplateName" class="form-control" />
+                <span asp-validation-for="@Model.Templates[0].TemplateName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FormTitle" class="control-label"></label>
-                <input asp-for="FormTitle" class="form-control" />
-                <span asp-validation-for="FormTitle" class="text-danger"></span>
+                <label asp-for="@Model.Templates[0].FormTitle" class="control-label"></label>
+                <input asp-for="@Model.Templates[0].FormTitle" class="form-control" />
+                <span asp-validation-for="@Model.Templates[0].FormTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Disclaimer" class="control-label"></label>
-                <input asp-for="Disclaimer" class="form-control" />
-                <span asp-validation-for="Disclaimer" class="text-danger"></span>
+                <label asp-for="@Model.Templates[0].Disclaimer" class="control-label"></label>
+                <input asp-for="@Model.Templates[0].Disclaimer" class="form-control" />
+                <span asp-validation-for="@Model.Templates[0].Disclaimer" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    <input class="form-check-input" asp-for="@Model.Templates[0].IsActive" /> @Html.DisplayNameFor(model => @Model.Templates[0].IsActive)
                 </label>
             </div>
-            <div class="dropdown">
-                <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">Input Type</button>
-                <select name="input-type">
-                    <option value="small-text">Small Text</option>
-                    <option value="large-text">Large Text</option>
-                    <option value="signature">Signature</option>
-                    <option value="checkbox">Checkbox</option>
-                    <option value="radio">Radio Button</option>
-                    <option value="date">Date</option>
-                    <option value="dateRange">Date Range</option>
-                    <option value="money">Dollar Amount</option>
-                    <option value="options">Dropdown</option>
-                </select>
-            </div>
-            <div class="form-group">
+            <div id="addDiv" style="display: none" class="col-10">
 
-                <label>Order:</label>
-                <input type="number" name="order" value=1 />
-            </div>
-            <div class="form-group">
+                <div class="dropdown">
+                    <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">Input Type</button>
+                    <select name="input-type">
+                        <option value="small-text">Small Text</option>
+                        <option value="large-text">Large Text</option>
+                        <option value="signature">Signature</option>
+                        <option value="checkbox">Checkbox</option>
+                        <option value="radio">Radio Button</option>
+                        <option value="date">Date</option>
+                        <option value="dateRange">Date Range</option>
+                        <option value="money">Dollar Amount</option>
+                        <option value="options">Dropdown</option>
+                    </select>
+                </div>
+                <div id="isDropdown" style="display: none" class="col-10">
 
-                <label>Prompt:</label>
-                <input type="text" name="prompt" value="Example prompt"/>
-            </div>
-            <div class="form-group">
+                    <div class="form-group">
+                        </div>
+                    </div>
 
-                <label>Helper Text:</label>
-                <input type="text" name="helper-text" value="Helper text" />
-            </div>
+                        <div class="form-group">
 
-            <label style="display: block;">Person to Answer This Question: </label>
-            <input type="checkbox" name="person" value="student" style="display: inline-block">Student<br>
-            <input type="checkbox" name="person" value="employer" style="display: inline-block">Employer<br>
-            <input type="checkbox" name="person" value="faculty" style="display: inline-block">Faculty of Record<br>
-            <input type="checkbox" name="person" value="student-services" style="display: inline-block">Student Services<br>
-            <input type="checkbox" name="person" value="admin" style="display: inline-block">Administrator<br>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                            <label>Order:</label>
+                            <input type="number" name="order" value=1 />
+                        </div>
+                        <div class="form-group">
+
+                            <label>Prompt:</label>
+                            <input type="text" name="prompt" value="Example prompt" />
+                        </div>
+                        <div class="form-group">
+
+                            <label>Helper Text:</label>
+                            <input type="text" name="helper-text" value="Helper text" />
+                        </div>
+
+                        <label style="display: block;">Person to Answer This Question: </label>
+                        <input type="checkbox" name="person" value="student" style="display: inline-block">Student<br>
+                        <input type="checkbox" name="person" value="employer" style="display: inline-block">Employer<br>
+                        <input type="checkbox" name="person" value="faculty" style="display: inline-block">Faculty of Record<br>
+                        <input type="checkbox" name="person" value="student-services" style="display: inline-block">Student Services<br>
+                        <input type="checkbox" name="person" value="admin" style="display: inline-block">Administrator<br>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <input type="submit" value="Back" class="btn btn-primary" asp-action="Index">
+
+                        </div>
+                    </div>
+</form>
     </div>
 </div>
+<br />
+<br />
+
+<script>
+    function addQClicked() {
+        var addDiv = document.getElementById("questionTemplateDiv");
+        addDiv.style.display = "block";
+
+    }
+    function typeChosen() {
+        var it = document.getElementById("inputTypeDropdown");
+        if (it == "dropdown") {
+            var options = document.getElementById("isDropown");
+            options.style.display = "block";
+        }
+    }
+</script>
