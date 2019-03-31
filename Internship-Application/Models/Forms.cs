@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Internship_Application.Models
 {
@@ -9,7 +10,10 @@ namespace Internship_Application.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
+
+        [Display(Name = "Winthrop Id")]
         public string WuId { get; set; }
+
         public string StudentQuestions { get; set; }
         public string EmployerQuestions { get; set; }
         public string FacultyQuestions { get; set; }
