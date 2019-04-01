@@ -68,6 +68,9 @@ namespace Internship_Application.Areas.Identity.Pages.Account
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -81,9 +84,45 @@ namespace Internship_Application.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    
+                    //ASSIGN ROLES BASED ON EMAIL
+                    string userEmail = Input.Email;
+                    string winthropFAC = "winthrop.edu";
+                    if (userEmail == "studentservices@winthrop.edu")//Person is Student Services
+                    {
+                        await _userManager.AddToRoleAsync(user, "StudentServices");
+                    }
+                    else if(userEmail.Contains(winthropFAC))//Person is faculty of record
+                    {
+                        await _userManager.AddToRoleAsync(user, "FacultyOfRec");
+                    }
+                    else//Person is not an Admin, or Student Services, or FacultyOfRec so they must be Student or Employer
+                    {
+                        int num = -1;
+                        char[] numArray = {'1','2','3','4','5','6','7','8','9','0'};
+                        for (int i = 0; i < userEmail.Length; i++)
+                        {
+                            if (userEmail[i] == '@')
+                            {
+                                num = i - 1;
+
+                                for (int x = 0; x < 10; x++)
+                                {
+                                    if (numArray[x] == userEmail[num])
+                                    {
+
+                                        await _userManager.AddToRoleAsync(user, "Student");
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
+                    
                 }
                 foreach (var error in result.Errors)
                 {

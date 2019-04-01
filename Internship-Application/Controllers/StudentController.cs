@@ -5,14 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Internship_Application.Controllers
 {
-    public class LandingPage_Admin : Controller
+    public class StudentController : Controller
     {
-        [Authorize(Roles = "Admin")]
-        // GET: /<controller>/
+        [Authorize(Roles = "Student")]
         public IActionResult Index()
         {
             return View();
