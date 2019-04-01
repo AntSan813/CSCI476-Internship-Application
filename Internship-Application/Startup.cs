@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity.UI;
 using System;
+using System.Threading.Tasks;
 
 namespace Internship_Application
 {
@@ -20,12 +21,12 @@ namespace Internship_Application
         }
 
         public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           
             // Add framework services.
-             services.AddDbContext<DataContext>(options =>
+            services.AddDbContext<DataContext>(options =>
                  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             
@@ -94,11 +95,12 @@ namespace Internship_Application
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -112,13 +114,65 @@ namespace Internship_Application
             app.UseCookiePolicy();
             app.UseAuthentication();
 
+
+
+
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
+                    routes.MapRoute(
                     name: "default",
                     template: "{controller=SignIn}/{action=Index}/{id?}");
-            //    routes.MapRoute("adminLandingPage", "{controller=landingPage_Admin}/{action=landingPage_Admin}/{id?}");
+                //    routes.MapRoute("adminLandingPage", "{controller=landingPage_Admin}/{action=landingPage_Admin}/{id?}");
+
+                
+
             });
+            CreateUserRoles(services).Wait();
+        }
+
+
+
+
+
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            IdentityResult roleResult;
+            //Adding Admin Role
+            var roleCheck = await RoleManager.RoleExistsAsync("Admin");
+            if (!roleCheck)
+            {
+                //create the roles and seed them to the database
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            //Assign Admin role to the main User here we have given our newly registered 
+            //login id for Admin management
+            IdentityUser user = await UserManager.FindByEmailAsync("rominek2@winthrop.edu");
+            var User = new IdentityUser();
+            await UserManager.AddToRoleAsync(user, "Admin");
+
+
+                // creating Creating student role     
+            roleCheck = await RoleManager.RoleExistsAsync("Student");
+            if (!roleCheck)
+            {
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Student"));
+            }
+            // creating Creating studentServices role     
+            roleCheck = await RoleManager.RoleExistsAsync("StudentServices");
+            if (!roleCheck)
+            {
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("StudentServices"));
+            }
+            // creating Creating FacultyofRecord role     
+            roleCheck = await RoleManager.RoleExistsAsync("FacultyOfRec");
+            if (!roleCheck)
+            {
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("FacultyOfRec"));
+            }
         }
     }
 }
+
