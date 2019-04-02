@@ -1,8 +1,8 @@
-﻿@using Microsoft.AspNetCore.Identity
 
+@model List<Internship_Application.Models.Forms>
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
 
 <style>
     #gradientAudience {
@@ -114,16 +114,25 @@
         <div id="activeFormsContainer">
             <table style="width:90%">
                 <thead style="border-bottom:3px solid black">
-                <th>STUDENT NAME</th>
-                <th>LAST UPDATED</th>
-                <th>STATUS</th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].WuId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].UpdatedAt)
+                </th>
+                <th>
+                    STATUS CODE
+                </th>
                 <th></th>
                 </thead>
                 <tr>
-                    <td>John Doe</td>
-                    <td>2/1/2019 9:56AM</td>
-                    <td>PPA</td>
-                    <td><button type="button">View</button></td>
+                    @foreach (var item in Model)
+                    {
+                        <td>@item.WuId</td>
+                        <td>@item.UpdatedAt</td>
+                        <td>STATUS CODE</td>
+                        <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
+                    }
                 </tr>
                 <tr>
                     <td></td>
