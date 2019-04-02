@@ -20,10 +20,10 @@
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DeletedAt)
+                @Html.DisplayNameFor(model => model.RetiredAt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FormTitle)
+                @Html.DisplayNameFor(model => model.DisplayName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Disclaimer)
@@ -32,25 +32,13 @@
                 @Html.DisplayNameFor(model => model.TemplateName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentQuestions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployerQuestions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FacultyQuestions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StudentServicesQuestions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdministratorQuestions)
+                @Html.DisplayNameFor(model => model.Questions)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsActive)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsModifiable)
+                @Html.DisplayNameFor(model => model.IsRetired)
             </th>
             <th></th>
         </tr>
@@ -65,10 +53,10 @@
                 @Html.DisplayFor(modelItem => item.UpdatedAt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DeletedAt)
+                @Html.DisplayFor(modelItem => item.RetiredAt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FormTitle)
+                @Html.DisplayFor(modelItem => item.DisplayName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Disclaimer)
@@ -77,25 +65,13 @@
                 @Html.DisplayFor(modelItem => item.TemplateName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployerQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FacultyQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentServicesQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdministratorQuestions)
+                @Html.DisplayFor(modelItem => item.Questions)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsActive)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsModifiable)
+                @Html.DisplayFor(modelItem => item.IsRetired) 
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

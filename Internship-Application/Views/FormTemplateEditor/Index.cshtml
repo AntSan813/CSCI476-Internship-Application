@@ -77,7 +77,7 @@
                             @Html.DisplayNameFor(model => model.Templates[0].IsActive)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Templates[0].IsModifiable)
+                            @Html.DisplayNameFor(model => model.Templates[0].IsRetired)
                         </th>
                         <th></th>
                       </tr>
@@ -99,7 +99,7 @@
                                 @Html.DisplayFor(modelItem => item.IsActive)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.IsModifiable)
+                                @Html.DisplayFor(modelItem => item.IsRetired)
                             </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

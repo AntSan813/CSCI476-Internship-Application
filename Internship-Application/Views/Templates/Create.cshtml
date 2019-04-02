@@ -14,27 +14,26 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="DeletedAt" class="control-label"></label>
-                <input asp-for="DeletedAt" class="form-control" />
-                <span asp-validation-for="DeletedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FormTitle" class="control-label"></label>
-                <input asp-for="FormTitle" class="form-control" />
-                <span asp-validation-for="FormTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Disclaimer" class="control-label"></label>
-                <input asp-for="Disclaimer" class="form-control" />
-                <span asp-validation-for="Disclaimer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TemplateName" class="control-label"></label>
+                <label asp-for="TemplateName" class="control-label"></label><br />
+                <small>Enter the name of this form (Ex. Spring2019):</small><br />
                 <input asp-for="TemplateName" class="form-control" />
                 <span asp-validation-for="TemplateName" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="DisplayName" class="control-label"></label><br />
+                <small>Enter the name you want others to see (Ex. Winthrop Internship Application Form):</small><br />
+                <input asp-for="DisplayName" class="form-control" />
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Disclaimer" class="control-label"></label><br />
+                <small>Enter a disclaimer that will appear at the top of the form:</small><br />
+                <input asp-for="Disclaimer" class="form-control" />
+                <span asp-validation-for="Disclaimer" class="text-danger"></span>
+            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
+                    TODO: REMOVE. SHOULD NOT MAKE AN EMPTY FORM ACTIVE BECAUSE STUDENTS CAN ACCESS IT<br />
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                 </label>
             </div>

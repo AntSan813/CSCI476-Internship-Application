@@ -81,7 +81,7 @@
             <hr />
             <table class="table">
                 <tbody>
-                    @foreach (var item in Model.StudentQuestions)
+                    @foreach (var item in Model.Questions)
                     {
                     <tr>
                         <td>
@@ -134,9 +134,9 @@
                 <span asp-validation-for="@Model.Templates[0].TemplateName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Templates[0].FormTitle" class="control-label"></label>
-                <input asp-for="@Model.Templates[0].FormTitle" class="form-control" />
-                <span asp-validation-for="@Model.Templates[0].FormTitle" class="text-danger"></span>
+                <label asp-for="@Model.Templates[0].DisplayName" class="control-label"></label>
+                <input asp-for="@Model.Templates[0].DisplayName" class="form-control" />
+                <span asp-validation-for="@Model.Templates[0].DisplayName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Templates[0].Disclaimer" class="control-label"></label>

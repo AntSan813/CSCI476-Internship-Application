@@ -24,22 +24,22 @@ namespace Internship_Application.Controllers
         // GET: /<controller>/ and forms c:
         public IActionResult Index()
         {
+            // forms is a list of all forms
             var forms = _context.Forms.ToList<Forms>();
 
-            if(forms == null)
+            if (forms == null)
             {
+                //TODO: move this to a function
+
                 return View();
             }
-
             FormViewModel formView = new FormViewModel { };
-
-            /*for(var i=0; i < formView.Forms.Count; i++)
-            {
-                forms[i].StudentQuestions = JSON.parse(forms[i].StudentQuestions);
-            }*/
-            //formView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(forms.StudentQuestions);
-
+            //templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
+            //templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
+            //templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
+            //templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
             formView.Forms = forms;
+
             return View(formView);
         }
     }

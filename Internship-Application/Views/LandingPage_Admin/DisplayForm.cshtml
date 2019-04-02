@@ -1,0 +1,37 @@
+﻿@model List<Internship_Application.Models.QAJsonModel>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Forms</h4>
+    <hr />
+    @*<h4>@Html.DisplayNameFor(model => Model.Template.Templates[0].TemplateName)</h4>*@
+    <hr />
+    <table class="table">
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prompt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromptValue)
+                    </td>
+                    @*<td>
+                        <a asp-action="EditJson" asp-route-id="@item.Order">Edit</a> |
+                        <a asp-action="DeleteJson" asp-route-id="@item.Order">Delete</a>
+                    </td>*@
+                </tr>
+            }
+        </tbody>
+        </table>
+</div>
+<div>
+    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
+    <a asp-action="Index">Back to List</a>
+</div>
