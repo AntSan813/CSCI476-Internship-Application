@@ -22,35 +22,34 @@ namespace Internship_Application.Controllers
         }
 
         // GET: Forms
-        public async Task<IActionResult> Index()
-        {
+        //public async Task<IActionResult> Index()
+        //{
 
 
-            var forms = _context.Forms.ToList<Forms>();
+        //    var forms = _context.Forms.ToList<Forms>();
 
-            if (forms == null)
-            {
-                //TODO: move this to a function
+        //    if (forms == null)
+        //    {
+        //        //TODO: move this to a function
 
-                return View();
-            }
-            //templateView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentQuestions);
-            //templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
-            //templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
-            //templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
-            //templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
-            return View(forms);
+        //        return View();
+        //    }
+        //    //templateView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentQuestions);
+        //    //templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
+        //    //templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
+        //    //templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
+        //    //templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
+        //    return View(forms);
+            
+        //}
 
+        //public async Task<IActionResult> DisplayForm(int? id)
+        //{
 
-
-
-
-        }
-                public async Task<IActionResult> DisplayForm(int? id)
-{}
+        //}
         [Authorize(Roles = "Admin")]
         // GET: /<controller>/
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //{
             //prompt: Templates.Prompt

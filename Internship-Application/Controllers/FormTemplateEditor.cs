@@ -160,14 +160,10 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormCollection collection, [Bind("StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,Templates")] TemplateViewModel templateView)
+        public async Task<IActionResult> EditAsync(int id, IFormCollection collection, [Bind("Questions,Templates")] TemplateViewModel templateView)
         {
             Console.WriteLine(id);
             Console.WriteLine(templateView.Templates.First().Id);
-            Console.WriteLine(templateView.StudentServicesQuestions.First().InputType);
-            Console.WriteLine(templateView.FacultyQuestions.First().Order);
-            Console.WriteLine(templateView.EmployerQuestions.First().Order);
-            Console.WriteLine(templateView.StudentServicesQuestions.First().Order);
 
             //List<Templates> templates = new List<Templates>();
             //templates.Add(template);
@@ -178,13 +174,14 @@ namespace Internship_Application.Controllers
                 return NotFound();
             }
 
-            if (templates.IsRetired == false){
+            if (templateView.Templates.First().IsRetired == false)
+            {
                 //TODO: change this to return the previous page and a flash message saying that you cannot edit the form since a form has been made from it
                 return Create();
             }
-           // TemplateViewModel templateView = new TemplateViewModel { };
+            // TemplateViewModel templateView = new TemplateViewModel { };
             //templateView.Templates = new List<Templates>();
-            
+
             List<JsonModel> jsonStr = new List<JsonModel>();
 
             //generate first json
@@ -208,20 +205,20 @@ namespace Internship_Application.Controllers
                 item.DateSigned = "";
                 item.Signed = false;
             }
-            
+
             //TODO: separate following iff stmts to be a function that returns the serialized json by taking in the collection.
             if (collection["person"] == "student")
             {
-                Console.WriteLine(templates.Questions);
+                Console.WriteLine(templateView.Templates.First().Questions);
 
-                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.Questions);
+                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templateView.Templates.First().Questions);
                 jsonStr.Add(item);
                 string serializedJson = JsonConvert.SerializeObject(jsonStr);
-                templates.Questions = serializedJson;
+                templateView.Templates.First().Questions = serializedJson;
             }
-
-                templateView.Templates[0].AdministratorQuestions = JsonConvert.SerializeObject(templateView.AdministratorQuestions);
-            }
+           // templateView.Template
+           // templateView.Templates[0].AdministratorQuestions = JsonConvert.SerializeObject(templateView.AdministratorQuestions);
+        
 
             if (ModelState.IsValid)
             {
