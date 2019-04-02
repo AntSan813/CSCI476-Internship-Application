@@ -52,10 +52,10 @@
 <h1>@Model.Templates[0].TemplateName</h1>
 <div class="row">
 
-        <a id="addQButton" class="activeStyle" asp-action="Create">Add New</a>
-        <button id="addQButton" class="activeStyle" onclick="addQClicked()">Add Question</button>
-        <!--<button id="modifyQButton" class="disabledStyle" onclick="modifyQClicked()">Modify</button>
-        <!--<a asp-action="Edit" asp-route-id="Model.Id">Edit</a> |-->
+    <a id="addQButton" class="activeStyle" asp-action="Create">Add New</a>
+    <button id="addQButton" class="activeStyle" onclick="addQClicked()">Add Question</button>
+    <!--<button id="modifyQButton" class="disabledStyle" onclick="modifyQClicked()">Modify</button>
+    <!--<a asp-action="Edit" asp-route-id="Model.Id">Edit</a> |-->
     <div id="delQuestionDiv" style="padding-left: 50px; display: none;">
         <form asp-action="Delete">
             <input type="hidden" asp-for="@Model.Templates[0].Id" />
@@ -78,51 +78,49 @@
         <div>
 
             <h4>@Html.DisplayNameFor(model => Model.Templates[0].TemplateName)</h4>
-            <hr />
             <table class="table">
                 <tbody>
                     @foreach (var item in Model.Questions)
                     {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Order)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Prompt)<br />
-                            @Html.DisplayFor(modelItem => item.HelperText)
-                        </td>
-                        <td>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Order)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Prompt)<br />
+                                @Html.DisplayFor(modelItem => item.HelperText)
+                            </td>
+                            <td>
 
-                            @if (item.Options.Count != 0)
-                            {
-                                <div class="dropdown">
-                                    <button class="dropbtn">Choose one</button>
-                                    <div class="dropdown-content">
-                                        @foreach (var option in item.Options)
-                                        {
-                                            <a href="@option">@option</a>
-                                        }
+                                @if (item.Options.Count != 0)
+                                {
+                                    <div class="dropdown">
+                                        <button class="dropbtn">Choose one</button>
+                                        <div class="dropdown-content">
+                                            @foreach (var option in item.Options)
+                                            {
+                                                <a href="@option">@option</a>
+                                            }
 
+                                        </div>
                                     </div>
-                                </div>
-                                @Html.DisplayFor(modelItem => item.Options)
-                            }
-                            els
-                            {
-                                <input type="@item.InputType" name="@item.Order">
-                                <br />
-                            }
-                        </td>
-                        <td>
-                            <a asp-action="EditJson" asp-route-id="@item.Order">Edit</a> |
-                            <a asp-action="DeleteJson" asp-route-id="@item.Order">Delete</a>
-                        </td>
-                    </tr>
+                                    @Html.DisplayFor(modelItem => item.Options)
+                                }
+                                else
+                                {
+                                    <input type="@item.InputType" name="@item.Order">
+                                    <br />
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="EditJson" asp-route-id="@item.Order">Edit</a> |
+                                <a asp-action="DeleteJson" asp-route-id="@item.Order">Delete</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
-        <input />
     </div>
     <div id="editColumn" style="display: block" class="col-10">
 
@@ -148,7 +146,7 @@
                     <input class="form-check-input" asp-for="@Model.Templates[0].IsActive" /> @Html.DisplayNameFor(model => @Model.Templates[0].IsActive)
                 </label>
             </div>
-            <div id="addDiv" style="display: none" class="col-10">
+            <div id="questionTemplateDiv" style="display: none" class="col-10">
 
                 <div class="dropdown">
                     <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">Input Type</button>
@@ -165,42 +163,40 @@
                     </select>
                 </div>
                 <div id="isDropdown" style="display: none" class="col-10">
-
                     <div class="form-group">
-                        </div>
+                        <!--ADD HTML CODE TO ALLOW ADMIN TO INPUT A LIST OF OPTIONS FOR THE DROPDOWN-->
                     </div>
+                </div>
 
-                        <div class="form-group">
+                @*<div class="form-group">
+                        <label>Order:</label>
+                        <input type="number" name="order" value=1 />
+                    </div>*@
+                <div class="form-group">
+                    <label>Prompt:</label>
+                    <input type="text" name="prompt" value="Example prompt" />
+                </div>
+                <div class="form-group">
+                    <label>Helper Text:</label>
+                    <input type="text" name="helper-text" value="Helper text" />
+                </div>
 
-                            <label>Order:</label>
-                            <input type="number" name="order" value=1 />
-                        </div>
-                        <div class="form-group">
-
-                            <label>Prompt:</label>
-                            <input type="text" name="prompt" value="Example prompt" />
-                        </div>
-                        <div class="form-group">
-
-                            <label>Helper Text:</label>
-                            <input type="text" name="helper-text" value="Helper text" />
-                        </div>
-
-                        <label style="display: block;">Person to Answer This Question: </label>
-                        <input type="checkbox" name="person" value="student" style="display: inline-block">Student<br>
-                        <input type="checkbox" name="person" value="employer" style="display: inline-block">Employer<br>
-                        <input type="checkbox" name="person" value="faculty" style="display: inline-block">Faculty of Record<br>
-                        <input type="checkbox" name="person" value="student-services" style="display: inline-block">Student Services<br>
-                        <input type="checkbox" name="person" value="admin" style="display: inline-block">Administrator<br>
-                        <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                            <input type="submit" value="Back" class="btn btn-primary" asp-action="Index">
-
-                        </div>
-                    </div>
-</form>
+                <label style="display: block;">Person to Answer This Question: </label>
+                <input type="checkbox" name="person" value="student" style="display: inline-block">Student<br>
+                <input type="checkbox" name="person" value="employer" style="display: inline-block">Employer<br>
+                <input type="checkbox" name="person" value="faculty" style="display: inline-block">Faculty of Record<br>
+                <input type="checkbox" name="person" value="student-services" style="display: inline-block">Student Services<br>
+                <input type="checkbox" name="person" value="admin" style="display: inline-block">Administrator<br>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
     </div>
+
 </div>
+<input type="submit" value="Back" class="btn btn-primary" asp-action="Index">
+
 <br />
 <br />
 
@@ -208,7 +204,6 @@
     function addQClicked() {
         var addDiv = document.getElementById("questionTemplateDiv");
         addDiv.style.display = "block";
-
     }
     function typeChosen() {
         var it = document.getElementById("inputTypeDropdown");

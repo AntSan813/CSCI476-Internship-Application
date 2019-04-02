@@ -1,7 +1,10 @@
-﻿@model List<Internship_Application.Models.Forms>
+
+@model List<Internship_Application.Models.Forms>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 <style>
-
     #gradientAudience {
         display: none;
     }
@@ -89,6 +92,20 @@
     }
 </style>
 
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="" asp-controller="SignIn" asp-action="Index">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+</ul>
+
 <div id="commonLandingPageUI">
     <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
         <div>
@@ -122,7 +139,6 @@
                     <td></td>
                     <td></td>
                     <td>
-
                         <form asp-controller="Student_Application_Page" asp-action="Index" method="post">
                             <button type="submit" style="height:55px; background-color:#660000">Start New Form</button>
                         </form><!--<button style="height:55px; background-color:#660000">Start New Form</button>-->

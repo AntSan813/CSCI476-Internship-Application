@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Internship_Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -45,7 +46,11 @@ namespace Internship_Application.Controllers
 
 
         }
-        public async Task<IActionResult> DisplayForm(int? id)
+                public async Task<IActionResult> DisplayForm(int? id)
+{}
+        [Authorize(Roles = "Admin")]
+        // GET: /<controller>/
+        public IActionResult Index()
         {
             //{
             //prompt: Templates.Prompt
