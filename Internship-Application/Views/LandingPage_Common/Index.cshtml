@@ -1,5 +1,10 @@
-﻿<style>
+﻿@using Microsoft.AspNetCore.Identity
 
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+<style>
     #gradientAudience {
         display: none;
     }
@@ -26,21 +31,21 @@
 
     #needsAdminContainer td {
         color: white;
-        background-color: #660000;  
+        background-color: #660000;
     }
 
     #needsAdminContainer {
         padding-bottom: 50px;
     }
 
-    #needsAdminContainer th {
-        padding-bottom: 25px;
-    }
+        #needsAdminContainer th {
+            padding-bottom: 25px;
+        }
 
     #radioFilter {
-         display: inline;
-         margin-right: 5px;
-     }
+        display: inline;
+        margin-right: 5px;
+    }
 
     #tableTitle {
         display: inline-block;
@@ -81,16 +86,29 @@
         padding-right: 20px;
         border: none;
         border-radius: 3px;
-        width:125px;
-        height:40px;
+        width: 125px;
+        height: 40px;
     }
- }
-
+    }
 </style>
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="" asp-controller="SignIn" asp-action="Index">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+</ul>
 
 <div id="commonLandingPageUI">
     <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
-        <div >
+        <div>
             <h2 style="padding-left:30px; padding-top: 25px; padding-bottom: 25px">Active Forms</h2>
         </div>
         <div id="activeFormsContainer">
@@ -111,8 +129,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><form asp-controller="Student_Application_Page" asp-action="Index" method="post">
-                        <button type="submit" style="height:55px; background-color:#660000">Start New Form</button>
+                    <td>
+                        <form asp-controller="Student_Application_Page" asp-action="Index" method="post">
+                            <button type="submit" style="height:55px; background-color:#660000">Start New Form</button>
                         </form><!--<button style="height:55px; background-color:#660000">Start New Form</button>-->
                     </td>
                 </tr>
@@ -120,24 +139,24 @@
         </div>
         <h2 style="padding-left:30px; padding-top: 25px">Archived Forms</h2>
         <div style="text-align:center; padding-bottom:25px; padding-bottom:50px; display:block" id="emptyArchiveText">You don't have any archived forms yet...</div>
-           <div style="display:none;">
-               <div id="archivedFormsContainer">
-                   <table style="width:90%">
-                       <thead style="border-bottom:3px solid black">
-                       <th>STUDENT NAME</th>
-                       <th>LAST UPDATED</th>
-                       <th>STATUS</th>
-                       <th></th>
-                       </thead>
-                       <tr>
-                           <td>John Doe</td>
-                           <td>1/23/2018 3:17PM</td>
-                           <td>PPA</td>
-                           <td><button type="button">View</button></td>
-                       </tr>
-                   </table>
-               </div>
-           </div>
+        <div style="display:none;">
+            <div id="archivedFormsContainer">
+                <table style="width:90%">
+                    <thead style="border-bottom:3px solid black">
+                    <th>STUDENT NAME</th>
+                    <th>LAST UPDATED</th>
+                    <th>STATUS</th>
+                    <th></th>
+                    </thead>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>1/23/2018 3:17PM</td>
+                        <td>PPA</td>
+                        <td><button type="button">View</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
