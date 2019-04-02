@@ -79,16 +79,6 @@ namespace Internship_Application.Controllers
         public async Task<IActionResult> Create( [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive,IsModifiable,TemplateName,FormTitle,Disclaimer")] Templates templates)
         {
             ////generate default json
-            JsonModel item = new JsonModel { };
-            List<JsonModel> jsonStr = new List<JsonModel>();
-            item.Prompt = "";
-            item.InputType = "small-text";
-            item.Order = 1;
-            item.HelperText = "";
-            item.DateSigned = "";
-            item.Signed = false;
-            item.Options = new List<string>{ };
-
             //default empty array of questions for each section
             templates.IsModifiable = true;
             templates.StudentQuestions = "[]";
@@ -97,17 +87,105 @@ namespace Internship_Application.Controllers
             templates.StudentServicesQuestions = "[]";
             templates.AdministratorQuestions = "[]";
 
-            jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.StudentQuestions);
-            jsonStr.Add(item);
+            List<JsonModel> emptyJson = JsonConvert.DeserializeObject<List<JsonModel>>(templates.AdministratorQuestions);
+            JsonModel item = new JsonModel { };
+            item.Prompt = "";
+            item.InputType = "small-text";
+            item.Order = 1;
+            item.HelperText = "";
+            item.DateSigned = "";
+            item.Signed = false;
+            item.Options = new List<string> { };
+            emptyJson.Add(item);
 
-            templates.StudentQuestions = JsonConvert.SerializeObject(jsonStr);
-            templates.FacultyQuestions = JsonConvert.SerializeObject(jsonStr);
-            templates.StudentServicesQuestions = JsonConvert.SerializeObject(jsonStr);
-            templates.EmployerQuestions = JsonConvert.SerializeObject(jsonStr);
-            templates.AdministratorQuestions = JsonConvert.SerializeObject(jsonStr);
+            templates.AdministratorQuestions = JsonConvert.SerializeObject(emptyJson);
+            templates.FacultyQuestions = JsonConvert.SerializeObject(emptyJson);
+            templates.StudentServicesQuestions = JsonConvert.SerializeObject(emptyJson);
+            
+            //START OF ADDING DEFAULT QUESTIONS FOR STUDENT QUESTION
+            List<JsonModel> studentJson = JsonConvert.DeserializeObject<List<JsonModel>>(templates.StudentQuestions);
+            studentJson.Add(new JsonModel
+            {
+                Prompt = "Name",
+                InputType = "small-text",
+                Order = 1,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { }
+            });
 
+            studentJson.Add(new JsonModel
+            {
+                Prompt = "Class enrolled in",
+                InputType = "small-text",
+                Order = 2,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { }
+            });
+
+            studentJson.Add(new JsonModel
+            {
+                Prompt = "Major",
+                InputType = "small-text",
+                Order = 3,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { }
+            });
+            templates.StudentQuestions = JsonConvert.SerializeObject(studentJson);
+
+
+            //START OF ADDING DEFAULT QUESTIONS FOR EMPLOYER QUESTION
+            List<JsonModel> employerJson = JsonConvert.DeserializeObject<List<JsonModel>>(templates.EmployerQuestions);
+            employerJson.Add(new JsonModel
+            {
+                Prompt = "Company name",
+                InputType = "small-text",
+                Order = 1,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { }
+            });
+
+
+            employerJson.Add(new JsonModel
+            {
+                Prompt = "Paid",
+                InputType = "signature",
+                Order = 2,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { }
+            });
+
+            employerJson.Add(new JsonModel
+            {
+                Prompt = "Salary",
+                InputType = "money",
+                Order = 3,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { }
+            });
         
 
+            employerJson.Add(new JsonModel
+            {
+                Prompt = "Company location",
+                InputType = "small-text",
+                Order = 4,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { }
+            });
 
 
             if (ModelState.IsValid)
@@ -153,7 +231,7 @@ namespace Internship_Application.Controllers
             //Console.WriteLine(template.GetType());
 
             TemplateViewModel templateView = new TemplateViewModel { };
-            templateView.Templates = new List<Templates>();
+            templateView.Templates = new List<Templates> { };
             templateView.Templates.Add(template);
 
             if (templateView.Templates.First() == null)
@@ -162,11 +240,11 @@ namespace Internship_Application.Controllers
             }
 
 
-            templateView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentQuestions);
-            templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
-            templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
-            templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
-            templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
+            templateView.StudentQuestions = new List<JsonModel>(JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentQuestions));
+            templateView.FacultyQuestions = new List<JsonModel>(JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions));
+            templateView.StudentServicesQuestions = new List<JsonModel>(JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions));
+            templateView.EmployerQuestions = new List<JsonModel>(JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions));
+            templateView.AdministratorQuestions = new List<JsonModel>(JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions));
             Console.WriteLine(templateView.Templates.First().Id);
 
             return View(templateView);
@@ -179,17 +257,13 @@ namespace Internship_Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, IFormCollection collection, [Bind("StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,Templates")] TemplateViewModel templateView)
         {
-            Console.WriteLine(id);
-            Console.WriteLine(templateView.Templates.First().Id);
-            Console.WriteLine(templateView.StudentServicesQuestions.First().InputType);
-            Console.WriteLine(templateView.FacultyQuestions.First().Order);
-            Console.WriteLine(templateView.EmployerQuestions.First().Order);
-            Console.WriteLine(templateView.StudentServicesQuestions.First().Order);
+         //   Console.WriteLine(id);
+         //   Console.WriteLine(templateView.Templates.First().Id);
+         //   Console.WriteLine(templateView.StudentQuestions.First().InputType);
+         //   Console.WriteLine(templateView.FacultyQuestions.First().Order);
+         //   Console.WriteLine(templateView.EmployerQuestions.First().Order);
+         //   Console.WriteLine(templateView.StudentServicesQuestions.First().Order);
 
-            //List<Templates> templates = new List<Templates>();
-            //templates.Add(template);
-            //Console.WriteLine(templateView.Templates.GetType());
-            //Console.WriteLine(template.GetType());
             if (id != templateView.Templates[0].Id)
             {
                 return NotFound();
@@ -198,8 +272,7 @@ namespace Internship_Application.Controllers
                 //TODO: change this to return the previous page and a flash message saying that you cannot edit the form since a form has been made from it
                 return Create();
             }
-           // TemplateViewModel templateView = new TemplateViewModel { };
-            //templateView.Templates = new List<Templates>();
+
             
             List<JsonModel> jsonStr = new List<JsonModel>();
 
@@ -207,16 +280,7 @@ namespace Internship_Application.Controllers
             JsonModel item = new JsonModel { };
             item.Prompt = collection["prompt"];
             item.InputType = collection["input-type"];
-            // item.Order = Int32.Parse(collection["order"]);
             item.HelperText = collection["helperText"];
-            //item.Options = collection["options"].ToList<string>();
-
-            //foreach(JsonModel question in jsonStr){
-            //    if(question.Order > item.Order)
-            //    {
-            //        item.Order = question.Order + 1;
-            //    }
-            //}
 
             if (collection["input-type"] == "signature")
             {
@@ -230,35 +294,30 @@ namespace Internship_Application.Controllers
             {
                 item.Order = templateView.StudentQuestions.Count + 1;
                 templateView.StudentQuestions.Add(item);
-
                 templateView.Templates[0].StudentQuestions = JsonConvert.SerializeObject(templateView.StudentQuestions);
             }
             else if (collection["person"] == "employer")
             {
                 item.Order = templateView.EmployerQuestions.Count + 1;
                 templateView.EmployerQuestions.Add(item);
-
                 templateView.Templates[0].EmployerQuestions = JsonConvert.SerializeObject(templateView.EmployerQuestions);
             }
             else if (collection["person"] == "faculty")
             {
                 item.Order = templateView.FacultyQuestions.Count + 1;
                 templateView.FacultyQuestions.Add(item);
-
                 templateView.Templates[0].FacultyQuestions = JsonConvert.SerializeObject(templateView.FacultyQuestions);
             }
             else if (collection["person"] == "student-services")
             {
                 item.Order = templateView.StudentServicesQuestions.Count + 1;
                 templateView.StudentServicesQuestions.Add(item);
-
                 templateView.Templates[0].StudentServicesQuestions = JsonConvert.SerializeObject(templateView.StudentServicesQuestions);
             }
             else if (collection["person"] == "admin")
             {
                 item.Order = templateView.AdministratorQuestions.Count + 1;
                 templateView.AdministratorQuestions.Add(item);
-
                 templateView.Templates[0].AdministratorQuestions = JsonConvert.SerializeObject(templateView.AdministratorQuestions);
             }
 
@@ -316,9 +375,21 @@ namespace Internship_Application.Controllers
             //meaning, that if someone made a application with this template, we have to keep the template in the database until that application
             //gets deleted after 5 years. 
             //Only let admin delete iff no other apps use this template. 
-            templates.IsActive = false;
-            templates.IsModifiable = false;
-            templates.DeletedAt = DateTime.Now;
+            var form = await _context.Forms
+                .FirstOrDefaultAsync(m => m.TemplateId == templates.Id);
+            if(form == null) //meaning no form refereneces this template
+            {
+                _context.Templates.Remove(templates);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                templates.IsActive = false;
+                templates.IsModifiable = false;
+                templates.DeletedAt = DateTime.Now;
+            }
+
             if (ModelState.IsValid)
             {
                 try

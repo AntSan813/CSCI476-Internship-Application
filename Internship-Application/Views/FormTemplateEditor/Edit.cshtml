@@ -1,4 +1,5 @@
-﻿@model Internship_Application.Models.TemplateViewModel
+﻿@page
+@model Internship_Application.Models.TemplateViewModel
 
 @{
     ViewData["Title"] = "Edit Template";
@@ -127,23 +128,23 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="@Model.Templates[0].TemplateName" class="control-label"></label>
-                <input asp-for="@Model.Templates[0].TemplateName" class="form-control" />
-                <span asp-validation-for="@Model.Templates[0].TemplateName" class="text-danger"></span>
+                <label asp-for="Templates[0].TemplateName" class="control-label"></label>
+                <input asp-for="Templates[0].TemplateName" class="form-control" />
+                <span asp-validation-for="Templates[0].TemplateName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Templates[0].FormTitle" class="control-label"></label>
-                <input asp-for="@Model.Templates[0].FormTitle" class="form-control" />
-                <span asp-validation-for="@Model.Templates[0].FormTitle" class="text-danger"></span>
+                <label asp-for="Templates[0].FormTitle" class="control-label"></label>
+                <input asp-for="Templates[0].FormTitle" class="form-control" />
+                <span asp-validation-for="Templates[0].FormTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Templates[0].Disclaimer" class="control-label"></label>
-                <input asp-for="@Model.Templates[0].Disclaimer" class="form-control" />
-                <span asp-validation-for="@Model.Templates[0].Disclaimer" class="text-danger"></span>
+                <label asp-for="Templates[0].Disclaimer" class="control-label"></label>
+                <input asp-for="Templates[0].Disclaimer" class="form-control" />
+                <span asp-validation-for="Templates[0].Disclaimer" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="@Model.Templates[0].IsActive" /> @Html.DisplayNameFor(model => @Model.Templates[0].IsActive)
+                    <input class="form-check-input" asp-for="Templates[0].IsActive" /> @Html.DisplayNameFor(model => @Model.Templates[0].IsActive)
                 </label>
             </div>
             <div id="questionTemplateDiv" style="display: none" class="col-10">

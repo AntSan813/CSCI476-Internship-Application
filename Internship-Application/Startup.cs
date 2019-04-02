@@ -128,10 +128,6 @@ namespace Internship_Application
             CreateUserRoles(services).Wait();
         }
 
-
-
-
-
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -147,7 +143,8 @@ namespace Internship_Application
             }
             //Assign Admin role to the main User here we have given our newly registered 
             //login id for Admin management
-            IdentityUser user = await UserManager.FindByEmailAsync("rominek2@winthrop.edu");
+            IdentityUser user = await UserManager.FindByEmailAsync("sanant813@hotmail.com");
+            //IdentityUser user = await UserManager.FindByEmailAsync("tillerc@hotmail.com");
             var User = new IdentityUser();
             await UserManager.AddToRoleAsync(user, "Admin");
 
