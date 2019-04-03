@@ -15,10 +15,34 @@
     #commonNavBar {
         display: none;
     }
+
+    button {
+        background-color: #660000;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        padding: 14px 40px;
+        border-radius: 8px;
+    }
+
+    nav-link text-dark {
+        color: white;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+    }
 </style>
 
-﻿<br />
 <br />
+<br />
+
+
 <h1 style="text-align:center;"> College of Business Administration</h1>
 <h1 style="text-align:center;"> Internship Application System</h1>
 
@@ -55,31 +79,9 @@
         <div id="loginUI">
             <div align="center">
                 <div vertical-align="center">
-                    <table style="background-color:#EAEAEA;">
-                        <tbody>
-                            <tr>
-                                <td>Username:</td>
-                                <td><input name="txtUsername" type="text" value="" id="txtUsername" tabindex="1" autocomplete="off" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII=&quot;); cursor: auto;"><a title="Username Lookup" href="https://asap.winthrop.edu/studentaccount/lookupusername.aspx" tabindex="6">&nbsp;Lookup Username</a></td>
-                            </tr>
-                            <tr>
-                                <td>Password:</td>
-                                <td><input name="txtPassword" type="password" id="txtPassword" tabindex="2" autocomplete="off" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGP6zwAAAgcBApocMXEAAAAASUVORK5CYII=&quot;); cursor: auto;"><a title="Forget Password?" href="https://asap.winthrop.edu/studentaccount/changepassword.aspx" tabindex="7">&nbsp;Forgot Password?</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div>
-                        <br />
-                        <input id="chkRememberMe" type="checkbox" name="chkRememberMe" checked="checked" tabindex="4"><label for="chkRememberMe">Remember me on this computer</label>
-                        <!--<input type="submit" name="btnLogin" value="Login" id="btnLogin" tabindex="5" title="Click to login... ">-->
-                        <form asp-controller="LandingPage_Common" asp-action="Index" method="post">
-                            <button type="submit">Login</button>
-                        </form>
-                    </div>
                     <br />
-                    <form asp-controller="Employee_SignIn_Page" asp-action="Index" method="post">
-                        <button type="submit">Are you an Employer?-Click Here</button>
-                    </form>
-
+                    <button><a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Register</a></button>
+                    <button><a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">Login   </a></button>
                 </div>
             </div>
         </div>

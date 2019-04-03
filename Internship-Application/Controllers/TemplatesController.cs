@@ -53,7 +53,7 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CreatedAt,UpdatedAt,DeletedAt,FormTitle,Disclaimer,TemplateName,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive,IsModifiable")] Templates templates)
+        public async Task<IActionResult> Create([Bind("Id,CreatedAt,UpdatedAt,RetiredAt,DisplayName,Disclaimer,TemplateName,Questions,IsActive,IsRetired")] Templates templates)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,FormTitle,Disclaimer,TemplateName,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive,IsModifiable")] Templates templates)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CreatedAt,UpdatedAt,RetiredAt,DisplayName,Disclaimer,TemplateName,Questions,IsActive,IsRetired")] Templates templates)
         {
             if (id != templates.Id)
             {

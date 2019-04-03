@@ -16,6 +16,7 @@ namespace Internship_Application.Models
         }
 
         public virtual DbSet<Forms> Forms { get; set; }
+        public virtual DbSet<StatusCodes> StatusCodes { get; set; }
         public virtual DbSet<Templates> Templates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -93,72 +94,57 @@ namespace Internship_Application.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Templates>(entity =>
+            modelBuilder.Entity<StatusCodes>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.AdministratorQuestions)
+                entity.Property(e => e.Details)
                     .IsRequired()
-                    .HasColumnName("administrator_questions")
+                    .HasColumnName("details")
                     .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StatusCode)
+                    .IsRequired()
+                    .HasColumnName("status_code")
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Templates>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.DeletedAt)
-                    .HasColumnName("deleted_at")
-                    .HasColumnType("datetime");
-
                 entity.Property(e => e.Disclaimer)
                     .IsRequired()
                     .HasColumnName("disclaimer")
-                    .HasMaxLength(1000)
+                    .HasMaxLength(256)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EmployerQuestions)
+                entity.Property(e => e.DisplayName)
                     .IsRequired()
-                    .HasColumnName("employer_questions")
-                    .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
-
-                entity.Property(e => e.FacultyQuestions)
-                    .IsRequired()
-                    .HasColumnName("faculty_questions")
-                    .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
-
-                entity.Property(e => e.FormTitle)
-                    .IsRequired()
-                    .HasColumnName("form_title")
+                    .HasColumnName("display_name")
                     .HasMaxLength(256)
                     .IsUnicode(false);
 
                 entity.Property(e => e.IsActive).HasColumnName("is_active");
 
-                entity.Property(e => e.IsModifiable)
-                    .IsRequired()
-                    .HasColumnName("is_modifiable")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.IsRetired).HasColumnName("is_retired");
 
-                entity.Property(e => e.StudentQuestions)
+                entity.Property(e => e.Questions)
                     .IsRequired()
-                    .HasColumnName("student_questions")
-                    .HasMaxLength(1000)
+                    .HasColumnName("questions")
                     .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
+                    .HasDefaultValueSql("('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')");
 
-                entity.Property(e => e.StudentServicesQuestions)
-                    .IsRequired()
-                    .HasColumnName("student_services_questions")
-                    .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
+                entity.Property(e => e.RetiredAt)
+                    .HasColumnName("retired_at")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.TemplateName)
                     .IsRequired()

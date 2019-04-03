@@ -4,14 +4,16 @@ using Internship_Application.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Internship_Application.Migrations.Data
+namespace Internship_Application.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190402025013_data_migration")]
+    partial class data_migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,6 +98,30 @@ namespace Internship_Application.Migrations.Data
                     b.ToTable("Forms");
                 });
 
+            modelBuilder.Entity("Internship_Application.Models.StatusCodes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnName("details")
+                        .HasMaxLength(1000)
+                        .IsUnicode(false);
+
+                    b.Property<string>("StatusCode")
+                        .IsRequired()
+                        .HasColumnName("status_code")
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StatusCodes");
+                });
+
             modelBuilder.Entity("Internship_Application.Models.Templates", b =>
                 {
                     b.Property<int>("Id")
@@ -103,76 +129,40 @@ namespace Internship_Application.Migrations.Data
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdministratorQuestions")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("administrator_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
-                        .IsUnicode(false);
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("created_at")
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnName("deleted_at")
-                        .HasColumnType("datetime");
-
                     b.Property<string>("Disclaimer")
                         .IsRequired()
                         .HasColumnName("disclaimer")
-                        .HasMaxLength(1000)
+                        .HasMaxLength(256)
                         .IsUnicode(false);
 
-                    b.Property<string>("EmployerQuestions")
+                    b.Property<string>("DisplayName")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("employer_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
-                        .IsUnicode(false);
-
-                    b.Property<string>("FacultyQuestions")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("faculty_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
-                        .IsUnicode(false);
-
-                    b.Property<string>("FormTitle")
-                        .IsRequired()
-                        .HasColumnName("form_title")
+                        .HasColumnName("display_name")
                         .HasMaxLength(256)
                         .IsUnicode(false);
 
                     b.Property<bool>("IsActive")
                         .HasColumnName("is_active");
 
-                    b.Property<bool?>("IsModifiable")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("is_modifiable")
-                        .HasDefaultValueSql("((1))");
+                    b.Property<bool>("IsRetired")
+                        .HasColumnName("is_retired");
 
-                    b.Property<string>("StudentQuestions")
+                    b.Property<string>("Questions")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("student_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
+                        .HasColumnName("questions")
+                        .HasDefaultValueSql("('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')")
                         .IsUnicode(false);
 
-                    b.Property<string>("StudentServicesQuestions")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("student_services_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
-                        .IsUnicode(false);
+                    b.Property<DateTime?>("RetiredAt")
+                        .HasColumnName("retired_at")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("TemplateName")
                         .IsRequired()
