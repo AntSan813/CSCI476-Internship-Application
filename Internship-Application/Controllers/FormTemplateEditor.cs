@@ -76,28 +76,118 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,IsActive,IsModifiable,TemplateName,FormTitle,Disclaimer")] Templates templates)
+        public async Task<IActionResult> Create([Bind("IsActive,TemplateName,DisplayName,Questions,Disclaimer")] Templates templates)
         {
-            ////generate default json
-            JsonModel item = new JsonModel { };
-            List<JsonModel> jsonStr = new List<JsonModel>();
-            item.Prompt = "";
-            item.InputType = "small-text";
-            item.Order = 1;
-            item.HelperText = "";
-            item.DateSigned = "";
-            item.Signed = false;
-            item.Options = new List<string>{ };
+            //Required questions in the form: student name, Winthrop id, employer email, and faculty of record email
 
-            //default empty array of questions for each section
-            templates.IsRetired = false;
-            templates.Questions = "[]";
+            //START OF ADDING DEFAULT QUESTIONS
+            List<JsonModel> questions = new List<JsonModel> { };
+            questions.Add(new JsonModel
+            {
+                Prompt = "Student Name",
+                InputType = "small-text",
+                Order = 1,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { },
+                Required = true,
+                Person = "student",
+            });
 
-            jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templates.Questions);
-            jsonStr.Add(item);
+            questions.Add(new JsonModel
+            {
+                Prompt = "Class Name",
+                InputType = "small-text",
+                Order = 2,
+                HelperText = "E.g. CSCI 491",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { },
+                Required = true,
+                Person = "student",
+            });
 
-            templates.Questions = JsonConvert.SerializeObject(jsonStr);
-            
+            questions.Add(new JsonModel
+            {
+                Prompt = "Employer Email",
+                InputType = "small-text",
+                Order = 3,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { },
+                Required = true,
+                Person = "employer",
+            });
+
+            questions.Add(new JsonModel
+            {
+                Prompt = "Company Name",
+                InputType = "small-text",
+                Order = 4,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { },
+                Required = true,
+                Person = "employer",
+            });
+
+            questions.Add(new JsonModel
+            {
+                Prompt = "Company Location",
+                InputType = "small-text",
+                Order = 5,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { },
+                Required = true,
+                Person = "faculty-of-record",
+            });
+
+            questions.Add(new JsonModel
+            {
+                Prompt = "Paid",
+                InputType = "signature",
+                Order = 6,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { },
+                Required = true,
+                Person = "employer",
+            });
+
+            questions.Add(new JsonModel
+            {
+                Prompt = "Salary",
+                InputType = "money",
+                Order = 7,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { },
+                Required = false, //false in the case of no paid internship
+                Person = "employer",
+            });
+
+            questions.Add(new JsonModel
+            {
+                Prompt = "Faculty of Record Email",
+                InputType = "small-text",
+                Order = 8,
+                HelperText = "",
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { },
+                Required = true,
+                Person = "faculty-of-record",
+            });
+
+            templates.Questions = JsonConvert.SerializeObject(questions);
+
             if (ModelState.IsValid)
             {
                 _context.Add(templates);
@@ -121,35 +211,15 @@ namespace Internship_Application.Controllers
 
             var template = await _context.Templates
                 .FirstOrDefaultAsync(m => m.Id == id);
-            //Console.WriteLine(id);
-            //Console.WriteLine(template.Id);
-            //Console.WriteLine(template.UpdatedAt);
-            //Console.WriteLine(template.CreatedAt);
-            //Console.WriteLine(template.FormTitle);
-            //Console.WriteLine(template.Disclaimer);
-            //Console.WriteLine(template.TemplateName);
-            //Console.WriteLine(template.StudentQuestions);
-            //Console.WriteLine(template.FacultyQuestions);
-            //Console.WriteLine(template.EmployerQuestions);
-            //Console.WriteLine(template.AdministratorQuestions);
-            //Console.WriteLine(template.StudentServicesQuestions);
-            //Console.WriteLine(template.IsActive);
-            //Console.WriteLine(template.IsModifiable);
-            //List<Templates> templates = new List<Templates>();
-            //templates.Add(template);
-            //Console.WriteLine(templateView.Templates.GetType());
-            //Console.WriteLine(template.GetType());
 
             TemplateViewModel templateView = new TemplateViewModel { };
-            templateView.Templates = new List<Templates>();
-            templateView.Templates.Add(template);
+            templateView.Templates = new List<Templates> {template};
 
             if (templateView.Templates.First() == null)
             {
                 return NotFound();
             }
-
-
+            
             templateView.Questions = JsonConvert.DeserializeObject<List<JsonModel>>(template.Questions);
 
             return View(templateView);
@@ -160,65 +230,47 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(int id, IFormCollection collection, [Bind("Questions,Templates")] TemplateViewModel templateView)
+        public async Task<IActionResult> Edit(int id, IFormCollection collection, [Bind("Questions,Templates")] TemplateViewModel templateView)
         {
-            Console.WriteLine(id);
-            Console.WriteLine(templateView.Templates.First().Id);
 
-            //List<Templates> templates = new List<Templates>();
-            //templates.Add(template);
-            //Console.WriteLine(templateView.Templates.GetType());
-            //Console.WriteLine(template.GetType());
             if (id != templateView.Templates[0].Id)
             {
                 return NotFound();
             }
 
-            if (templateView.Templates.First().IsRetired == false)
-            {
-                //TODO: change this to return the previous page and a flash message saying that you cannot edit the form since a form has been made from it
-                return Create();
-            }
-            // TemplateViewModel templateView = new TemplateViewModel { };
-            //templateView.Templates = new List<Templates>();
+            //if (templateView.Templates[0].IsRetired == true)
+            //{
+            //    //TODO: change this to return the previous page and a flash message saying that you cannot edit the form since a form has been made from it
+            //    return Create();
+            //}
 
-            List<JsonModel> jsonStr = new List<JsonModel>();
-
-            //generate first json
-            JsonModel item = new JsonModel { };
-            item.Prompt = collection["prompt"];
-            item.InputType = collection["input-type"];
-            // item.Order = Int32.Parse(collection["order"]);
-            item.HelperText = collection["helperText"];
-            //item.Options = collection["options"].ToList<string>();
-
+            //the following may be useful later
             //foreach(JsonModel question in jsonStr){
             //    if(question.Order > item.Order)
             //    {
             //        item.Order = question.Order + 1;
             //    }
             //}
+            //***LEFT OFF FIGURING OUT WHY templateView.Templates[0].Questions IS NULL****
+            List<JsonModel> questionModel = JsonConvert.DeserializeObject<List<JsonModel>>(templateView.Templates[0].Questions);
 
-            if (collection["input-type"] == "signature")
+            //TODO: Add checks to make sure data was inputted correctly before storing the information
+            //E.g. add a check to see if the order is valid (order must be within 1 and len(questions) + 1. 
+            questionModel.Add(new JsonModel
             {
-                //get form data
-                item.DateSigned = "";
-                item.Signed = false;
-            }
+                Prompt = collection["prompt"],
+                InputType = collection["input-type"],
+                Order = Int32.Parse(collection["order"]),
+                HelperText = collection["helperText"],
+                DateSigned = "",
+                Signed = false,
+                Options = new List<string> { },
+                Required = false, //TODO: change this to take in a field from the collection
+                Person = "student" //TODO: change this to take in a field from the collection,
+            });
 
-            //TODO: separate following iff stmts to be a function that returns the serialized json by taking in the collection.
-            if (collection["person"] == "student")
-            {
-                Console.WriteLine(templateView.Templates.First().Questions);
-
-                jsonStr = JsonConvert.DeserializeObject<List<JsonModel>>(templateView.Templates.First().Questions);
-                jsonStr.Add(item);
-                string serializedJson = JsonConvert.SerializeObject(jsonStr);
-                templateView.Templates.First().Questions = serializedJson;
-            }
-           // templateView.Template
-           // templateView.Templates[0].AdministratorQuestions = JsonConvert.SerializeObject(templateView.AdministratorQuestions);
-        
+            templateView.Templates[0].Questions = JsonConvert.SerializeObject(questionModel);
+            templateView.Questions = questionModel;
 
             if (ModelState.IsValid)
             {
@@ -238,8 +290,11 @@ namespace Internship_Application.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return View(templateView);
+
             }
+
             return View(templateView);
         }
 
