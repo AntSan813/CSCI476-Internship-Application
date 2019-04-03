@@ -1,3 +1,8 @@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 <style>
     #gradientAudience {
         display: block;
@@ -17,10 +22,33 @@
 <h1 style="text-align:center;"> College of Business Administration</h1>
 <h1 style="text-align:center;"> Internship Application System</h1>
 
-    <br />
-    <br />
-    <br />
-    <h2 align="center">User Login</h2>
+<br />
+<br />
+<br />
+<h2 align="center">User Login</h2>
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>
 
 <div>
     <fieldset>
@@ -54,6 +82,6 @@
 
                 </div>
             </div>
-         </div>
+        </div>
     </fieldset>
 </div>
