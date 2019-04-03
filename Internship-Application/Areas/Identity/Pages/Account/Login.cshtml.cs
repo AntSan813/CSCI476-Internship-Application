@@ -16,11 +16,13 @@ namespace Internship_Application.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -69,15 +71,34 @@ namespace Internship_Application.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
+            
+
             if (ModelState.IsValid)
             {
+                
+
+              //  var isInAdminRole = await _signInManager.UserManager.IsInRoleAsync(await _userManager.FindByNameAsync(User.Identity.Name), "Admin");
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                   
+                    if (User.IsInRole("Admin"))
+                    {
+                        _logger.LogInformation("User logged in.");
+                        //return LocalRedirect(returnUrl);
+                        return RedirectToAction("Index", "LandingPage_Admin");
+                    }
+                    else
+                    {
+                        _logger.LogInformation("User logged in.");
+                        //return LocalRedirect(returnUrl);
+                        return RedirectToAction("Index", "LandingPage_Admin");
+                    }
+                   
                 }
                 if (result.RequiresTwoFactor)
                 {
