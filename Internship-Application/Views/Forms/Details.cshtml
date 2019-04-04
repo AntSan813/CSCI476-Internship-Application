@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Details</h1>
@@ -23,52 +24,40 @@
             @Html.DisplayFor(model => model.UpdatedAt)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.WuId)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.WuId)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StudentQuestions)
+            @Html.DisplayNameFor(model => model.Answers)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentQuestions)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EmployerQuestions)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EmployerQuestions)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FacultyQuestions)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FacultyQuestions)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StudentServicesQuestions)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentServicesQuestions)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AdministratorQuestions)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AdministratorQuestions)
+            @Html.DisplayFor(model => model.Answers)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TemplateId)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TemplateId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CompanyId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CompanyId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Paid)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Paid)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StatusCodeId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StatusCodeId)
         </dd>
     </dl>
 </div>

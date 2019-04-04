@@ -15,6 +15,7 @@ namespace Internship_Application.Models
         {
         }
 
+        public virtual DbSet<Companies> Companies { get; set; }
         public virtual DbSet<Forms> Forms { get; set; }
         public virtual DbSet<StatusCodes> StatusCodes { get; set; }
         public virtual DbSet<Templates> Templates { get; set; }
@@ -24,7 +25,7 @@ namespace Internship_Application.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=Data;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=localhost;Database=Data;Trusted_Connection=True;");
             }
         }
 
@@ -32,53 +33,42 @@ namespace Internship_Application.Models
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
 
+            modelBuilder.Entity<Companies>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CompanyLocation)
+                    .IsRequired()
+                    .HasColumnName("company_location")
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompanyName)
+                    .IsRequired()
+                    .HasColumnName("company_name")
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Forms>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.AdministratorQuestions)
+                entity.Property(e => e.Answers)
                     .IsRequired()
-                    .HasColumnName("administrator_questions")
-                    .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
+                    .HasColumnName("answers")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.DeletedAt)
-                    .HasColumnName("deleted_at")
-                    .HasColumnType("datetime");
+                entity.Property(e => e.Paid).HasColumnName("paid");
 
-                entity.Property(e => e.EmployerQuestions)
-                    .IsRequired()
-                    .HasColumnName("employer_questions")
-                    .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
-
-                entity.Property(e => e.FacultyQuestions)
-                    .IsRequired()
-                    .HasColumnName("faculty_questions")
-                    .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
-
-                entity.Property(e => e.StudentQuestions)
-                    .IsRequired()
-                    .HasColumnName("student_questions")
-                    .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
-
-                entity.Property(e => e.StudentServicesQuestions)
-                    .IsRequired()
-                    .HasColumnName("student_services_questions")
-                    .HasMaxLength(1000)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('{}')");
+                entity.Property(e => e.StatusCodeId).HasColumnName("status_code_id");
 
                 entity.Property(e => e.TemplateId).HasColumnName("template_id");
 
@@ -90,7 +80,7 @@ namespace Internship_Application.Models
                 entity.Property(e => e.WuId)
                     .IsRequired()
                     .HasColumnName("wu_id")
-                    .HasMaxLength(30)
+                    .HasMaxLength(15)
                     .IsUnicode(false);
             });
 
@@ -139,8 +129,8 @@ namespace Internship_Application.Models
                 entity.Property(e => e.Questions)
                     .IsRequired()
                     .HasColumnName("questions")
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')");
+                    .IsUnicode(false);
+                    //.HasDefaultValueSql("('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')");
 
                 entity.Property(e => e.RetiredAt)
                     .HasColumnName("retired_at")

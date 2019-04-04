@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -19,28 +20,22 @@
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DeletedAt)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.WuId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StudentQuestions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployerQuestions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FacultyQuestions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StudentServicesQuestions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdministratorQuestions)
+                @Html.DisplayNameFor(model => model.Answers)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TemplateId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Paid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusCodeId)
             </th>
             <th></th>
         </tr>
@@ -55,28 +50,22 @@
                 @Html.DisplayFor(modelItem => item.UpdatedAt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DeletedAt)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.WuId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployerQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FacultyQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentServicesQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdministratorQuestions)
+                @Html.DisplayFor(modelItem => item.Answers)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TemplateId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusCodeId)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

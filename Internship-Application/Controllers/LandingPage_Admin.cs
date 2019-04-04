@@ -70,7 +70,7 @@ namespace Internship_Application.Controllers
 
             FormJsonModel item = new FormJsonModel { };
 
-            var formSQ = JsonConvert.DeserializeObject<List<FormJsonModel>>(form.StudentQuestions);
+            //var formSQ = JsonConvert.DeserializeObject<List<FormJsonModel>>(form.StudentQuestions);
             //var formEQ = JsonConvert.DeserializeObject<List<FormJsonModel>>(form.EmployerQuestions);
             //var formFQ = JsonConvert.DeserializeObject<List<FormJsonModel>>(form.FacultyQuestions);
             //var formSSQ = JsonConvert.DeserializeObject<List<FormJsonModel>>(form.StudentServicesQuestions);
@@ -89,7 +89,7 @@ namespace Internship_Application.Controllers
                 var temp = new QAJsonModel
                 {
                     Prompt = templateSQ[i].Prompt,
-                    PromptValue = formSQ[i].PromptValue
+                   // PromptValue = formSQ[i].PromptValue
                 };
                 StudentQuestions.Add(temp);
             }

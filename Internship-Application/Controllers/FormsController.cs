@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Internship_Application.Models;
 
-namespace Internship_Application.Controllers
+namespace Internship_Application.Views
 {
     public class FormsController : Controller
     {
@@ -53,7 +53,7 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CreatedAt,UpdatedAt,DeletedAt,WuId,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,TemplateId")] Forms forms)
+        public async Task<IActionResult> Create([Bind("Id,CreatedAt,UpdatedAt,WuId,Answers,TemplateId,CompanyId,Paid,StatusCodeId")] Forms forms)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CreatedAt,UpdatedAt,DeletedAt,WuId,StudentQuestions,EmployerQuestions,FacultyQuestions,StudentServicesQuestions,AdministratorQuestions,TemplateId")] Forms forms)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CreatedAt,UpdatedAt,WuId,Answers,TemplateId,CompanyId,Paid,StatusCodeId")] Forms forms)
         {
             if (id != forms.Id)
             {

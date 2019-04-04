@@ -4,10 +4,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Internship_Application.Migrations
 {
-    public partial class data_migration : Migration
+    public partial class data_context : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Companies",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    company_name = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
+                    company_location = table.Column<string>(unicode: false, maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Companies", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Forms",
                 columns: table => new
@@ -16,14 +30,12 @@ namespace Internship_Application.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     created_at = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     updated_at = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
-                    deleted_at = table.Column<DateTime>(type: "datetime", nullable: true),
-                    wu_id = table.Column<string>(unicode: false, maxLength: 30, nullable: false),
-                    student_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
-                    employer_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
-                    faculty_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
-                    student_services_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
-                    administrator_questions = table.Column<string>(unicode: false, maxLength: 1000, nullable: false, defaultValueSql: "('{}')"),
-                    template_id = table.Column<int>(nullable: false)
+                    wu_id = table.Column<string>(unicode: false, maxLength: 15, nullable: false),
+                    answers = table.Column<string>(unicode: false, nullable: false),
+                    template_id = table.Column<int>(nullable: false),
+                    company_id = table.Column<int>(nullable: false),
+                    paid = table.Column<bool>(nullable: true),
+                    status_code_id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,7 +68,7 @@ namespace Internship_Application.Migrations
                     template_name = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
                     display_name = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
                     disclaimer = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
-                    questions = table.Column<string>(unicode: false, nullable: false, defaultValueSql: "('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')"),
+                    questions = table.Column<string>(unicode: false, nullable: false),
                     is_active = table.Column<bool>(nullable: false),
                     is_retired = table.Column<bool>(nullable: false)
                 },
@@ -68,6 +80,9 @@ namespace Internship_Application.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Companies");
+
             migrationBuilder.DropTable(
                 name: "Forms");
 

@@ -19,6 +19,30 @@ namespace Internship_Application.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Internship_Application.Models.Companies", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CompanyLocation")
+                        .IsRequired()
+                        .HasColumnName("company_location")
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnName("company_name")
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companies");
+                });
+
             modelBuilder.Entity("Internship_Application.Models.Forms", b =>
                 {
                     b.Property<int>("Id")
@@ -26,13 +50,13 @@ namespace Internship_Application.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdministratorQuestions")
+                    b.Property<string>("Answers")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("administrator_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
+                        .HasColumnName("answers")
                         .IsUnicode(false);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnName("company_id");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -40,41 +64,11 @@ namespace Internship_Application.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnName("deleted_at")
-                        .HasColumnType("datetime");
+                    b.Property<bool?>("Paid")
+                        .HasColumnName("paid");
 
-                    b.Property<string>("EmployerQuestions")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("employer_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
-                        .IsUnicode(false);
-
-                    b.Property<string>("FacultyQuestions")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("faculty_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
-                        .IsUnicode(false);
-
-                    b.Property<string>("StudentQuestions")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("student_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
-                        .IsUnicode(false);
-
-                    b.Property<string>("StudentServicesQuestions")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("student_services_questions")
-                        .HasDefaultValueSql("('{}')")
-                        .HasMaxLength(1000)
-                        .IsUnicode(false);
+                    b.Property<int>("StatusCodeId")
+                        .HasColumnName("status_code_id");
 
                     b.Property<int>("TemplateId")
                         .HasColumnName("template_id");
@@ -88,7 +82,7 @@ namespace Internship_Application.Migrations
                     b.Property<string>("WuId")
                         .IsRequired()
                         .HasColumnName("wu_id")
-                        .HasMaxLength(30)
+                        .HasMaxLength(15)
                         .IsUnicode(false);
 
                     b.HasKey("Id");
@@ -153,9 +147,7 @@ namespace Internship_Application.Migrations
 
                     b.Property<string>("Questions")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnName("questions")
-                        .HasDefaultValueSql("('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')")
                         .IsUnicode(false);
 
                     b.Property<DateTime?>("RetiredAt")

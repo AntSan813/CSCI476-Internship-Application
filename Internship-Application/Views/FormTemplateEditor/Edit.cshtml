@@ -127,6 +127,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Templates[0].Id" />
+            <input type="hidden" asp-for="Templates[0].Questions" />
             <div class="form-group">
                 <label asp-for="Templates[0].TemplateName" class="control-label"></label>
                 <input asp-for="Templates[0].TemplateName" class="form-control" />

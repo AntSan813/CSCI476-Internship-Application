@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Forms\**" />
+    <Compile Remove="Views\Templates\**" />
+    <Content Remove="Views\Forms\**" />
+    <Content Remove="Views\Templates\**" />
+    <EmbeddedResource Remove="Views\Forms\**" />
+    <EmbeddedResource Remove="Views\Templates\**" />
+    <None Remove="Views\Forms\**" />
+    <None Remove="Views\Templates\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Areas\Identity\IdentityHostingStartup.cs" />
     <Compile Remove="Controllers\TemplatesControllerBackup.cs" />
   </ItemGroup>
@@ -31,6 +42,11 @@
     <Content Remove="Views\Student_Application_Page\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Views\Forms\Create.cshtml" />
+    <None Include="Views\Forms\Delete.cshtml" />
+    <None Include="Views\Forms\Details.cshtml" />
+    <None Include="Views\Forms\Edit.cshtml" />
+    <None Include="Views\Forms\Index.cshtml" />
     <None Include="Views\Student_Application_Page\Index.cshtml" />
   </ItemGroup>
 </Project>

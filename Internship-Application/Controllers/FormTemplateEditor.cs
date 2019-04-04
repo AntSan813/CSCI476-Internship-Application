@@ -76,7 +76,7 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IsActive,TemplateName,DisplayName,Questions,Disclaimer")] Templates templates)
+        public async Task<IActionResult> Create(/*[Bind("IsActive,TemplateName,DisplayName,Questions,Disclaimer")] */ Templates templates)
         {
             //Required questions in the form: student name, Winthrop id, employer email, and faculty of record email
 
@@ -244,24 +244,27 @@ namespace Internship_Application.Controllers
             //    return Create();
             //}
 
-            //the following may be useful later
-            //foreach(JsonModel question in jsonStr){
-            //    if(question.Order > item.Order)
-            //    {
-            //        item.Order = question.Order + 1;
-            //    }
-            //}
+
+
             //***LEFT OFF FIGURING OUT WHY templateView.Templates[0].Questions IS NULL****
             List<JsonModel> questionModel = JsonConvert.DeserializeObject<List<JsonModel>>(templateView.Templates[0].Questions);
-
+            var order = questionModel.Count + 1;
+            //the following may be useful later
+            //foreach (JsonModel question in questionModel)
+            //{
+            //    if (question.Order > order)
+            //    {
+            //        order = question.Order + 1;
+            //    }
+            //}
             //TODO: Add checks to make sure data was inputted correctly before storing the information
             //E.g. add a check to see if the order is valid (order must be within 1 and len(questions) + 1. 
             questionModel.Add(new JsonModel
             {
                 Prompt = collection["prompt"],
                 InputType = collection["input-type"],
-                Order = Int32.Parse(collection["order"]),
-                HelperText = collection["helperText"],
+                Order = order, //Int32.Parse(collection["order"]),
+                HelperText = collection["helper-text"],
                 DateSigned = "",
                 Signed = false,
                 Options = new List<string> { },
@@ -276,8 +279,9 @@ namespace Internship_Application.Controllers
             {
                 try
                 {
-                    _context.Update(templateView.Templates[0]);
-                    await _context.SaveChangesAsync();
+                    _context.Templates.Update(templateView.Templates[0]);
+                    
+                     _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
