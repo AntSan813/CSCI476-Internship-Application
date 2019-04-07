@@ -124,50 +124,41 @@
                 </th>
                 <th></th>
                 </thead>
-                    @foreach (var item in Model)
+                @foreach (var item in Model)
+                {
+                    @if (item.StatusCodeId == 1)
                     {
                         <tr>
                             <td>@item.WuId</td>
                             <td>@item.UpdatedAt</td>
-                            <td>STATUS CODE</td>
+                            <td>Pending DER Approval</td>
                             <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
                         </tr>
                     }
+                }
             </table>
         </div>
         <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
         <div id="remFormsContainer" style="margin-bottom: 25pt;">
             <table style="width:90%">
                 <thead style='visibility: hidden; line-height:0%'>
-                <th>STUDENT NAME</th>
-                <th>LAST UPDATED</th>
-                <th>STATUS</th>
+                <th>@Html.DisplayNameFor(model => model[0].WuId)</th>
+                <th>@Html.DisplayNameFor(model => model[0].UpdatedAt)</th>
+                <th>@Html.DisplayNameFor(model => model[0].StatusCodeId)</th>
                 <th></th>
                 </thead>
-                <tr>
-                    <td>John Doe</td>
-                    <td>2/1/2019 9:56AM</td>
-                    <td>PPA</td>
-                    <td><button type="button">View</button></td>
-                </tr>
-                <tr>
-                    <td>Allison Rivera</td>
-                    <td>2/3/2019 11:16AM</td>
-                    <td>PES</td>
-                    <td><button type="button">View</button></td>
-                </tr>
-                <tr>
-                    <td>Michael Rollin</td>
-                    <td>2/3/2019 11:20AM</td>
-                    <td>PFS</td>
-                    <td><button type="button">View</button></td>
-                </tr>
-                <tr>
-                    <td>Oliver Sykes</td>
-                    <td>2/6/2019 7:53PM</td>
-                    <td>PFS</td>
-                    <td><button type="button">View</button></td>
-                </tr>
+                @foreach (var item in Model)
+                {
+                    @if (item.StatusCodeId != 1)
+                    {
+                        <tr>
+                            <td>@item.WuId</td>
+                            <td>@item.UpdatedAt</td>
+                            <td>@item.StatusCodeId</td>
+                            <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
+                        </tr>
+                    }
+                }
             </table>
         </div>
     </div>
