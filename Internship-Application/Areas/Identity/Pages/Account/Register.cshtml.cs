@@ -87,16 +87,12 @@ namespace Internship_Application.Areas.Identity.Pages.Account
                     
                     //ASSIGN ROLES BASED ON EMAIL
                     string userEmail = Input.Email;
-                    string winthropFAC = "winthrop.edu";
+                    string winthrop = "@winthrop.edu";
                     if (userEmail == "studentservices@winthrop.edu")//Person is Student Services
                     {
                         await _userManager.AddToRoleAsync(user, "StudentServices");
                     }
-                    else if(userEmail.Contains(winthropFAC))//Person is faculty of record
-                    {
-                        await _userManager.AddToRoleAsync(user, "FacultyOfRec");
-                    }
-                    else//Person is not an Admin, or Student Services, or FacultyOfRec so they must be Student or Employer
+                    else//Person is not an Admin, or Student Services so they must be Student or Employer or FacultyOfRec
                     {
                         int num = -1;
                         char[] numArray = {'1','2','3','4','5','6','7','8','9','0'};
@@ -108,10 +104,14 @@ namespace Internship_Application.Areas.Identity.Pages.Account
 
                                 for (int x = 0; x < 10; x++)
                                 {
-                                    if (numArray[x] == userEmail[num])
+                                    if (numArray[x] == userEmail[num] && userEmail.Contains(winthrop))
                                     {
 
                                         await _userManager.AddToRoleAsync(user, "Student");
+                                    }
+                                    else if (userEmail.Contains(winthrop))
+                                    {
+                                        await _userManager.AddToRoleAsync(user, "FacultyOfRec");
                                     }
                                 }
 
