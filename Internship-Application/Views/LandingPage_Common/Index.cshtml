@@ -134,7 +134,7 @@
                             <td>@item.StatusCodeId</td>
                             <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
                         }
-                        else if (User.IsInRole("Employer") && item.employerEmail == "signedinemail" && item.StatusCodeId == 2)
+                        else if (User.IsInRole("Employer") && item.WuId == "signedinemail" && item.StatusCodeId == 2)
                         {
                             <td>@item.WuId</td>
                             <td>@item.UpdatedAt</td>
@@ -148,7 +148,7 @@
                             <td>@item.StatusCodeId</td>
                             <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
                         }
-                        else if (User.IsInRole("FacultyOfRecord") && item.facOfRecEmail == "signedinemail" && item.StatusCodeId == 5)
+                        else if (User.IsInRole("FacultyOfRecord") && item.WuId == "signedinemail" && item.StatusCodeId == 5)
                         {
                             <td>@item.WuId</td>
                             <td>@item.UpdatedAt</td>
