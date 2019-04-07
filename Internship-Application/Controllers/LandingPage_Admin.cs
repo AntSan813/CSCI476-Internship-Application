@@ -79,12 +79,13 @@ namespace Internship_Application.Controllers
 
             
             var templateSQ = JsonConvert.DeserializeObject<List<JsonModel>>(template.Questions);
+            
             //var templateEQ = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
             //var templateFQ = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
             //var templateSSQ = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
             //var templateAQ = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
 
-
+            
             for(var i = 0; i < templateSQ.Count; i++)
             {
                 var temp = new QAJsonModel
