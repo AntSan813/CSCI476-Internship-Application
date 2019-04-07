@@ -95,11 +95,11 @@
 
 </style>
 
-@model Internship_Application.Models.FormViewModel
+@model List<Internship_Application.Models.Forms>
 
 <div id="adminQueryPageUI">
     <div>
-        @foreach (var item in Model.Forms)
+        @foreach (var item in Model)
         {
                 <div>
                     @Html.DisplayFor(modelItem => item.WuId)
@@ -188,7 +188,7 @@
                                         <th>STATUS</th>
                                         <th></th>
                                     </tr>
-                                    @foreach (var item in Model.Forms)
+                                    @foreach (var item in Model)
                                     {
                                         <tr>
                                             <td>@Html.DisplayFor(modelItem => item.Answers)</td>

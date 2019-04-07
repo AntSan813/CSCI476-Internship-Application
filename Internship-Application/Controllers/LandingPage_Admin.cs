@@ -66,7 +66,7 @@ namespace Internship_Application.Controllers
                 .FirstOrDefaultAsync(m => m.Id == 6);
 
 
-            List<QAJsonModel> StudentQuestions = new List<QAJsonModel> { };
+            List<FormJsonModel> StudentQuestions = new List<FormJsonModel> { };
 
             FormJsonModel item = new FormJsonModel { };
 
@@ -86,7 +86,7 @@ namespace Internship_Application.Controllers
 
             for(var i = 0; i < templateSQ.Count; i++)
             {
-                var temp = new QAJsonModel
+                var temp = new FormJsonModel
                 {
                     Prompt = templateSQ[i].Prompt,
                    // PromptValue = formSQ[i].PromptValue

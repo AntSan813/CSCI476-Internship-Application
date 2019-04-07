@@ -25,7 +25,7 @@ namespace Internship_Application.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=Data;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=.;Database=Data;Trusted_Connection=True;");
             }
         }
 
@@ -66,9 +66,30 @@ namespace Internship_Application.Models
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.EmployerEmail)
+                    .HasColumnName("employer_email")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FacultyEmail)
+                    .HasColumnName("faculty_email")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Paid).HasColumnName("paid");
 
                 entity.Property(e => e.StatusCodeId).HasColumnName("status_code_id");
+
+                entity.Property(e => e.StudentEmail)
+                    .IsRequired()
+                    .HasColumnName("student_email")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StudentName)
+                    .HasColumnName("student_name")
+                    .HasMaxLength(128)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.TemplateId).HasColumnName("template_id");
 
@@ -78,7 +99,6 @@ namespace Internship_Application.Models
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.WuId)
-                    .IsRequired()
                     .HasColumnName("wu_id")
                     .HasMaxLength(15)
                     .IsUnicode(false);
@@ -129,8 +149,8 @@ namespace Internship_Application.Models
                 entity.Property(e => e.Questions)
                     .IsRequired()
                     .HasColumnName("questions")
-                    .IsUnicode(false);
-                    //.HasDefaultValueSql("('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')");
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')");
 
                 entity.Property(e => e.RetiredAt)
                     .HasColumnName("retired_at")

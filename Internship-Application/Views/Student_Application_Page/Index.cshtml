@@ -30,55 +30,91 @@
 <br />
 <h1 style="text-align:center;"> Undergraduate Application Form</h1>
 <br />
-@model Internship_Application.Models.TemplateViewModel
+@model List<Internship_Application.Models.Forms>
 
-<div style="box-shadow: 0px 0px 10px grey; border-radius: 3px; margin: 25pt; padding: 50pt;">
-    <form asp-action="Edit">
-        @foreach (var item in Model.Questions)
+    <div style = "box-shadow: 0px 0px 10px grey; border-radius: 3px; margin: 25pt; padding: 50pt;" >
+
+         <table class="table">
+@if(Model != null)
+{
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => Model[0].CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model[0].UpdatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model[0].StatusCodeId)
+            </th>
+        </tr >
+    </thead>
+    <tbody>
+
+        @foreach(var item in Model)
         {
-            @Html.DisplayFor(modelItem => item.Order)<br />
-            @Html.DisplayFor(modelItem => item.Prompt)<br />
-
-            @Html.DisplayFor(modelItem => item.HelperText)<br /><br />
-//dropdown was here
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StatusCodeId)
+                </td>
+                <td>
+                    <a asp-action = "Edit" asp-route-id = "@item.Id"> Edit </a > |
+                    <a asp-action = "Details" asp-route-id = "@item.Id"> Details </a > |
+                    <a asp-action = "Delete" asp-route-id = "@item.Id"> Delete </a >
+                    </td >
+                    </tr >
         }
+    </tbody>
+}
+else
+{
+    <tr>No applications found for user.Start by creating your first application</tr>
+}
 
-        First name:<br>
-        <input type="text" name="firstname"><br><br>
+</table>
 
-        Last name:<br>
-        <input type="text" name="lastname"><br><br>
+@* First name:<br>
+<input type = "text" name="firstname"><br><br>
 
-        Student Signature: <br />
-        <input type="text" name="studentSig"><br><br>
+Last name:<br>
+<input type = "text" name="lastname"><br><br>
 
-        Date of Signature: <br />
-        <input type="date" name="studentSigDate"><br><br>
+Student Signature: <br />
+<input type = "text" name="studentSig"><br><br>
 
-        Current Date:<br />
-        <input type="text" name="currDate"><br><br>
+Date of Signature: <br />
+<input type = "date" name="studentSigDate"><br><br>
 
-        Class Enrolled In: <br />
-        <input type="text" name="classEnrolled"><br><br>
+Current Date:<br />
+<input type = "text" name="currDate"><br><br>
 
-        Explaination of How Internship will Enhance Winthrop Experience: <br />
-        <textarea name="enhanceExperience"></textarea> <br /> <br />
+Class Enrolled In: <br />
+<input type = "text" name="classEnrolled"><br><br>
 
-        Desired Professional and Personal Goals Hoped to Achieve During Internship: <br />
-        <textarea name="goals"></textarea><br><br>
+Explaination of How Internship will Enhance Winthrop Experience: <br />
+<textarea name = "enhanceExperience" ></ textarea > < br /> < br />
 
-        Student Email:<br />
-        <input type="email" name="studEmail"><br><br>
+Desired Professional and Personal Goals Hoped to Achieve During Internship: <br />
+<textarea name = "goals" ></ textarea >< br >< br >
 
-        Student Phone Number: <br />
-        <input type="tel" name="studPhoneNum"><br><br>
+Student Email:<br />
+<input type = "email" name="studEmail"><br><br>
 
-        Student ID #:  <br />
-        <input type="text" name="WUID"><br><br>
-    </form>
-    <form asp-controller="Receipt_Submission_Page" asp-action="Index" method="post">
-        <button type="submit">Submit</button>
-    </form>
+Student Phone Number: <br />
+<input type = "tel" name="studPhoneNum"><br><br>
+
+Student ID #:  <br />
+<input type="text" name="WUID"><br><br>*@
+<form asp-controller= "Student_Application_Page" asp-action= "Edit">
+    <button type= "submit"> Create Application</button>
+</form>
 </div>
 
 

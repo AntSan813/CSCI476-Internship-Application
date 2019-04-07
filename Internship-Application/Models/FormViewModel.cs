@@ -5,13 +5,11 @@ namespace Internship_Application.Models
     public class FormViewModel
     {
 
-        public List<FormJsonModel> StudentQuestions { get; set; }
-        public List<FormJsonModel> EmployerQuestions { get; set; }
-        public List<FormJsonModel> FacultyQuestions { get; set; }
-        public List<FormJsonModel> StudentServicesQuestions { get; set; }
-        public List<FormJsonModel> AdministratorQuestions { get; set; }
-        public List<Forms> Forms { get; set; }
-        public TemplateViewModel Template { get; set; }
-
+        //public List<FormJsonModel> Questions { get; set; }
+        //public List<Forms> Forms { get; set; }
+        //public List<JsonModel> Template { get; set; }
+        public List<FormJsonModel> Form { get; set; }
+        public string FormName { get; set; }
+        public string Disclaimer { get; set; }
     }
 }

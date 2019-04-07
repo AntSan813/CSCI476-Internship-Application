@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Internship_Application.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190403214604_data_context")]
+    [Migration("20190407205621_data_context")]
     partial class data_context
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace Internship_Application.Migrations
                         .HasColumnName("answers")
                         .IsUnicode(false);
 
-                    b.Property<int>("CompanyId")
+                    b.Property<int?>("CompanyId")
                         .HasColumnName("company_id");
 
                     b.Property<DateTime>("CreatedAt")
@@ -66,11 +66,32 @@ namespace Internship_Application.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("(getdate())");
 
-                    b.Property<bool?>("Paid")
+                    b.Property<string>("EmployerEmail")
+                        .HasColumnName("employer_email")
+                        .HasMaxLength(128)
+                        .IsUnicode(false);
+
+                    b.Property<string>("FacultyEmail")
+                        .HasColumnName("faculty_email")
+                        .HasMaxLength(128)
+                        .IsUnicode(false);
+
+                    b.Property<int?>("Paid")
                         .HasColumnName("paid");
 
                     b.Property<int>("StatusCodeId")
                         .HasColumnName("status_code_id");
+
+                    b.Property<string>("StudentEmail")
+                        .IsRequired()
+                        .HasColumnName("student_email")
+                        .HasMaxLength(128)
+                        .IsUnicode(false);
+
+                    b.Property<string>("StudentName")
+                        .HasColumnName("student_name")
+                        .HasMaxLength(128)
+                        .IsUnicode(false);
 
                     b.Property<int>("TemplateId")
                         .HasColumnName("template_id");
@@ -82,7 +103,6 @@ namespace Internship_Application.Migrations
                         .HasDefaultValueSql("(getdate())");
 
                     b.Property<string>("WuId")
-                        .IsRequired()
                         .HasColumnName("wu_id")
                         .HasMaxLength(15)
                         .IsUnicode(false);
@@ -149,7 +169,9 @@ namespace Internship_Application.Migrations
 
                     b.Property<string>("Questions")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasColumnName("questions")
+                        .HasDefaultValueSql("('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')")
                         .IsUnicode(false);
 
                     b.Property<DateTime?>("RetiredAt")

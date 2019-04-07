@@ -30,12 +30,16 @@ namespace Internship_Application.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     created_at = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
                     updated_at = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "(getdate())"),
-                    wu_id = table.Column<string>(unicode: false, maxLength: 15, nullable: false),
+                    wu_id = table.Column<string>(unicode: false, maxLength: 15, nullable: true),
+                    student_email = table.Column<string>(unicode: false, maxLength: 128, nullable: false),
+                    faculty_email = table.Column<string>(unicode: false, maxLength: 128, nullable: true),
+                    employer_email = table.Column<string>(unicode: false, maxLength: 128, nullable: true),
+                    student_name = table.Column<string>(unicode: false, maxLength: 128, nullable: true),
                     answers = table.Column<string>(unicode: false, nullable: false),
                     template_id = table.Column<int>(nullable: false),
-                    company_id = table.Column<int>(nullable: false),
-                    paid = table.Column<bool>(nullable: true),
-                    status_code_id = table.Column<int>(nullable: false)
+                    company_id = table.Column<int>(nullable: true),
+                    status_code_id = table.Column<int>(nullable: false),
+                    paid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,7 +72,7 @@ namespace Internship_Application.Migrations
                     template_name = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
                     display_name = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
                     disclaimer = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
-                    questions = table.Column<string>(unicode: false, nullable: false),
+                    questions = table.Column<string>(unicode: false, nullable: false, defaultValueSql: "('[{\"Prompt\":\"\", \"InputType\": \"\", \"HelperText\": \"\", \"Order\": \"\", \"Role\": \"\", \"Required\": \"\", \"ProcessQuestion\": \"\", \"DateSigned\": \"\", \"Options\": \"[]\"}]')"),
                     is_active = table.Column<bool>(nullable: false),
                     is_retired = table.Column<bool>(nullable: false)
                 },

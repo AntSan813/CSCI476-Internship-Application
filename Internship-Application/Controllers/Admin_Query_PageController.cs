@@ -33,15 +33,16 @@ namespace Internship_Application.Controllers
 
                 return View();
             }
-            FormViewModel formView = new FormViewModel { };
-           // FormViewModel.Questions = JsonConvert.DeserializeObject<List<JsonModel>>(forms.Questions);
+            //FormViewModel formView = new FormViewModel { };
+            //FormViewModel.Questions = JsonConvert.DeserializeObject<List<JsonModel>>(forms.Questions);
             //templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
             //templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
             //templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
             //templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
-            formView.Forms = forms;
+            List<Forms> formList = new List<Forms>(forms);
+            //formList = forms;
 
-            return View(formView);
+            return View(formList);
         }
     }
 }

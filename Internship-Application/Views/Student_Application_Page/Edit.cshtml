@@ -1,0 +1,104 @@
+﻿@model Internship_Application.Models.FormViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h1>Create</h1>
+
+<h4>Form</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Answers" class="control-label"></label>
+                <input asp-for="Answers" class="form-control" />
+                <span asp-validation-for="Answers" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemplateId" class="control-label"></label>
+                <input asp-for="TemplateId" class="form-control" />
+                <span asp-validation-for="TemplateId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyId" class="control-label"></label>
+                <input asp-for="CompanyId" class="form-control" />
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Paid" class="control-label"></label>
+                <input asp-for="Paid" class="form-control" />
+                <span asp-validation-for="Paid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StatusCodeId" class="control-label"></label>
+                <input asp-for="StatusCodeId" class="form-control" />
+                <span asp-validation-for="StatusCodeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+
+
+
+<style>
+    #gradientAudience {
+        display: none;
+    }
+
+    #adminNavBar {
+        display: none;
+    }
+
+    #commonNavBar {
+        display: block;
+    }
+
+    button {
+        background-color: #660000;
+        color: white;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: none;
+        border-radius: 3px;
+    }
+
+    textarea {
+        width: 1000px;
+        height: 250px;
+    }
+</style>
+
+<br />
+<h1 style="text-align:center;"> Undergraduate Application Form</h1>
+<br />
+<div style="box-shadow: 0px 0px 10px grey; border-radius: 3px; margin: 25pt; padding: 50pt;">
+    @foreach (var item in Model.Form)
+    {
+        @Html.DisplayFor(modelItem => item.Prompt) <br>
+        //if (item.InputType == "small-text")
+        //{
+            <input type="text" name="@item.Order"><br><br>
+        //}
+
+    }
+    <form asp-controller="Student_Application_Page" asp-action="SaveForm" method="post">
+        <button type="submit">Save</button>
+    </form>
+</div>
+
+
+
+
