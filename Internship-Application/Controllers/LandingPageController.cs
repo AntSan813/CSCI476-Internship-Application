@@ -9,25 +9,20 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Internship_Application.Controllers
 {
-    public class LandingPage_Admin : Controller
+    public class LandingPageController : Controller
     {
         private readonly DataContext _context;
 
-        public LandingPage_Admin(DataContext context)
+        public LandingPageController(DataContext context)
         {
             _context = context;
         }
 
         [Authorize(Roles = "Admin")]
-        // GET: /<controller>/
         public async Task<IActionResult> Index()
         {
-            //var forms = _context.Forms.ToList<Forms>();
             var formViewModels = _context.Forms.Select(x => new FormViewModel {
                 Id = x.Id,
                 StudentName = x.StudentName,
@@ -48,36 +43,9 @@ namespace Internship_Application.Controllers
                 return View();
             }
 
-            //templateView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentQuestions);
             return View(formViewModels);
-           /* var form = await _context.Forms
-                .FirstOrDefaultAsync();
-            var template = await _context.Templates
-                .FirstOrDefaultAsync();
-
-
-            List<FormJsonModel> StudentQuestions = new List<FormJsonModel> { };
-
-            FormJsonModel item = new FormJsonModel { };
-
-            //var formSQ = JsonConvert.DeserializeObject<List<FormJsonModel>>(form.StudentQuestions);
-            
-            //var templateSQ = JsonConvert.DeserializeObject<List<JsonModel>>(template.Questions);
-
-            for(var i = 0; i < templateSQ.Count; i++)
-            {
-                var temp = new FormJsonModel
-                {
-                    Prompt = templateSQ[i].Prompt,
-                   // PromptValue = formSQ[i].PromptValue
-                };
-                Questions.Add(temp);
-            }
-            //return View(await _context.Forms.ToListAsync());
-            return View(Questions);*/
         }
 
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditForm(int? id)
         {
             var form = await _context.Forms
@@ -86,7 +54,6 @@ namespace Internship_Application.Controllers
             return View(form);
         }
 
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DisplayForm(int? id)
         {
              var form = await _context.Forms
@@ -110,7 +77,6 @@ namespace Internship_Application.Controllers
                 }
             };
 
-            //form.Answers = JsonConvert.DeserializeObject<List<JsonModel>>(form.Answers);
             List<Answers> answers = JsonConvert.DeserializeObject<List<Answers>>(form.Answers);
             List<Questions> questions = JsonConvert.DeserializeObject<List<Questions>>(template.Questions);
             QuestionsAndAnswers qaList = new QuestionsAndAnswers
@@ -120,7 +86,6 @@ namespace Internship_Application.Controllers
                 QuestionList = questions,
                 AnswerList = answers
             };
-            //form.Answers = json.ToString();
             return View(qaList);
         }
 
