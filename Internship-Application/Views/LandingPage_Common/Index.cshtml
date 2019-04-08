@@ -1,4 +1,4 @@
-@model List<Internship_Application.Models.Forms>
+@model List<Internship_Application.Models.FormViewModel>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -114,50 +114,72 @@
             <table style="width:90%">
                 <thead style="border-bottom:3px solid black">
                 <th>
-                    @Html.DisplayNameFor(model => model[0].WuId)
+                    @Html.DisplayNameFor(model => model[0].StudentName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model[0].UpdatedAt)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model[0].StatusCodeId)
+                    @Html.DisplayNameFor(model => model[0].StatusCodesViewModel.StatusCode)
                 </th>
                 <th></th>
                 </thead>
-                <tr>
-                    @foreach (var item in Model)
+                @foreach (var item in Model)
+                {
+                    if (User.IsInRole("Student") && item.StudentEmail == @User.Identity.Name)
                     {
-                        if (User.IsInRole("Student") && item.WuId == "logged in Wuid")
-                        {
-                            <td>@item.WuId</td>
-                            <td>@item.UpdatedAt</td>
-                            <td>@item.StatusCodeId</td>
-                            <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
-                        }
-                        else if (User.IsInRole("Employer") && item.WuId == "signedinemail" && item.StatusCodeId == 2)
-                        {
-                            <td>@item.WuId</td>
-                            <td>@item.UpdatedAt</td>
-                            <td>@item.StatusCodeId</td>
-                            <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
-                        }
-                        else if (User.IsInRole("StudentServices") && item.StatusCodeId == 4)
-                        {
-                            <td>@item.WuId</td>
-                            <td>@item.UpdatedAt</td>
-                            <td>@item.StatusCodeId</td>
-                            <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
-                        }
-                        else if (User.IsInRole("FacultyOfRecord") && item.WuId == "signedinemail" && item.StatusCodeId == 5)
-                        {
-                            <td>@item.WuId</td>
-                            <td>@item.UpdatedAt</td>
-                            <td>@item.StatusCodeId</td>
-                            <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
-                        }
+                <tr>
+                    <td>@item.StudentName</td>
+                    <td>@item.UpdatedAt</td>
+                    <td>@item.StatusCodesViewModel.StatusCode</td>
+                    @if (item.StatusCodesViewModel.Id == 1)
+                    {
+                        <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                    }
+                    else
+                    {
+                        <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
                     }
                 </tr>
-                @if ("role" == "student")
+                    }
+                    else if (User.IsInRole("Employer") && item.EmployerEmail == @User.Identity.Name && item.StatusCodesViewModel.Id == 2)
+                    {
+                <tr>
+                    <td>@item.StudentName</td>
+                    <td>@item.UpdatedAt</td>
+                    <td>@item.StatusCodesViewModel.StatusCode</td>
+                    <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                </tr>
+                    }
+                    else if (User.IsInRole("StudentServices") && item.StatusCodesViewModel.Id == 4)
+                    {
+                <tr>
+                    <td>@item.StudentName</td>
+                    <td>@item.UpdatedAt</td>
+                    <td>@item.StatusCodesViewModel.StatusCode</td>
+                    <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                    
+                </tr>
+                    }
+                    else if (User.IsInRole("FacultyOfRecord") && item.FacultyEmail == @User.Identity.Name && item.StatusCodesViewModel.Id == 5)
+                    {
+                <tr>
+                    <td>@item.StudentName</td>
+                    <td>@item.UpdatedAt</td>
+                    <td>@item.StatusCodesViewModel.StatusCode</td>
+                    @if (item.StatusCodesViewModel.Id == 5)
+                    {
+                        <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                    }
+                    else
+                    {
+                        <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
+                    }
+                </tr>
+                    }
+                }
+                </tr>
+                @User.IsInRole("Student")
                 {
                     <tr>
                         <td></td>
@@ -179,22 +201,22 @@
                 <table style="width:90%">
                     <thead style="border-bottom:3px solid black">
                     <th>
-                        @Html.DisplayNameFor(model => model[0].WuId)
+                        @Html.DisplayNameFor(model => model[0].StudentName)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model[0].UpdatedAt)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model[0].StatusCodeId)
+                        @Html.DisplayNameFor(model => model[0].StatusCodesViewModel.StatusCode)
                     </th>
                     <th></th>
                     </thead>
                     <tr>
                         @foreach (var item in Model)
                         {
-                            <td>@item.WuId</td>
+                            <td>@item.StudentName</td>
                             <td>@item.UpdatedAt</td>
-                            <td>@item.StatusCodeId</td>
+                            <td>@item.StatusCodesViewModel.StatusCode</td>
                             <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
                         }
                     </tr>

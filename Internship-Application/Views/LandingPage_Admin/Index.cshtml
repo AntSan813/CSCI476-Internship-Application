@@ -1,4 +1,4 @@
-﻿@model List<Internship_Application.Models.Forms>
+﻿@model List<Internship_Application.Models.FormViewModel>
 
 
 <style>
@@ -104,7 +104,17 @@
         <div>
             <h2>
                 <i class="fa fa-bell" aria-hidden="true"></i>
-                2
+                @{
+                    var adminNeeded = 0;
+                    foreach (var item in Model)
+                    {
+                        if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 6)
+                        {
+                            adminNeeded++;
+                        }
+                    }
+                }
+                @adminNeeded
             </h2>
         </div>
     </div>
@@ -114,24 +124,24 @@
             <table style="width:90%">
 
                 <th>
-                    @Html.DisplayNameFor(model => model[0].WuId)
+                    @Html.DisplayNameFor(model => model[0].StudentName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model[0].UpdatedAt)
                 </th>
                 <th>
-                    STATUS CODE
+                    @Html.DisplayNameFor(model => model[0].StatusCodesViewModel.StatusCode)
                 </th>
                 <th></th>
                 </thead>
                 @foreach (var item in Model)
                 {
-                    @if (item.StatusCodeId == 1)
+                    @if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 6)
                     {
                         <tr>
-                            <td>@item.WuId</td>
+                            <td>@item.StudentName</td>
                             <td>@item.UpdatedAt</td>
-                            <td>Pending DER Approval</td>
+                            <td>@item.StatusCodesViewModel.StatusCode</td>
                             <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
                         </tr>
                     }
@@ -142,19 +152,19 @@
         <div id="remFormsContainer" style="margin-bottom: 25pt;">
             <table style="width:90%">
                 <thead style='visibility: hidden; line-height:0%'>
-                <th>@Html.DisplayNameFor(model => model[0].WuId)</th>
+                <th>@Html.DisplayNameFor(model => model[0].StudentName)</th>
                 <th>@Html.DisplayNameFor(model => model[0].UpdatedAt)</th>
-                <th>@Html.DisplayNameFor(model => model[0].StatusCodeId)</th>
+                <th>@Html.DisplayNameFor(model => model[0].StatusCodesViewModel.StatusCode)</th>
                 <th></th>
                 </thead>
                 @foreach (var item in Model)
                 {
-                    @if (item.StatusCodeId != 1)
+                    @if (item.StatusCodesViewModel.Id != 3 && item.StatusCodesViewModel.Id != 6)
                     {
                         <tr>
-                            <td>@item.WuId</td>
+                            <td>@item.StudentName</td>
                             <td>@item.UpdatedAt</td>
-                            <td>@item.StatusCodeId</td>
+                            <td>@item.StatusCodesViewModel.StatusCode</td>
                             <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
                         </tr>
                     }
