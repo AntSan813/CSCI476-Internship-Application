@@ -24,7 +24,30 @@ namespace Internship_Application.Controllers
         [Authorize(Roles = "Student")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Forms.ToListAsync());
+            //var forms = _context.Forms.ToList<Forms>();
+            var formViewModels = _context.Forms.Select(x => new FormViewModel
+            {
+                Id = x.Id,
+                StudentName = x.StudentName,
+                UpdatedAt = x.UpdatedAt,
+                StudentEmail = x.StudentEmail,
+                EmployerEmail = x.EmployerEmail,
+                FacultyEmail = x.FacultyEmail,
+                StatusCodesViewModel = new StatusCodesViewModel
+                {
+                    Id = x.StatusCodeId,
+                    StatusCode = _context.StatusCodes.FirstOrDefault(s => s.Id == x.StatusCodeId).StatusCode,
+                    Details = _context.StatusCodes.FirstOrDefault(s => s.Id == x.StatusCodeId).Details
+                }
+            }).ToList();
+
+            if (formViewModels == null)
+            {
+                return View();
+            }
+
+            //templateView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentQuestions);
+            return View(formViewModels);
         }
     }
 }

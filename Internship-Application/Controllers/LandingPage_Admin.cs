@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -26,13 +27,29 @@ namespace Internship_Application.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index()
         {
-            var forms = _context.Forms.ToList<Forms>();
-            if(forms == null)
+            //var forms = _context.Forms.ToList<Forms>();
+            var formViewModels = _context.Forms.Select(x => new FormViewModel {
+                Id = x.Id,
+                StudentName = x.StudentName,
+                UpdatedAt = x.UpdatedAt,
+                StudentEmail = x.StudentEmail,
+                EmployerEmail = x.EmployerEmail,
+                FacultyEmail = x.FacultyEmail,
+                StatusCodesViewModel = new StatusCodesViewModel
+                {
+                    Id = x.StatusCodeId,
+                    StatusCode = _context.StatusCodes.FirstOrDefault(s => s.Id == x.StatusCodeId).StatusCode,
+                    Details = _context.StatusCodes.FirstOrDefault(s => s.Id == x.StatusCodeId).Details
+                }
+            }).ToList();
+
+            if (formViewModels == null)
             {
                 return View();
             }
+
             //templateView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentQuestions);
-            return View(forms);
+            return View(formViewModels);
            /* var form = await _context.Forms
                 .FirstOrDefaultAsync();
             var template = await _context.Templates
@@ -74,8 +91,37 @@ namespace Internship_Application.Controllers
         {
              var form = await _context.Forms
                 .FirstOrDefaultAsync(m => m.Id == id);
+            var template = _context.Templates
+                .FirstOrDefault(m => m.Id == form.TemplateId);
 
-            return View(form);
+            var formViewModel = new FormViewModel
+            {
+                Id = form.Id,
+                StudentName = form.StudentName,
+                UpdatedAt = form.UpdatedAt,
+                StudentEmail = form.StudentEmail,
+                EmployerEmail = form.EmployerEmail,
+                FacultyEmail = form.FacultyEmail,
+                StatusCodesViewModel = new StatusCodesViewModel
+                {
+                    Id = form.StatusCodeId,
+                    StatusCode = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).StatusCode,
+                    Details = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).Details
+                }
+            };
+
+            //form.Answers = JsonConvert.DeserializeObject<List<JsonModel>>(form.Answers);
+            List<Answers> answers = JsonConvert.DeserializeObject<List<Answers>>(form.Answers);
+            List<Questions> questions = JsonConvert.DeserializeObject<List<Questions>>(template.Questions);
+            QuestionsAndAnswers qaList = new QuestionsAndAnswers
+            {
+                FormDetails = formViewModel,
+                TemplateDetails = template,
+                QuestionList = questions,
+                AnswerList = answers
+            };
+            //form.Answers = json.ToString();
+            return View(qaList);
         }
 
     }
