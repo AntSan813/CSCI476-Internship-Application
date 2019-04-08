@@ -79,6 +79,26 @@
         width: 1000px;
         height: 250px;
     }
+
+    .activeStyle {
+        background-color: #660000;
+        color: white;
+    }
+
+    .disabledStyle {
+        color: grey;
+        background-color: grey;
+        color: black;
+        opacity: .5;
+    }
+
+    .disabledText {
+        color: grey;
+    }
+
+    .activeText {
+        color: black;
+    }
 </style>
 
 <br />
@@ -90,7 +110,20 @@
         @Html.DisplayFor(modelItem => item.Prompt) <br>
         //if (item.InputType == "small-text")
         //{
-            <input type="text" name="@item.Order"><br><br>
+
+        if (item.InputType == "textarea")
+        {
+            <textarea rows="3" cols="50" required="@item.Required" name="@item.Order">Enter text here...</textarea>
+        }
+        if (this.User.IsInRole(item.Person))
+        {
+            <input type="text" required="@item.Required" class="activeStyle" name="@item.Order"><br><br>
+
+        }
+        else
+        {
+            <input type="text" required="@item.Required" class="disabledStyle"name="@item.Order"><br><br>
+        }
         //}
 
     }
