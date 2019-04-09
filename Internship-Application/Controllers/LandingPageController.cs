@@ -20,7 +20,7 @@ namespace Internship_Application.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var formViewModels = _context.Forms.Select(x => new FormViewModel {
@@ -54,6 +54,7 @@ namespace Internship_Application.Controllers
             return View(form);
         }
 
+        [HttpGet]
         public async Task<IActionResult> DisplayForm(int? id)
         {
              var form = await _context.Forms
@@ -87,6 +88,15 @@ namespace Internship_Application.Controllers
                 AnswerList = answers
             };
             return View(qaList);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DisplayForm(QuestionsAndAnswers questionsAndAnswers)
+        {
+            var form = await _context.Forms.FindAsync(questionsAndAnswers.FormDetails.Id);
+            form.StatusCodeId++;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
     }
