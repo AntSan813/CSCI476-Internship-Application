@@ -21,57 +21,78 @@
     #commonNavBar {
         display: none;
     }
+
+    #tablesDiv {
+        padding-top: 25px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        box-shadow: 0px 0px 10px grey;
+        border-radius: 3px;
+    }
 </style>
 
 @using (Html.BeginForm())
 {
     @Html.HiddenFor(m => m.FormDetails.Id)
     @Html.HiddenFor(m => m.FormDetails.StatusCodesViewModel.Id)
-    <div style="display: block">
-        <div>
-            <b>STUDENT NAME:</b> @Model.FormDetails.StudentName
-        </div>
-        <div>
-            <b>STATUS CODE:</b> @Model.FormDetails.StatusCodesViewModel.StatusCode
-        </div>
-        @if (Model.FormDetails.StatusCodesViewModel.Id != 3 && Model.FormDetails.Id != 6)
-        {
-            <div>This form does not currently require your attention.</div>
-        }
-        else if (Model.FormDetails.StatusCodesViewModel.Id == 3)
-        {
-            <div>This form requires your approval. Have a look and, if you think it's ready, click here to move it forward: <button type="submit">Send Form to Student Services</button></div>
-        }
-        else if (Model.FormDetails.StatusCodesViewModel.Id == 6)
-        {
-            <div>This form requires your signature. Sign it and approve it when you're done or decline it</div>
-            <div style="display: inline-block">
-                <button id="approveButton" onclick="approveApplication">Approved</button>
-                <button id="declinedButton" onclick="declineApplication">Declined</button>
-            </div>
-        }
-        @if (Model.FormDetails.StatusCodesViewModel.Id != 9)
-        {
-            <p>
-                <!--Need to only display valid options (status codes below the current status code)-->
-                <label>Don't like what you see? Choose who to send it back to:</label>
-                <select id="sendBackList">
-                    <option value="1">1 - Student</option>
-                    <option value="2">2 - Employer</option>
-                    <option value="3">3 - DER (Approval)</option>
-                    <option value="4">4 - Student Services</option>
-                    <option value="5">5 - Faculty of Record</option>
-                    <option value="6">6 - DER (Signature Required)</option>
-                </select>
-                <button id="sendBackButton" onclick="" value="-1">Send Back</button>
-            </p>
-        }
-        <div>At any time you may force withdraw this form by clicking here: <button>Force Withdraw</button></div>
-    </div>
+    <div id="tablesDiv">
+        <h2 style="text-align:center;">Form Information: </h2>
+        <br />
 
-    <div>
-        <h1>@Model.TemplateDetails.DisplayName</h1>
-        <h4>@Model.TemplateDetails.Disclaimer</h4>
+        <div style="display: block">
+            <div style="text-align:center;">
+                <b>STUDENT NAME:</b> @Model.FormDetails.StudentName
+            </div>
+            <div style="text-align:center;">
+                <b>STATUS CODE:</b> @Model.FormDetails.StatusCodesViewModel.StatusCode
+            </div>
+            @if (Model.FormDetails.StatusCodesViewModel.Id != 3 && Model.FormDetails.Id != 6)
+            {
+                <div style="text-align:center;"><mark>This form does not currently require your attention.</mark></div>
+            }
+            else if (Model.FormDetails.StatusCodesViewModel.Id == 3)
+            {
+                <div style="text-align:center;"><mark>This form requires your approval. Have a look and, if you think it's ready, click here to move it forward: </mark><button type="submit">Send Form to Student Services</button></div>
+            }
+            else if (Model.FormDetails.StatusCodesViewModel.Id == 6)
+            {
+                <div style="text-align:center;"><mark>This form requires your signature. Sign it and approve it when you're done or decline it</mark></div>
+                <div style="display: inline-block">
+                    <button id="approveButton" onclick="approveApplication">Approved</button>
+                    <button id="declinedButton" onclick="declineApplication">Declined</button>
+                </div>
+            }
+            @if (Model.FormDetails.StatusCodesViewModel.Id != 9)
+            {
+                <p>
+                    <!--Need to only display valid options (status codes below the current status code)-->
+                    <div style="text-align:center;">
+                        <label>Don't like what you see? Choose who to send it back to:</label>
+                    </div>
+                    <div style="text-align:center;">
+                        <select id="sendBackList">
+                            <option value="1">1 - Student</option>
+                            <option value="2">2 - Employer</option>
+                            <option value="3">3 - DER (Approval)</option>
+                            <option value="4">4 - Student Services</option>
+                            <option value="5">5 - Faculty of Record</option>
+                            <option value="6">6 - DER (Signature Required)</option>
+                        </select>
+
+                        <button id="sendBackButton" onclick="" value="-1">Send Back</button>
+                    </div>
+                </p>
+            }
+            <div style="text-align:center;">At any time you may force withdraw this form by clicking here: <button>Force Withdraw</button></div>
+            <br />
+        </div>
+    </div>
+    <br />
+    <div id="tablesDiv">
+        <h1 style="text-align:center;">@Model.TemplateDetails.DisplayName</h1>
+        <h4 style="text-align:center;">@Model.TemplateDetails.Disclaimer</h4>
         <div>
             @Html.DisplayFor(modelItem => Model)
             @foreach (var q in Model.QuestionList)
@@ -80,12 +101,23 @@
                 {
                     if (q.Order == a.Order)
                     {
-                        <div>@q.Order. @q.Prompt : @a.Value</div>
+                        <div class="row" style="padding: 10pt;">
+                            <div class="col-2">
+                                <div>@q.Order.</div>
+                            </div>
+                            <div class="col-5">
+                                <div><b>@q.Prompt : </b></div>
+                            </div>
+                            <div class="col-5">
+                                <div>@a.Value</div>
+                            </div>
+                        </div>
                     }
                 }
             }
         </div>
     </div>
+    <br />
 
     <div>
         <a asp-action="Index">Back to List</a>
