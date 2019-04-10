@@ -35,10 +35,6 @@ namespace Internship_Application.Controllers
             }
             //FormViewModel formView = new FormViewModel { };
             //FormViewModel.Questions = JsonConvert.DeserializeObject<List<JsonModel>>(forms.Questions);
-            //templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
-            //templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
-            //templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
-            //templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
             List<Forms> formList = new List<Forms>(forms);
             //formList = forms;
 

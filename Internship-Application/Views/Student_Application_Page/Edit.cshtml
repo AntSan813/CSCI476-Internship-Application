@@ -108,8 +108,6 @@
     @foreach (var item in Model.Form)
     {
         @Html.DisplayFor(modelItem => item.Prompt) <br>
-        //if (item.InputType == "small-text")
-        //{
 
         if (item.InputType == "textarea")
         {
@@ -124,7 +122,6 @@
         {
             <input type="text" required="@item.Required" class="disabledStyle"name="@item.Order"><br><br>
         }
-        //}
 
     }
     <form asp-controller="Student_Application_Page" asp-action="SaveForm" method="post">

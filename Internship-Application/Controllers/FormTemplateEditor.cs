@@ -22,31 +22,20 @@ namespace Internship_Application.Controllers
         // GET: Templates
         public IActionResult Index()
         {
-            //if (id == null)
-            // {
-            //    return NotFound();
-            //}
+            var templates = _context.Templates.ToList<Templates>();
 
-            var template = _context.Templates.ToList<Templates>();
-
-            if (template == null)
+            if (templates == null)
             {
                 //TODO: move this to a function
 
                 return View();
             }
-            TemplateViewModel templateView = new TemplateViewModel { };
-            //templateView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template[0].StudentQuestions);
-            //templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
-            //templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
-            //templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
-            //templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
-            templateView.Templates = template;
-            return View(templateView);
+            ViewBag.Templates = templates;
+            return View();
+            //return View(templates);
         }
 
-
-
+        
         // GET: Templates/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -85,7 +74,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Student Name",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 1,
                 HelperText = "",
                 DateSigned = "",
@@ -98,12 +87,14 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Class Name",
-                InputType = "small-text",
+                InputType = "options",
                 Order = 2,
                 HelperText = "E.g. CSCI 491",
                 DateSigned = "",
                 Signed = false,
-                Options = new List<string> { },
+                Options = new List<string> {
+                    "ACCT 491","FINC 491","CSCI 491", "CSCI 492","MGMT 491","MKTG 491","ENTR 491","BADM 492","BADM 491","BADM 694"
+                },
                 Required = true,
                 Person = "student",
             });
@@ -111,7 +102,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Employer Email",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 3,
                 HelperText = "",
                 DateSigned = "",
@@ -124,7 +115,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Company Name",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 4,
                 HelperText = "",
                 DateSigned = "",
@@ -137,7 +128,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Company Location",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 5,
                 HelperText = "",
                 DateSigned = "",
@@ -176,7 +167,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Faculty of Record Email",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 8,
                 HelperText = "",
                 DateSigned = "",
@@ -212,6 +203,15 @@ namespace Internship_Application.Controllers
             var template = await _context.Templates
                 .FirstOrDefaultAsync(m => m.Id == id);
 
+            if(template == null)
+            {
+                return NotFound();
+            }
+
+            //ViewBag.Template = template;
+            //ViewBag.Questions = JsonConvert.DeserializeObject<List<JsonModel>>(template.Questions);
+            //return View();
+
             TemplateViewModel templateView = new TemplateViewModel { };
             templateView.Templates = new List<Templates> {template};
 
@@ -230,9 +230,14 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormCollection collection, [Bind("Questions,Templates")] TemplateViewModel templateView)
+        public IActionResult Edit(int id, IFormCollection collection, [Bind("Templates,Questions")] TemplateViewModel templateView)
         {
-
+           // TemplateViewModel templateView = new TemplateViewModel
+           // {
+           //     Questions = new List<JsonModel>(JsonConvert.DeserializeObject<List<JsonModel>>(collection["Questions"])),
+           //     Templates = new List<Templates>(JsonConvert.DeserializeObject<List<Templates>>(collection["Templates"])),
+           // };
+            Console.WriteLine(ViewBag);      
             if (id != templateView.Templates[0].Id)
             {
                 return NotFound();
@@ -248,7 +253,7 @@ namespace Internship_Application.Controllers
 
             //***LEFT OFF FIGURING OUT WHY templateView.Templates[0].Questions IS NULL****
             List<JsonModel> questionModel = JsonConvert.DeserializeObject<List<JsonModel>>(templateView.Templates[0].Questions);
-            var order = questionModel.Count + 1;
+            var order = questionModel.Count;
             //the following may be useful later
             //foreach (JsonModel question in questionModel)
             //{
@@ -280,8 +285,8 @@ namespace Internship_Application.Controllers
                 try
                 {
                     _context.Templates.Update(templateView.Templates[0]);
-                    
-                     _context.SaveChanges();
+
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

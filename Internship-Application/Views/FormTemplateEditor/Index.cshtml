@@ -56,50 +56,47 @@
 <div id="formTemplateEditorUI" style="height: 100vh">
     <div class="row">
         <div id="editColumn" style="display: block" class="col-2">
-            <a  asp-action="Create">Add New</a>
-
-            @*@if (Model.Template.Count() != 0)
-            {*@
-
+            <a asp-action="Create">Add New</a>
             <table class="table">
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Templates[0].TemplateName)
+                            @Html.DisplayNameFor(ViewBag => ViewBag.Templates[0].TemplateName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Templates[0].CreatedAt)
+                            @Html.DisplayNameFor(ViewBag => ViewBag.Templates[0].CreatedAt)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Templates[0].UpdatedAt)
+                            @Html.DisplayNameFor(ViewBag => ViewBag.Templates[0].UpdatedAt)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Templates[0].IsActive)
+                            @Html.DisplayNameFor(ViewBag => ViewBag.Templates[0].IsActive)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Templates[0].IsRetired)
+                            @Html.DisplayNameFor(ViewBag => ViewBag.Templates[0].IsRetired)
                         </th>
                         <th></th>
-                      </tr>
+                    </tr>
                 </thead>
+                
                 <tbody>
-                    @foreach (var item in Model.Templates)
+                    @foreach (var item in ViewBag.Templates)
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.TemplateName)
+                                @item.TemplateName
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                                @item.CreatedAt
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.UpdatedAt)
+                                @item.UpdatedAt
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.IsActive)
+                                @item.IsActive
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.IsRetired)
+                                @item.IsRetired
                             </td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -109,7 +106,6 @@
                     }
                 </tbody>
             </table>
-            @*}*@
         </div>
     </div>
 </div>
@@ -118,9 +114,6 @@
 
     function toggleEditMode() {
         var editButton = document.getElementById("editButton");
-        //var choiceButtons = document.getElementById("editChoiceButtonsDiv");
-        //var questionOptions = document.getElementById("questionTemplateDiv");
-        //var saveCancelButtons = document.getElementById("saveCancelButtonDiv");
         var editColumn = document.getElementById("editColumn");
         var formColumn = document.getElementById("formColumn");
         var allFormOptions = document.getElementById("allFormOptionsDiv");
@@ -130,9 +123,6 @@
 
             // make buttons visible
             allFormOptions.style.display = "block";
-            //    choiceButtons.style.display = "inline-block";
-            //   questionOptions.style.display = "block";
-            //  saveCancelButtons.style.display = "inline-block";
             editColumn.className = "col-6";
             formColumn.className = "col-6";
         }
@@ -142,9 +132,6 @@
 
             // make buttons not visible
             allFormOptions.style.display = "none";
-            //choiceButtons.style.display = "none";
-            //questionOptions.style.display = "none";
-            //saveCancelButtons.style.display = "none";
             editColumn.className = "col-2";
             formColumn.className = "col-10";
         }
