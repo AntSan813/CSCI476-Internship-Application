@@ -1,0 +1,352 @@
+﻿@model List<Internship_Application.Models.FormViewModel>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<style>
+
+    #gradientAudience {
+        display: none;
+    }
+
+    #adminNavBar {
+        display: block;
+    }
+
+    #commonNavBar {
+        display: none;
+    }
+
+    tr {
+        border: white 2px solid;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    table {
+        margin: 0px auto;
+    }
+
+    #needsAdminContainer td {
+        color: white;
+        background-color: #660000;
+    }
+
+    #needsAdminContainer {
+        padding-bottom: 50px;
+    }
+
+        #needsAdminContainer th {
+            padding-bottom: 25px;
+        }
+
+    #radioFilter {
+        display: inline;
+        margin-right: 5px;
+    }
+
+    #tableTitle {
+        display: inline-block;
+    }
+
+    #titleAndSortContent {
+        padding: 20px;
+        width: 100%;
+        display: inline-block;
+    }
+
+    #radioFilter {
+        display: inline-block;
+        text-align: right;
+        float: right;
+    }
+
+    #tablesDiv {
+        padding-top: 25px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        box-shadow: 0px 0px 10px grey;
+        border-radius: 3px;
+    }
+
+    #remFormsContainer {
+        padding-bottom: 25px;
+    }
+
+    button {
+        color: white;
+        background-color: #F0B323;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: none;
+        border-radius: 3px;
+    }
+    }
+</style>
+
+<!--Admin-->
+
+@if (User.IsInRole("Admin"))
+{
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="" asp-controller="SignIn" asp-action="Index">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+    </ul>
+    <div id="adminLandingPageUI">
+        <div id="titleAndSortContent">
+            <div id="tableTitle">
+                <h2>ALL ACTIVE FORMS</h2>
+            </div>
+            <div id="radioFilter">
+                <h2>Order By</h2>
+                <form name="filterAdminUIForm">
+                    <input type="radio" id="orderByLU" name="orderBy" value="orderByLU">
+                    <label for="orderByLU">Last Updated</label>
+                    <input type="radio" id="orderByStatus" name="orderBy" value="orderByStatus">
+                    <label for="orderByLU">Status</label>
+                </form>
+            </div>
+            <div>
+                <h2>
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                    @{
+                        var adminNeeded = 0;
+                        foreach (var item in Model)
+                        {
+                            if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 6)
+                            {
+                                adminNeeded++;
+                            }
+                        }
+                    }
+                    @adminNeeded
+                </h2>
+            </div>
+        </div>
+
+        <div id="tablesDiv">
+            <div id="needsAdminContainer">
+                <table style="width:90%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model[0].Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model[0].StudentName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model[0].UpdatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model[0].StatusCodesViewModel.StatusCode)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        @if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 6)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.StudentName</td>
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+            <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
+            <div id="remFormsContainer" style="margin-bottom: 25pt;">
+                <table style="width:90%">
+                    <thead style='visibility: hidden; line-height:0%'>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model[0].StudentName)</th>
+                            <th>@Html.DisplayNameFor(model => model[0].UpdatedAt)</th>
+                            <th>@Html.DisplayNameFor(model => model[0].StatusCodesViewModel.StatusCode)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        @if (item.StatusCodesViewModel.Id != 3 && item.StatusCodesViewModel.Id != 6)
+                        {
+                            <tr>
+                                <td>@item.StudentName</td>
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+
+    </div>
+}
+
+<!--COMMON-->
+
+@if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
+{
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="" asp-controller="SignIn" asp-action="Index">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+    </ul>
+    <div id="commonLandingPageUI">
+        <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
+            <div>
+                <h2 style="padding-left:30px; padding-top: 25px; padding-bottom: 25px">Active Forms</h2>
+            </div>
+            <div id="activeFormsContainer">
+                <table style="width:90%">
+                    <thead style="border-bottom:3px solid black">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model[0].StudentName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model[0].UpdatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model[0].StatusCodesViewModel.StatusCode)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                        if (User.IsInRole("Student") && item.StudentEmail == @User.Identity.Name)
+                        {
+                            <tr>
+                                <td>@item.StudentName</td>
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                @if (item.StatusCodesViewModel.Id == 1)
+                                {
+                                    <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                                }
+                                else
+                                {
+                                    <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
+                                }
+                            </tr>
+                        }
+                        else if (User.IsInRole("Employer") && item.EmployerEmail == @User.Identity.Name && item.StatusCodesViewModel.Id == 2)
+                        {
+                            <tr>
+                                <td>@item.StudentName</td>
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                            </tr>
+                        }
+                        else if (User.IsInRole("StudentServices") && item.StatusCodesViewModel.Id == 4)
+                        {
+                            <tr>
+                                <td>@item.StudentName</td>
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+
+                            </tr>
+                        }
+                        else if (User.IsInRole("FacultyOfRecord") && item.FacultyEmail == @User.Identity.Name && item.StatusCodesViewModel.Id == 5)
+                        {
+                            <tr>
+                                <td>@item.StudentName</td>
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                @if (item.StatusCodesViewModel.Id == 5)
+                                {
+                                    <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                                }
+                                else
+                                {
+                                    <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
+                                }
+                            </tr>
+                        }
+                    }
+                    @User.IsInRole("Student")
+                    {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <form asp-controller="Student_Application_Page" asp-action="Index" method="post">
+                                <button type="submit" style="height:55px; background-color:#660000">Start New Form</button>
+                            </form><!--<button style="height:55px; background-color:#660000">Start New Form</button>-->
+                        </td>
+                    </tr>
+                    }
+                </table>
+            </div>
+            <h2 style="padding-left:30px; padding-top: 25px">Archived Forms</h2>
+            <div style="text-align:center; padding-bottom:25px; padding-bottom:50px; display:block" id="emptyArchiveText">You don't have any archived forms yet...</div>
+            <div style="display:none;">
+                <div id="archivedFormsContainer">
+                    <table style="width:90%">
+                        <thead style="border-bottom:3px solid black">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model[0].StudentName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model[0].UpdatedAt)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model[0].StatusCodesViewModel.StatusCode)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            @foreach (var item in Model)
+                            {
+                                <td>@item.StudentName</td>
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
+                            }
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (!User.IsInRole("Admin") || !User.IsInRole("Student") || !User.IsInRole("StudentServices") || !User.IsInRole("FacultyOfRec") || !User.IsInRole("Employer"))
+{
+    <h2>UNAUTHORIZED ACCESS</h2>
+}
+
+

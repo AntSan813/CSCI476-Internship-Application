@@ -1,0 +1,168 @@
+﻿@model Internship_Application.Models.QuestionsAndAnswers
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<script src="Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
+<link href="Bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="Bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+<style>
+
+    #gradientAudience {
+        display: none;
+    }
+
+    #adminNavBar {
+        display: block;
+    }
+
+    #commonNavBar {
+        display: none;
+    }
+
+    #tablesDiv {
+        padding-top: 25px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        box-shadow: 0px 0px 10px grey;
+        border-radius: 3px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.FormDetails.Id)
+    @Html.HiddenFor(m => m.FormDetails.StatusCodesViewModel.Id)
+    <div id="tablesDiv">
+        <h2 style="text-align:center;">Form Information: </h2>
+        <br />
+
+        <div style="display: block">
+            <div style="text-align:center;">
+                <b>STUDENT NAME:</b> @Model.FormDetails.StudentName
+            </div>
+            <div style="text-align:center;">
+                <b>STATUS CODE:</b> @Model.FormDetails.StatusCodesViewModel.StatusCode
+            </div>
+            @if (Model.FormDetails.StatusCodesViewModel.Id != 3 && Model.FormDetails.Id != 6)
+            {
+                <div style="text-align:center;"><mark>This form does not currently require your attention.</mark></div>
+            }
+            else if (Model.FormDetails.StatusCodesViewModel.Id == 3)
+            {
+                <div style="text-align:center;"><mark>This form requires your approval. Have a look and, if you think it's ready, click here to move it forward: </mark><button type="submit">Send Form to Student Services</button></div>
+            }
+            else if (Model.FormDetails.StatusCodesViewModel.Id == 6)
+            {
+                <div style="text-align:center;"><mark>This form requires your signature. Sign it and approve it when you're done or decline it</mark></div>
+                <div style="display: inline-block">
+                    <button id="approveButton" onclick="approveApplication">Approved</button>
+                    <button id="declinedButton" onclick="declineApplication">Declined</button>
+                </div>
+            }
+            @if (Model.FormDetails.StatusCodesViewModel.Id != 9)
+            {
+                <p>
+                    <!--Need to only display valid options (status codes below the current status code)-->
+                    <div style="text-align:center;">
+                        <label>Don't like what you see? Choose who to send it back to:</label>
+                    </div>
+                    <div style="text-align:center;">
+                        <select id="sendBackList">
+                            <option value="1">1 - Student</option>
+                            <option value="2">2 - Employer</option>
+                            <option value="3">3 - DER (Approval)</option>
+                            <option value="4">4 - Student Services</option>
+                            <option value="5">5 - Faculty of Record</option>
+                            <option value="6">6 - DER (Signature Required)</option>
+                        </select>
+
+                        <button id="sendBackButton" onclick="" value="-1">Send Back</button>
+                    </div>
+                </p>
+            }
+            <div style="text-align:center;">At any time you may force withdraw this form by clicking here: <button>Force Withdraw</button></div>
+            <br />
+        </div>
+    </div>
+    <br />
+    <div id="tablesDiv">
+        <h1 style="text-align:center;">@Model.TemplateDetails.DisplayName</h1>
+        <h4 style="text-align:center;">@Model.TemplateDetails.Disclaimer</h4>
+        <div>
+            @Html.DisplayFor(modelItem => Model)
+            @foreach (var q in Model.QuestionList)
+            {
+                @foreach (var a in Model.AnswerList)
+                {
+                    if (q.Order == a.Order)
+                    {
+                        <div class="row" style="padding: 10pt;">
+                            <div class="col-2">
+                                <div>@q.Order.</div>
+                            </div>
+                            <div class="col-5">
+                                <div><b>@q.Prompt : </b></div>
+                            </div>
+                            <div class="col-5">
+                                <div>@a.Value</div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+    <br />
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+
+<script>
+    function approveApplication() {
+        SqlConnection cn = new SqlConnection("Server = localhost; Database = Data; Trusted_Connection = True;");
+        SqlCommand cmd = new SqlCommand();
+        SqlDataReader dr;
+        // Set status code to 7 for the form
+        cn.Open();
+        cmd.CommandText = "UPDATE Forms SET status_code_id = 7 WHERE id = " + @Model.FormDetails.Id + "; GO";
+        cmd.ExecuteNonQuery();
+        cn.Close();
+        MessageBox.Show("Record Changed with Command: " + cmd.CommandText);
+    }
+
+    function declineApplication() {
+        // Set status code to 8 for the form
+    }
+
+    function sendBack(chosenValue) {
+        // Ensure not setting status code to a lower number than current status code
+        chosenValue = 6;
+        //if (chosenValue < @Model.FormDetails.StatusCodesViewModel.Id) {
+            //Set status code to given value
+            var cmd = "UPDATE Forms SET status_code_id = " + chosenValue + " WHERE id = " + @Model.FormDetails.Id + "; GO";
+
+        SqlConnection cn = new SqlConnection("Server = localhost; Database = Data; Trusted_Connection = True;");
+        SqlCommand cmd = new SqlCommand();
+        SqlDataReader dr;
+        // Set status code to 7 for the form
+        cn.Open();
+        cmd.CommandText = "UPDATE Forms SET status_code_id = 7 WHERE id = " + @Model.FormDetails.Id + "; GO";
+        cmd.ExecuteNonQuery();
+        cn.Close();
+        MessageBox.Show("Record Changed with Command: " + cmd.CommandText);
+        //}
+    }
+
+    function forceWithdraw() {
+        // Give an alert to the user that this action cannot be undone
+        Window.alert("Are you sure you want to force withdraw this form? This action cannot be undone.");
+        // Set status code to 9 for the form
+    }
+</script>
