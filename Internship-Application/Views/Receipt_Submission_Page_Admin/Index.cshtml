@@ -10,6 +10,7 @@
     #commonNavBar {
         display: block;
     }
+
     .border2 {
         margin: auto;
         width: 70%;
@@ -19,13 +20,16 @@
         top: 50%;
         left: 50%;
         margin-bottom: 25px;
-     }
+    }
 </style>
+
 
 <div>
     <fieldset>
-            <div class="border2">
-                <p>Thank you, Jane Doe, for submitting your application. A confirmation email will be sent to <b>DoeJ2@winthrop.edu</b>.</p>
-            </div>
+        <div class="border2">
+            <p>Thank you for submitting your application. A confirmation email will be sent to <b>@User.Identity.Name</b>.</p>
+        </div>
     </fieldset>
 </div>
+
+<button><a class="nav-link text-dark" asp-controller="LandingPage">OK</a></button>

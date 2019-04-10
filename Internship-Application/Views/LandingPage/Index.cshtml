@@ -89,24 +89,23 @@
     }
 </style>
 
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="" asp-controller="SignIn" asp-action="Index">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
-    }
-</ul>
-
 <!--Admin-->
 
 @if (User.IsInRole("Admin"))
 {
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="" asp-controller="SignIn" asp-action="Index">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+    </ul>
     <div id="adminLandingPageUI">
         <div id="titleAndSortContent">
             <div id="tableTitle">
@@ -145,6 +144,9 @@
                     <thead>
                         <tr>
                             <th>
+                                @Html.DisplayNameFor(model => model[0].Id)
+                            </th>
+                            <th>
                                 @Html.DisplayNameFor(model => model[0].StudentName)
                             </th>
                             <th>
@@ -161,6 +163,7 @@
                         @if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 6)
                         {
                             <tr>
+                                <td>@item.Id</td>
                                 <td>@item.StudentName</td>
                                 <td>@item.UpdatedAt</td>
                                 <td>@item.StatusCodesViewModel.StatusCode</td>
@@ -202,8 +205,21 @@
 
 <!--COMMON-->
 
-@if (!User.IsInRole("Admin"))
+@if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
 {
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="" asp-controller="SignIn" asp-action="Index">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+    </ul>
     <div id="commonLandingPageUI">
         <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
             <div>
@@ -327,6 +343,10 @@
             </div>
         </div>
     </div>
+}
+@if (!User.IsInRole("Admin") || !User.IsInRole("Student") || !User.IsInRole("StudentServices") || !User.IsInRole("FacultyOfRec") || !User.IsInRole("Employer"))
+{
+    <h2>UNAUTHORIZED ACCESS</h2>
 }
 
 
