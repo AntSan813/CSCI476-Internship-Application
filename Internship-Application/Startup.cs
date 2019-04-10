@@ -171,6 +171,12 @@ namespace Internship_Application
             {
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("FacultyOfRec"));
             }
+            // creating Creating Employer role     
+            roleCheck = await RoleManager.RoleExistsAsync("Employer");
+            if (!roleCheck)
+            {
+                roleResult = await RoleManager.CreateAsync(new IdentityRole("Employer"));
+            }
         }
     }
 }
