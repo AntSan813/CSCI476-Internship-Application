@@ -33,9 +33,8 @@ namespace Internship_Application.Controllers
 
                 return View();
             }
-            List<Forms> rawFormList = new List<Forms>(forms);
             List<FormViewModel> serializedFormList = new List<FormViewModel>();
-            foreach (var form in rawFormList)
+            foreach (var form in forms)
             {
                 Templates template = _context.Templates.Find(form.TemplateId);
                 serializedFormList.Add(new FormViewModel
@@ -62,10 +61,38 @@ namespace Internship_Application.Controllers
 
             return View();
         }
-        public IActionResult GetFormsByCompany(int companyId)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult QueryByCompanyName(IFormCollection formcollection)
         {
-            var forms = _context.Forms.Where(m => m.CompanyId == companyId).ToList();
-            return View(forms);
+            var forms = _context.Forms.Where(m => m.CompanyId == Int32.Parse(formcollection["Id"])).ToList();
+
+            List<FormViewModel> serializedFormList = new List<FormViewModel>();
+            foreach (var form in forms)
+            {
+                Templates template = _context.Templates.Find(form.TemplateId);
+                serializedFormList.Add(new FormViewModel
+                {
+                    Id = form.Id,
+                    //Form = JsonConvert.DeserializeObject<List<FormJsonModel>>(form.Answers),
+                    //FormName = template.DisplayName,
+                    //Disclaimer = template.Disclaimer,
+                    StudentName = form.StudentName,
+                    //StudentEmail = form.StudentEmail,
+                    //FacultyEmail = form.FacultyEmail,
+                    //EmployerEmail = form.EmployerEmail,
+                    UpdatedAt = form.UpdatedAt,
+                    StatusCodesViewModel = _context.StatusCodes.Find(form.StatusCodeId),
+
+                });
+
+            }
+            List<Companies> companies = _context.Companies.ToList<Companies>();
+            ViewBag.Companies = companies;
+            ViewBag.Forms = serializedFormList;
+
+
+            return View("../Admin_Query_Page/Index");
         }
 
     }
