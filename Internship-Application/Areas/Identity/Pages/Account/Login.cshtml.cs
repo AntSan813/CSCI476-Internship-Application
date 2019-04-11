@@ -84,26 +84,10 @@ namespace Internship_Application.Areas.Identity.Pages.Account
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
 
-                //Check to see if the user logged in is the administrator
-                System.Security.Claims.ClaimsIdentity iuser = (System.Security.Claims.ClaimsIdentity)User.Identity;
-                bool isadmin = iuser.HasClaim(ClaimTypes.Role, "Admin");
-                    //if the user logged in
                  if (result.Succeeded)
                  {
-                        //and the user is admin... go to landing page admin
-                        if (isadmin)
-                        {
-                            _logger.LogInformation("User logged in.");
-                            //return LocalRedirect(returnUrl);
-                            return RedirectToAction("Index", "LandingPage_Admin");
-                        }
-                        else//the user does not have the role admin....send them to landing page common
-                        {
-                        _logger.LogInformation("User logged in.");
-                        //return LocalRedirect(returnUrl);
-                        return RedirectToAction("Index", "LandingPage_Common");
-                        }
-                   
+                    return RedirectToAction("Index", "LandingPage");
+
                 }
                 if (result.RequiresTwoFactor)
                 {

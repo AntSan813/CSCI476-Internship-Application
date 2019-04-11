@@ -20,7 +20,7 @@ namespace Internship_Application.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var formViewModels = _context.Forms.Select(x => new FormViewModel {

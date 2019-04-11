@@ -12,6 +12,7 @@ namespace Internship_Application.Controllers
     public class Receipt_Submission_PageController : Controller
     {
         [Authorize(Roles = "Student")]
+       
         public IActionResult Index()
         {
             return View();
