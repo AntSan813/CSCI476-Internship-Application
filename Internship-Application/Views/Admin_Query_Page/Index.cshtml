@@ -123,48 +123,31 @@
                                 <p> </p>
 
                                 <h5>Company:</h5>
-
-                                <div class="dropdown">
-                                    @*<button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left; " >Input Type</button>
-        <div class="dropdown-menu">*@
-                                    @using (Html.BeginForm("QueryByCompanyName", "Admin_Query_Page", FormMethod.Post, new { @name = "Form1" }))
+                                @if (ViewBag.QueryByCompanyName != 0)
+                                {
+                                    @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryByCompanyNameForm" }))
                                     {
-                                        @Html.DropDownList("Id", new SelectList(ViewBag.Companies, "Id", "CompanyName"), "Please select", new { @id = "companies" })
+                                        @Html.DropDownList("CompanyId", new SelectList(ViewBag.Companies, "Id", "CompanyName", ViewBag.QueryByCompanyName), "Please select", new { @id = "companies" })
                                         @Html.Hidden("CompanyName", null, new { @id = "companyName" })
-                                        @Html.Hidden("", null, new { @id = "companyName" })
                                     }
-                                    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                                }
+                                else
+                                {
+                                    <p>this one</p>
+                                    @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryByCompanyNameForm" }))
+                                    {
+                                        @Html.DropDownList("CompanyId", new SelectList(ViewBag.Companies, "Id", "CompanyName"), "Please select", new { @id = "companies" })
+                                        @Html.Hidden("CompanyName", null, new { @id = "companyName" })
+                                    }
+                                }
+                                <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
                                     <script type="text/javascript">
                                         $("body").on("change", "#companies", function () {
                                             $("#companyName").val($(this).find("option:selected").text());
-                                            document.forms["Form1"].submit();
+                                            document.forms["QueryByCompanyNameForm"].submit();
                                         });
                                     </script>
-                                    @*<a class="dropdown-item" value="-1"> -- select an option -- </a>
-        @foreach (var company in ViewBag.Companies)
-        {
-            <button type="button" class="dropdown-item" value="@company.Id" onclick="location.href='@Url.Action("QueryByCompanyName/", "Admin_Query_PageController")'" />@company.CompanyName</button>
-            @*<option value="@company.Id">@company.CompanyName</option>*@
-                                    @*}
-                                    *@
-                                    @*</div>*@
-                                </div>
-                                @*<select>
-                                    <option value="-1"> -- select an option -- </option>
-                                    @foreach (var company in ViewBag.Companies)
-                                    {
-                                        <option value="@company.Id" onclick="location.href='@Url.Action("QueryByCompanyName", "Admin_Query_PageController",new { Id = company.Id})'" />@company.CompnayName</option>
-                                        @*<option value="@company.Id">@company.CompanyName</option>*@
-                                    
-                                    @*}
-                                        <option value="-1"> -- select an option -- </option>
-            <option value="-1">All </option>
-            <option value="0">Ally</option>
-            <option value="1">Delta Bravo</option>
-            <option value="2">Lending Tree</option>
-            <option value="3">Wells Fargo</option>*@
-                                @*</select>*@
                                 <p> </p>
                                 <h5>Location:</h5>
                                 <select>
@@ -173,12 +156,6 @@
                                     {
                                         <option value="@company.Id">@company.CompanyLocation</option>
                                     }
-                                    @*<option value="'-1'"> -- select an option -- </option>
-            <option value="-1"> ALL </option>
-            <option value="0">Alabama</option>
-            <option value="1">California</option>
-            <option value="2">North Carolina</option>
-            <option value="3">South Carolina</option>*@
                                 </select>
                                 <p> </p>
                                 <h5>Year:</h5>
