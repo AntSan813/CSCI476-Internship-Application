@@ -22,11 +22,11 @@ namespace Internship_Application.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=Data;Trusted_Connection=True;");
-            }
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                optionsBuilder.UseSqlServer("Server=.;Database=Data;Trusted_Connection=True;");
+//            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -64,7 +64,7 @@ namespace Internship_Application.Models
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasDefaultValueSql("getdate()");
 
                 entity.Property(e => e.EmployerEmail)
                     .HasColumnName("employer_email")
@@ -96,7 +96,7 @@ namespace Internship_Application.Models
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updated_at")
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasDefaultValueSql("getdate()");
 
                 entity.Property(e => e.WuId)
                     .HasColumnName("wu_id")
@@ -128,7 +128,7 @@ namespace Internship_Application.Models
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasDefaultValueSql("getdate()");
 
                 entity.Property(e => e.Disclaimer)
                     .IsRequired()
@@ -165,7 +165,7 @@ namespace Internship_Application.Models
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnName("updated_at")
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasDefaultValueSql("getdate()");
             });
         }
     }

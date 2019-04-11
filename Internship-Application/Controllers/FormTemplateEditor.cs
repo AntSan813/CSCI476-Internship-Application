@@ -22,31 +22,20 @@ namespace Internship_Application.Controllers
         // GET: Templates
         public IActionResult Index()
         {
-            //if (id == null)
-            // {
-            //    return NotFound();
-            //}
+            var templates = _context.Templates.ToList<Templates>();
 
-            var template = _context.Templates.ToList<Templates>();
-
-            if (template == null)
+            if (templates == null)
             {
                 //TODO: move this to a function
 
                 return View();
             }
-            TemplateViewModel templateView = new TemplateViewModel { };
-            //templateView.StudentQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template[0].StudentQuestions);
-            //templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
-            //templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
-            //templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
-            //templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
-            templateView.Templates = template;
-            return View(templateView);
+            ViewBag.Templates = templates;
+            return View();
+            //return View(templates);
         }
 
-
-
+        
         // GET: Templates/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -85,7 +74,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Student Name",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 1,
                 HelperText = "",
                 DateSigned = "",
@@ -98,12 +87,14 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Class Name",
-                InputType = "small-text",
+                InputType = "options",
                 Order = 2,
                 HelperText = "E.g. CSCI 491",
                 DateSigned = "",
                 Signed = false,
-                Options = new List<string> { },
+                Options = new List<string> {
+                    "ACCT 491","FINC 491","CSCI 491", "CSCI 492","MGMT 491","MKTG 491","ENTR 491","BADM 492","BADM 491","BADM 694"
+                },
                 Required = true,
                 Person = "student",
             });
@@ -111,7 +102,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Employer Email",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 3,
                 HelperText = "",
                 DateSigned = "",
@@ -124,7 +115,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Company Name",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 4,
                 HelperText = "",
                 DateSigned = "",
@@ -137,7 +128,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Company Location",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 5,
                 HelperText = "",
                 DateSigned = "",
@@ -176,7 +167,7 @@ namespace Internship_Application.Controllers
             questions.Add(new JsonModel
             {
                 Prompt = "Faculty of Record Email",
-                InputType = "small-text",
+                InputType = "text",
                 Order = 8,
                 HelperText = "",
                 DateSigned = "",
@@ -212,6 +203,15 @@ namespace Internship_Application.Controllers
             var template = await _context.Templates
                 .FirstOrDefaultAsync(m => m.Id == id);
 
+            if(template == null)
+            {
+                return NotFound();
+            }
+
+            //ViewBag.Template = template;
+            //ViewBag.Questions = JsonConvert.DeserializeObject<List<JsonModel>>(template.Questions);
+            //return View();
+
             TemplateViewModel templateView = new TemplateViewModel { };
             templateView.Templates = new List<Templates> {template};
 
@@ -230,46 +230,35 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, IFormCollection collection, [Bind("Questions,Templates")] TemplateViewModel templateView)
+        public IActionResult Edit(int id, IFormCollection collection, [Bind("Templates,Questions")] TemplateViewModel templateView)
         {
 
+            Console.WriteLine(ViewBag);      
             if (id != templateView.Templates[0].Id)
             {
                 return NotFound();
             }
 
-            //if (templateView.Templates[0].IsRetired == true)
-            //{
-            //    //TODO: change this to return the previous page and a flash message saying that you cannot edit the form since a form has been made from it
-            //    return Create();
-            //}
-
-
-
-            //***LEFT OFF FIGURING OUT WHY templateView.Templates[0].Questions IS NULL****
             List<JsonModel> questionModel = JsonConvert.DeserializeObject<List<JsonModel>>(templateView.Templates[0].Questions);
-            var order = questionModel.Count + 1;
-            //the following may be useful later
-            //foreach (JsonModel question in questionModel)
-            //{
-            //    if (question.Order > order)
-            //    {
-            //        order = question.Order + 1;
-            //    }
-            //}
+            var order = questionModel.Count+1;
+            if((Int32.Parse(collection["order"]) < order) && (Int32.Parse(collection["order"]) > 0))
+            { //pretty much if the user entered a valid order number, then let the order be that
+                order = Int32.Parse(collection["order"]);
+            }
+            
             //TODO: Add checks to make sure data was inputted correctly before storing the information
             //E.g. add a check to see if the order is valid (order must be within 1 and len(questions) + 1. 
-            questionModel.Add(new JsonModel
+            questionModel.Insert(order-1,new JsonModel
             {
                 Prompt = collection["prompt"],
                 InputType = collection["input-type"],
-                Order = order, //Int32.Parse(collection["order"]),
+                Order = order,
                 HelperText = collection["helper-text"],
                 DateSigned = "",
                 Signed = false,
                 Options = new List<string> { },
                 Required = false, //TODO: change this to take in a field from the collection
-                Person = "student" //TODO: change this to take in a field from the collection,
+                Person = collection["person"] //TODO: change this to take in a field from the collection,
             });
 
             templateView.Templates[0].Questions = JsonConvert.SerializeObject(questionModel);
@@ -280,8 +269,8 @@ namespace Internship_Application.Controllers
                 try
                 {
                     _context.Templates.Update(templateView.Templates[0]);
-                    
-                     _context.SaveChanges();
+
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -16,58 +16,26 @@ namespace Internship_Application.Controllers
     public class Student_Application_Page : Controller
     {
         private readonly DataContext _context;
-        //private readonly UserManager<IdentityUser> _userManager;
-        //private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         public Student_Application_Page(DataContext context)
         {
             _context = context;
         }
+
         // GET: /<controller>/
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             //first, get user data
-            //var user = await GetCurrentUserAsync();
-            //var userId = user?.Id;
             string studentEmail = User.Identity.Name;
 
             //second, grab all forms where the emails match
-            var forms = await _context.Forms.FirstOrDefaultAsync(b => b.StudentEmail == studentEmail);
+            var forms = _context.Forms.Where(b => b.StudentEmail == studentEmail).ToList();
             if (forms == null)
             {
+                //if null, send a blank form to view
                 return View(new List<Forms> { });
             }
             return View(forms);
-
-            //FormViewModel formView = new FormViewModel {  };
-
-            ////third, check if any forms were pulled
-            //if (forms == null)
-            //{
-            //    //if no forms exist, literally do nothing. 
-            //    //all we want to do it state no forms were found and that the user has
-            //    //to create one 
-            //}
-            //else
-            //{
-            //    //if there is a form, then we want to update our formView
-            //    formView.Forms = new List<Forms>(forms);
-            //}
-
-
-            //var template = _context.Templates
-            //    .Where(b => b.IsActive == true)
-            //    .FirstOrDefault();
-
-            //if (template == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //TemplateViewModel templateView = new TemplateViewModel { };
-            //templateView.Questions = JsonConvert.DeserializeObject<List<JsonModel>>(template.Questions);
-            //templateView.Templates[0] = template;
-            //return View(formView);
         }
 
 
@@ -83,20 +51,12 @@ namespace Internship_Application.Controllers
             if (id == null)
             {
                 //first, get user data
-                //var user = await GetCurrentUserAsync();
-                //var userId = user?.Id;
                 string studentEmail = User.Identity.Name;
-
-                Forms newForm = new Forms { };
-                newForm.Answers = "[]";
-                newForm.StudentEmail = studentEmail;
-
 
                 //first, get most active template from db
                 Templates template = _context.Templates
                     .First(m => m.IsActive == true);
 
-                newForm.TemplateId = template.Id;
 
                 //then, get the list of questions from that template
                 List<JsonModel> templateQuestions = new List<JsonModel>(JsonConvert.DeserializeObject<List<JsonModel>>(template.Questions));
@@ -125,6 +85,12 @@ namespace Internship_Application.Controllers
                 }
 
                 formView.Form = new List<FormJsonModel>(formItems);
+                Forms newForm = new Forms { };
+
+                //save everything to the newform var to be saved
+                newForm.StudentEmail = studentEmail;
+                newForm.TemplateId = template.Id;
+                newForm.StatusCodeId = 1; //defualt in process status code
                 newForm.Answers = JsonConvert.SerializeObject(formItems);
 
                 //also get the disclaimer and template name
@@ -139,11 +105,98 @@ namespace Internship_Application.Controllers
                 }
 
             }
+            else
+            {
+                //Insert code here for what to do when a user updates their form
+
+            }
             
             return View(formView);
         }
-        
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateFormAsync(int id, IFormCollection collection, [Bind("Form,FormName,Disclaimer")] FormViewModel formView)
+        {
+            //first, get the current users form from the db
+            var form = _context.Forms.First(m => m.Id == id);
+            Companies company = new Companies { };
+            bool complete = true;
+
+            //go through user results 
+            foreach(var item in formView.Form)
+            {
+                item.PromptValue = collection[item.Order.ToString()];
+                if (item.Prompt == "Employer Email")
+                {
+                    form.EmployerEmail = item.PromptValue;
+                }
+
+                //start of processing default questions
+                if (item.Prompt == "Faculty of Record Email")
+                {
+                    form.FacultyEmail = item.PromptValue;
+                }
+                if (item.Prompt == "Student Name")
+                {
+                    form.StudentName = item.PromptValue;
+                }
+                if (item.Prompt == "Faculty Email")
+                {
+                    form.FacultyEmail = item.PromptValue;
+                }
+                if (item.Prompt == "Paid")
+                {
+                    form.Paid = Int32.Parse(item.PromptValue);
+                }
+                if (item.Prompt == "Company Name")
+                {
+                    company.CompanyName = item.PromptValue;
+                }
+                if (item.Prompt == "Company Location")
+                {
+                    company.CompanyLocation = item.PromptValue;
+                }
+                if (item.Prompt == "Salary")
+                {
+                    //TODO: add salaries database that literally just tracks salary with company and store this value there for quick querying
+                }
+                //end of processing default questions
+
+                if (item.PromptValue == "")
+                {
+                    complete = false;
+                }
+            }
+
+            if(complete == true){
+                //send confirmation email 
+                //move forward in pipeline
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(formView.Form);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //if (!FormsExists(forms.Id))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
         //// GET: Forms/Edit/5
         //public async Task<IActionResult> Edit(int? id)
         //{
@@ -155,7 +208,7 @@ namespace Internship_Application.Controllers
         //    //first, get the current users form from the db
         //    var forms = await _context.Forms.FindAsync(id);
         //    FormViewModel formView = new FormViewModel { };
-            
+
 
         //    if (forms == null)
         //    {
