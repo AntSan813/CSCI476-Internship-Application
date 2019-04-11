@@ -95,16 +95,15 @@
 
 </style>
 
-@model List<Internship_Application.Models.Forms>
-
+@model List<Internship_Application.Models.FormViewModel>
 <div id="adminQueryPageUI">
     <div>
-        @foreach (var item in Model)
+        @*@foreach (var item in Model)
         {
                 <div>
                     @Html.DisplayFor(modelItem => item.WuId)
                 </div>
-        }
+        }*@
                 <div class="row" style="padding: 10pt;">
                     <!--split page into two columns-->
                     <br />
@@ -122,24 +121,35 @@
                         <div id="tablesDiv" style="padding: 10pt;">
                             <div id="needsAdminContainer">
                                 <p> </p>
+                                
                                 <h5>Company:</h5>
                                 <select>
                                     <option value="-1"> -- select an option -- </option>
+                                    @foreach (var company in ViewBag.Companies)
+                                    {
+                                        <option value="@company.Id">@company.CompanyName</option>
+                                    }
+                                    @*<option value="-1"> -- select an option -- </option>
                                     <option value="-1">All </option>
                                     <option value="0">Ally</option>
                                     <option value="1">Delta Bravo</option>
                                     <option value="2">Lending Tree</option>
-                                    <option value="3">Wells Fargo</option>
+                                    <option value="3">Wells Fargo</option>*@
                                 </select>
                                 <p> </p>
                                 <h5>Location:</h5>
                                 <select>
-                                    <option value="'-1'"> -- select an option -- </option>
+                                    <option value="-1"> -- select an option -- </option>
+                                    @foreach (var company in ViewBag.Companies)
+                                    {
+                                        <option value="@company.Id">@company.CompanyLocation</option>
+                                    }
+                                    @*<option value="'-1'"> -- select an option -- </option>
                                     <option value="-1"> ALL </option>
                                     <option value="0">Alabama</option>
                                     <option value="1">California</option>
                                     <option value="2">North Carolina</option>
-                                    <option value="3">South Carolina</option>
+                                    <option value="3">South Carolina</option>*@
                                 </select>
                                 <p> </p>
                                 <h5>Year:</h5>
@@ -181,29 +191,29 @@
                         <div id="tablesDiv">
                             <div id="queryResultsTable">
                                 <table style="width:100%">
-                                    <h3 style="text-align:center;">Your search returned (2) results: </h3>
+                                    <h3 style="text-align:center;">Your search returned @ViewBag.Forms.Count results: </h3>
                                     <tr>
                                         <th>STUDENT NAME</th>
                                         <th>LAST UPDATED</th>
                                         <th>STATUS</th>
                                         <th></th>
                                     </tr>
-                                    @foreach (var item in Model)
+                                    @foreach (var item in ViewBag.Forms)
                                     {
                                         <tr>
-                                            <td>@Html.DisplayFor(modelItem => item.Answers)</td>
-                                            <td>2/4/2019 7:04PM</td>
-                                            <td>NAA</td>
+                                            <td>@item.StudentName</td>
+                                            <td>@item.UpdatedAt</td>
+                                            <td>@item.StatusCodesViewModel.StatusCode</td>
                                             <td><button type="button">View</button></td>
                                         </tr>
                                         
                                     }
-                                    <tr>
+                                    @*<tr>
                                         <td>Jane Doe</td>
                                         <td>2/5/2019 10:16AM</td>
                                         <td>NAA</td>
                                         <td><button type="button">View</button></td>
-                                    </tr>
+                                    </tr>*@
                                     </table>
                                 </div>
                             <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>

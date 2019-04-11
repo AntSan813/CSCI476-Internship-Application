@@ -83,7 +83,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Order)
+                               @(Model.Questions.IndexOf(item)+1).
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Prompt)<br />
@@ -91,23 +91,40 @@
                             </td>
                             <td>
 
-                                @if (item.Options.Count != 0)
+                                @if (item.InputType == "options")
                                 {
                                     <div class="dropdown">
-                                        <button class="dropbtn">Choose one</button>
                                         <div class="dropdown-content">
-                                            @foreach (var option in item.Options)
-                                            {
-                                                <a href="@option">@option</a>
-                                            }
+                                            <select name="input-type" class="btn btn-primary dropdown-toggle" onclick="typeChosen()">
 
+                                                @foreach (var option in item.Options)
+                                                {
+                                                    <option value="@option">@option</option>}
+                                            </select>
                                         </div>
                                     </div>
                                     @Html.DisplayFor(modelItem => item.Options)
                                 }
-                                else
+                                else if (item.InputType == "textarea")
                                 {
-                                    <input type="@item.InputType" name="@item.Order">
+                                    <textarea name="@(Model.Questions.IndexOf(item)+1)">Enter text here...</textarea>
+                                    <br />
+                                }
+                                else if (item.InputType == "checkbox" || item.InputType == "signature")
+                                {
+                                    <textarea type="checkbox" name="@(Model.Questions.IndexOf(item)+1)">
+                                     Enter text here...
+                                    </textarea>
+                                    <br />
+                                }
+                                else if (item.InputType == "money")
+                                {
+                                    <p>$<input type="number" min="0.01" step="0.01" max="2500" value="0.0" name="@(Model.Questions.IndexOf(item)+1)" /></p>
+                                    <br />
+                                }
+                                else
+                                {// if its text or signature itll end up here
+                                    <input type="@item.InputType" name="@(Model.Questions.IndexOf(item)+1)">
                                     <br />
                                 }
                             </td>
@@ -125,11 +142,12 @@
 
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
                 @*<input type="hidden" asp-for="@Model.Templates[0].Id" />*@
-                <input type="hidden" value=@Model.Templates />
-                <input type="hidden" value=@Model.Questions />
-             </div>
+                <input type="hidden" asp-for="Templates[0].CreatedAt" />
+                <input type="hidden" asp-for="Templates[0].UpdatedAt" />
+                <input type="hidden" asp-for="Templates[0].Id" />
+                <input type="hidden" asp-for="Templates[0].Questions" />
+                <input type="hidden" asp-for="Templates[0].RetiredAt" />
                 <div class="form-group">
                     <label asp-for="Templates[0].TemplateName" class="control-label"></label>
                     <input asp-for="Templates[0].TemplateName" class="form-control" />
@@ -153,28 +171,29 @@
                 <div id="questionTemplateDiv" style="display: none" class="col-10">
 
                     <div class="dropdown">
-                        <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left;">Input Type</button>
-                        <select name="input-type">
-                            <option value="text">Small Text</option>
-                            <option value="textarea">Large Text</option>
-                            <option value="signature">Signature</option>
-                            <option value="checkbox">Checkbox</option>
+                        <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left; "onclick="typeChosen()">Input Type</button>
+                        <div class="dropdown-menu" >
+                            <a class="dropdown-item" value="text">Small Text</a>
+                            <a class="dropdown-item" value="textarea">Large Text</a>
+                            <a class="dropdown-item" value="signature">Signature</a>
+                            <a class="dropdown-item" value="checkbox">Checkbox</a>
                             @*<option value="radio">Radio Button</option>*@
-                            <option value="date">Date</option>
+                            <a class="dropdown-item" value="date">Date</a>
                             @*<option value="dateRange">Date Range</option>*@
-                            <option value="money">Dollar Amount</option>
-                            <option value="options">Dropdown</option>
-                        </select>
+                            <a class="dropdown-item" value="money">Dollar Amount</a>
+                            <a class="dropdown-item" value="options">Dropdown</a>
+                        </div>
                     </div>
                     <div id="isDropdown" style="display: none" class="col-10">
                         <div class="form-group">
+                            HEYYYY
                             <!--ADD HTML CODE TO ALLOW ADMIN TO INPUT A LIST OF OPTIONS FOR THE DROPDOWN-->
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Order:</label>
-                        <input type="range" name="order" min="1" max="@Model.Questions.Count" value=1 />
+                        <input type="number" name="order" min="1" max="@(Model.Questions.Count+1)" />
                     </div>
 
                     <div class="form-group">
@@ -211,8 +230,8 @@
         addDiv.style.display = "block";
     }
     function typeChosen() {
-        var it = document.getElementById("inputTypeDropdown");
-        if (it == "dropdown") {
+        var it = document.getElementById("dropdown-menu");
+        if (it == "options") {
             var options = document.getElementById("isDropown");
             options.style.display = "block";
         }

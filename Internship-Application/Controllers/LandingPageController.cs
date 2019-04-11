@@ -30,7 +30,7 @@ namespace Internship_Application.Controllers
                 StudentEmail = x.StudentEmail,
                 EmployerEmail = x.EmployerEmail,
                 FacultyEmail = x.FacultyEmail,
-                StatusCodesViewModel = new StatusCodesViewModel
+                StatusCodesViewModel = new StatusCodes
                 {
                     Id = x.StatusCodeId,
                     StatusCode = _context.StatusCodes.FirstOrDefault(s => s.Id == x.StatusCodeId).StatusCode,
@@ -70,7 +70,7 @@ namespace Internship_Application.Controllers
                 StudentEmail = form.StudentEmail,
                 EmployerEmail = form.EmployerEmail,
                 FacultyEmail = form.FacultyEmail,
-                StatusCodesViewModel = new StatusCodesViewModel
+                StatusCodesViewModel = new StatusCodes
                 {
                     Id = form.StatusCodeId,
                     StatusCode = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).StatusCode,

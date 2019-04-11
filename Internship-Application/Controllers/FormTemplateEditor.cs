@@ -232,49 +232,33 @@ namespace Internship_Application.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, IFormCollection collection, [Bind("Templates,Questions")] TemplateViewModel templateView)
         {
-           // TemplateViewModel templateView = new TemplateViewModel
-           // {
-           //     Questions = new List<JsonModel>(JsonConvert.DeserializeObject<List<JsonModel>>(collection["Questions"])),
-           //     Templates = new List<Templates>(JsonConvert.DeserializeObject<List<Templates>>(collection["Templates"])),
-           // };
+
             Console.WriteLine(ViewBag);      
             if (id != templateView.Templates[0].Id)
             {
                 return NotFound();
             }
 
-            //if (templateView.Templates[0].IsRetired == true)
-            //{
-            //    //TODO: change this to return the previous page and a flash message saying that you cannot edit the form since a form has been made from it
-            //    return Create();
-            //}
-
-
-
-            //***LEFT OFF FIGURING OUT WHY templateView.Templates[0].Questions IS NULL****
             List<JsonModel> questionModel = JsonConvert.DeserializeObject<List<JsonModel>>(templateView.Templates[0].Questions);
-            var order = questionModel.Count;
-            //the following may be useful later
-            //foreach (JsonModel question in questionModel)
-            //{
-            //    if (question.Order > order)
-            //    {
-            //        order = question.Order + 1;
-            //    }
-            //}
+            var order = questionModel.Count+1;
+            if((Int32.Parse(collection["order"]) < order) && (Int32.Parse(collection["order"]) > 0))
+            { //pretty much if the user entered a valid order number, then let the order be that
+                order = Int32.Parse(collection["order"]);
+            }
+            
             //TODO: Add checks to make sure data was inputted correctly before storing the information
             //E.g. add a check to see if the order is valid (order must be within 1 and len(questions) + 1. 
-            questionModel.Add(new JsonModel
+            questionModel.Insert(order-1,new JsonModel
             {
                 Prompt = collection["prompt"],
                 InputType = collection["input-type"],
-                Order = order, //Int32.Parse(collection["order"]),
+                Order = order,
                 HelperText = collection["helper-text"],
                 DateSigned = "",
                 Signed = false,
                 Options = new List<string> { },
                 Required = false, //TODO: change this to take in a field from the collection
-                Person = "student" //TODO: change this to take in a field from the collection,
+                Person = collection["person"] //TODO: change this to take in a field from the collection,
             });
 
             templateView.Templates[0].Questions = JsonConvert.SerializeObject(questionModel);
