@@ -1,4 +1,4 @@
-﻿@model Internship_Application.Models.QuestionsAndAnswers
+@model Internship_Application.Models.QuestionsAndAnswers
 
 @{
     ViewData["Title"] = "Details";
@@ -33,21 +33,21 @@
     }
 </style>
 
-@using (Html.BeginForm())
-{
-    @Html.HiddenFor(m => m.FormDetails.Id)
-    @Html.HiddenFor(m => m.FormDetails.StatusCodesViewModel.Id)
-    <div id="tablesDiv">
-        <h2 style="text-align:center;">Form Information: </h2>
-        <br />
+@Html.HiddenFor(m => m.FormDetails.Id)
+@Html.HiddenFor(m => m.FormDetails.StatusCodesViewModel.Id)
+<div id="tablesDiv">
+    <h2 style="text-align:center;">Form Information: </h2>
+    <br />
 
-        <div style="display: block">
-            <div style="text-align:center;">
-                <b>STUDENT NAME:</b> @Model.FormDetails.StudentName
-            </div>
-            <div style="text-align:center;">
-                <b>STATUS CODE:</b> @Model.FormDetails.StatusCodesViewModel.StatusCode
-            </div>
+    <div style="display: block">
+        <div style="text-align:center;">
+            <b>STUDENT NAME:</b> @Model.FormDetails.StudentName
+        </div>
+        <div style="text-align:center;">
+            <b>STATUS CODE:</b> @Model.FormDetails.StatusCodesViewModel.StatusCode
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
             @if (Model.FormDetails.StatusCodesViewModel.Id != 3 && Model.FormDetails.Id != 6)
             {
                 <div style="text-align:center;"><mark>This form does not currently require your attention.</mark></div>
@@ -87,82 +87,104 @@
             }
             <div style="text-align:center;">At any time you may force withdraw this form by clicking here: <button>Force Withdraw</button></div>
             <br />
-        </div>
+        }
     </div>
-    <br />
-    <div id="tablesDiv">
+</div>
+
+
+<div id="tablesDiv">
+    <div>
         <h1 style="text-align:center;">@Model.TemplateDetails.DisplayName</h1>
         <h4 style="text-align:center;">@Model.TemplateDetails.Disclaimer</h4>
         <div>
             @Html.DisplayFor(modelItem => Model)
-            @foreach (var q in Model.QuestionList)
-            {
-                @foreach (var a in Model.AnswerList)
+            @{
+                int visibleCount = 0;
+                string role = "Student";
+                <h2><b style="color: red;">* = Required</b></h2>
+                @foreach (var q in Model.QuestionList)
                 {
-                    if (q.Order == a.Order)
+                    if (q.InputType == "formInfo")
                     {
-                        <div class="row" style="padding: 10pt;">
-                            <div class="col-2">
-                                <div>@q.Order.</div>
+                        <div style="margin: 20pt;"><b>@q.Prompt</b></div>
+                    }
+                    else if (q.InputType == "signature")
+                    {
+                        visibleCount++;
+                        <div style="margin: 10pt;">
+                            <div>
+                                @visibleCount. @q.Prompt: <input type="@q.InputType" />
+                                @if (q.Required && (q.Role == role))
+                                {
+                                    <b style="color: red;">*</b>
+                                }
                             </div>
-                            <div class="col-5">
-                                <div><b>@q.Prompt : </b></div>
-                            </div>
-                            <div class="col-5">
-                                <div>@a.Value</div>
+                            <div>
+                                <small>@q.HelperText</small>
                             </div>
                         </div>
+                    }
+                    else if (q.InputType == "text-area")
+                    {
+                        visibleCount++;
+                        <div style="margin: 10pt;">
+                            <div>
+                                @visibleCount. @q.Prompt: <textarea></textarea>
+                                @if (q.Required && (q.Role == role))
+                                {
+                                    <b style="color: red;">*</b>
+                                }
+                            </div>
+                            <div>
+                                <small>@q.HelperText</small>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        visibleCount++;
+                        <div>
+                            @if (q.Options != "")
+                            {
+                                <div>
+                                    @visibleCount. @q.Prompt:
+                                    <input type="radio" name="yes" value="yes" /><label>Yes</label>
+                                    <input type="radio" name="no" value="no" /><label>No</label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    @visibleCount. @q.Prompt: <input type="@q.InputType" />
+                                </div>
+                            }
+                            @if (q.Required && (q.Role == role))
+                            {
+                                <b style="color: red;">*</b>
+                            }
+                        </div>
+
+                    }
+                    @foreach (var a in Model.AnswerList)
+                    {
+                        if (q.Order == a.Order)
+                        {
+                            <div>@a.Value</div>
+                        }
                     }
                 }
             }
         </div>
     </div>
-    <br />
+</div>
 
+<form asp-controller="Student_Application_Page" asp-action="SaveForm" method="post">
+    <button type="submit">Submit</button>
+</form>
+
+@using (Html.BeginForm())
+{
     <div>
         <a asp-action="Index">Back to List</a>
     </div>
 }
-
-<script>
-    function approveApplication() {
-        SqlConnection cn = new SqlConnection("Server = localhost; Database = Data; Trusted_Connection = True;");
-        SqlCommand cmd = new SqlCommand();
-        SqlDataReader dr;
-        // Set status code to 7 for the form
-        cn.Open();
-        cmd.CommandText = "UPDATE Forms SET status_code_id = 7 WHERE id = " + @Model.FormDetails.Id + "; GO";
-        cmd.ExecuteNonQuery();
-        cn.Close();
-        MessageBox.Show("Record Changed with Command: " + cmd.CommandText);
-    }
-
-    function declineApplication() {
-        // Set status code to 8 for the form
-    }
-
-    function sendBack(chosenValue) {
-        // Ensure not setting status code to a lower number than current status code
-        chosenValue = 6;
-        //if (chosenValue < @Model.FormDetails.StatusCodesViewModel.Id) {
-            //Set status code to given value
-            var cmd = "UPDATE Forms SET status_code_id = " + chosenValue + " WHERE id = " + @Model.FormDetails.Id + "; GO";
-
-        SqlConnection cn = new SqlConnection("Server = localhost; Database = Data; Trusted_Connection = True;");
-        SqlCommand cmd = new SqlCommand();
-        SqlDataReader dr;
-        // Set status code to 7 for the form
-        cn.Open();
-        cmd.CommandText = "UPDATE Forms SET status_code_id = 7 WHERE id = " + @Model.FormDetails.Id + "; GO";
-        cmd.ExecuteNonQuery();
-        cn.Close();
-        MessageBox.Show("Record Changed with Command: " + cmd.CommandText);
-        //}
-    }
-
-    function forceWithdraw() {
-        // Give an alert to the user that this action cannot be undone
-        Window.alert("Are you sure you want to force withdraw this form? This action cannot be undone.");
-        // Set status code to 9 for the form
-    }
-</script>
