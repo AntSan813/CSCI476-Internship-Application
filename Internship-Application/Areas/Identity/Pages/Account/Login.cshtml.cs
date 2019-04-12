@@ -85,26 +85,34 @@ namespace Internship_Application.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
 
                 //Check to see if the user logged in is the administrator
-                System.Security.Claims.ClaimsIdentity iuser = (System.Security.Claims.ClaimsIdentity)User.Identity;
-                bool isadmin = iuser.HasClaim(ClaimTypes.Role, "Admin");
-                    //if the user logged in
-                 if (result.Succeeded)
+                //System.Security.Claims.ClaimsIdentity iuser = (System.Security.Claims.ClaimsIdentity)User.Identity;
+               // bool isadmin = iuser.HasClaim(ClaimTypes.Role, "Admin");
+                //bool isstudent = iuser.HasClaim(ClaimTypes.Role, "Student");
+              //  bool isSS = iuser.HasClaim(ClaimTypes.Role, "StudentServices");
+                //bool isFacofRec = iuser.HasClaim(ClaimTypes.Role, "FacultyofRec");
+                //bool isEmployer = iuser.HasClaim(ClaimTypes.Role, "Employer");
+                //if the user logged in
+                if (result.Succeeded)
                  {
                         //and the user is admin... go to landing page admin
-                        if (isadmin)
-                        {
-                            _logger.LogInformation("User logged in.");
+                  //      if (isadmin)
+                    //    {
+                      //      _logger.LogInformation("User logged in.");
                             //return LocalRedirect(returnUrl);
-                            return RedirectToAction("Index", "LandingPage_Admin");
-                        }
-                        else//the user does not have the role admin....send them to landing page common
-                        {
-                        _logger.LogInformation("User logged in.");
+                            return RedirectToAction("Index", "LandingPage");
+                        //}
+                        //else if (isstudent || isSS || isFacofRec || isEmployer)//the user does not have the role admin....send them to landing page common
+                        //{
+                        //_logger.LogInformation("User logged in.");
                         //return LocalRedirect(returnUrl);
-                        return RedirectToAction("Index", "LandingPage_Common");
-                        }
+                        //return RedirectToAction("Index", "LandingPage");
+                        //}
+                        //else
+                        //{
+                        //return RedirectToAction(string.Empty, "Invalid login attempt.");
+                 }
                    
-                }
+                //}
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });

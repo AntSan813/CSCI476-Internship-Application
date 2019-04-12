@@ -1,3 +1,5 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 <!DOCTYPE html>
 
 <html>
@@ -31,7 +33,7 @@
                     <a href="https://wingspan.winthrop.edu" target="_blank" class="topWhiteLinks">WINGSPAN</a>
                     <a href="https://bb-winthrop.blackboard.com" target="_blank" class="topWhiteLinks">BLACKBOARD</a>
                     <a href="http://www.winthrop.edu/map" class="topWhiteLinks">MAP</a>
-   
+
                 </div>
                 <div class="searchBox">
                     <fieldset class="headerSearchFieldset">
@@ -42,104 +44,112 @@
             </div>
             <div class="clear"></div>
         </div>
+
         <div id="mastheadHomePage"></div>
+
         <div id="gradientAudience">
             <!-- navigation bar -->
-            <a class="audienceMenuText" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            <a class="audienceMenuText" asp-area="" asp-controller="SignIn" asp-action="Index">Sign In</a>
-            <!--<partial name="_LoginPartial" />-->
+            <!-- <a class="audienceMenuText" asp-area="" asp-controller="SignIn" asp-action="Index">Sign In</a>-->
+
         </div>
-        <!-- Admin Nav Bar -->
-        <div id="adminNavBar" class="navbar">
-            <div class="row">
-                <div class="col-4">
-                    <div class="dropdown" style="line-height: 10px;">
-                        <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
-                            <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-                        </button>
-                        <div>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <!-- Admin Nav Bar -->
+            <div id="adminNavBar" class="navbar">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="dropdown" style="line-height: 10px;">
+                            <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
+                                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                            </button>
+                            <div>
+                                <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
+                                    <a class="dropdown-item" href="#">View Active Forms</a>
+                                    <a class="dropdown-item" href="#">View Archived Forms</a>
+                                    <a class="dropdown-item" href="#">Add/Remove User</a>
+                                    <a class="dropdown-item" href="#">View/Edit Form Template</a>
+                                    <a class="dropdown-item" href="#">Account Settings</a>
+                                    <a class="dropdown-item" href="#">Log Out</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <big class="gradientAudience"><b>Winthrop University Internship Portal</b></big>
+                    </div>
+                    <div class="col-4">
+                        <div class="loggingInfo">
+                            ADMIN VIEW
+                        </div>
+                        <div class="loggingInfo">
+                            SIGNED IN: 4:01PM 3/17/19
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
+        {
+            <!-- Common Nav Bar -->
+            <div id="commonNavBar" class="navbar">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="dropdown" style="line-height: 10px;">
+                            <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
+                                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                            </button>
                             <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
-                                <a class="dropdown-item" href="#">View Active Forms</a>
-                                <a class="dropdown-item" href="#">View Archived Forms</a>
-                                <a class="dropdown-item" href="#">Add/Remove User</a>
-                                <a class="dropdown-item" href="#">View/Edit Form Template</a>
-                                <a class="dropdown-item" href="#">Account Settings</a>
+                                <a class="dropdown-item" href="#">View Forms</a>
                                 <a class="dropdown-item" href="#">Log Out</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-4">
-                    <big class="gradientAudience"><b>Winthrop University Internship Portal</b></big>
-                </div>
-                <div class="col-4">
-                    <div class="loggingInfo">
-                        ADMIN VIEW
+                    <div class="col-4">
+                        <big class="gradientAudience"><b>Winthrop University Internship Portal</b></big>
                     </div>
-                    <div class="loggingInfo">
-                        SIGNED IN: 4:01PM 3/17/19
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Common Nav Bar -->
-        <div id="commonNavBar" class="navbar">
-            <div class="row">
-                <div class="col-4">
-                    <div class="dropdown" style="line-height: 10px;">
-                        <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
-                            <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-                        </button>
-                        <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
-                            <a class="dropdown-item" href="#">View Forms</a>
-                            <a class="dropdown-item" href="#">Log Out</a>
+                    <div class="col-4">
+                        <div class="loggingInfo">
+                            USER VIEW
+                        </div>
+                        <div class="loggingInfo">
+                            SIGNED IN: 4:01PM 3/17/19
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <big class="gradientAudience"><b>Winthrop University Internship Portal</b></big>
-                </div>
-                <div class="col-4">
-                    <div class="loggingInfo">
-                        USER VIEW
-                    </div>
-                    <div class="loggingInfo">
-                        SIGNED IN: 4:01PM 3/17/19
-                    </div>
-                </div>
             </div>
-        </div>
-    </header>
-    
 
-    
-    <div class="body-content">
-        <div>
-            Database tables:<br />
-            @Html.ActionLink("Forms", "Index", "Forms")<br />
-            @Html.ActionLink("Templates", "Index", "Templates")<br />
-        </div>
-        <!--            
+        }
+
+
+
+        <div class="body-content">
+            <!-- <div>
+             <!--Database tables:<br />
+            Html.ActionLink("", "Index", "Forms")<br />
+            Html.ActionLink("", "Index", "Templates")<br />
+        </div>-->
+        <!--
+
     await Html.PartialAsync("_LoginPartial")-->
         <!--The following renders the current pages body-->
         @RenderBody()
 
         <!--  <div style="min-height:645px">CSCI 475 Team One</div> -->
-    </div>
-
-    <footer class="footer">
-        <div id="gradientBottom" style="position:fixed;bottom:0;left:0;right:0;height:30px;">
-            <span class="whiteBottomText">
-                © Winthrop University · 701 Oakland Avenue · Rock Hill, SC 29733, USA ·
-                803/323-2211
-            </span>
         </div>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-            crossorigin="anonymous"></script>
-    <script src="https://use.fontawesome.com/961f527338.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+
+        <footer class="footer">
+            <div id="gradientBottom" style="position:fixed;bottom:0;left:0;right:0;height:30px;">
+                <span class="whiteBottomText">
+                    © Winthrop University · 701 Oakland Avenue · Rock Hill, SC 29733, USA ·
+                    803/323-2211
+                </span>
+            </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+                crossorigin="anonymous"></script>
+        <script src="https://use.fontawesome.com/961f527338.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

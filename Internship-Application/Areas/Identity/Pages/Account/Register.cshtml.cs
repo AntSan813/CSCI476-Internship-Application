@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Internship_Application.Models;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace Internship_Application.Areas.Identity.Pages.Account
 {
@@ -20,7 +23,10 @@ namespace Internship_Application.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
+        private readonly DataContext _context;
+
         public RegisterModel(
+            DataContext context,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
@@ -30,6 +36,8 @@ namespace Internship_Application.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+
+            _context = context;
         }
 
         [BindProperty]
@@ -94,29 +102,52 @@ namespace Internship_Application.Areas.Identity.Pages.Account
                     }
                     else//Person is not an Admin, or Student Services so they must be Student or Employer or FacultyOfRec
                     {
-                        int num = -1;
-                        char[] numArray = {'1','2','3','4','5','6','7','8','9','0'};
-                        for (int i = 0; i < userEmail.Length; i++)
+                        int numLoc = -1;
+                        //char[] numArray = {'1','2','3','4','5','6','7','8','9','0'};
+                        bool student = false;
+                        var length = userEmail.Length;
+                        if(userEmail.Contains(winthrop))
                         {
-                            if (userEmail[i] == '@')
+                            //for (int i = 0; i < userEmail.Length; i++)
+                            //{
+                            //length = userEmail.Length;
+                            numLoc = userEmail.IndexOf('@');//checking char before @. If #, student. If not, faculty
+                                
+                            numLoc = numLoc - 1;
+                                
+                            //}
+                           //for (int x = 0; x < 10; x++)
+                            //{
+                                bool result2 = Char.IsDigit(Input.Email, numLoc);
+                                  if (result2)
+                                     student = true;
+                           //}
+
+                            if (student)// && userEmail.Contains(winthrop))
                             {
-                                num = i - 1;
-
-                                for (int x = 0; x < 10; x++)
-                                {
-                                    if (numArray[x] == userEmail[num] && userEmail.Contains(winthrop))
-                                    {
-
-                                        await _userManager.AddToRoleAsync(user, "Student");
-                                    }
-                                    else if (userEmail.Contains(winthrop))
-                                    {
-                                        await _userManager.AddToRoleAsync(user, "FacultyOfRec");
-                                    }
-                                }
-
+                                await _userManager.AddToRoleAsync(user, "Student");
+                            }
+                            else// if (userEmail.Contains(winthrop))
+                            {
+                                await _userManager.AddToRoleAsync(user, "FacultyOfRec");
                             }
                         }
+
+                        //check if employer role
+                        //look through all entries in employer_email column in forms table and if the email being used to register
+                        //is in that table, it is an employer and let them.
+
+                        var form = _context.Forms.ToList<Forms>();
+
+                        foreach (var record in form)
+                        {
+                            var currEmail = record.EmployerEmail;
+                            if (userEmail == currEmail)
+                            {
+                                await _userManager.AddToRoleAsync(user, "Employer");
+                            }
+                        }
+
                     }
 
 

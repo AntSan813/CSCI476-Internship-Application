@@ -33,16 +33,67 @@ namespace Internship_Application.Controllers
 
                 return View();
             }
-            //FormViewModel formView = new FormViewModel { };
-            //FormViewModel.Questions = JsonConvert.DeserializeObject<List<JsonModel>>(forms.Questions);
-            //templateView.StudentServicesQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.StudentServicesQuestions);
-            //templateView.FacultyQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.FacultyQuestions);
-            //templateView.EmployerQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.EmployerQuestions);
-            //templateView.AdministratorQuestions = JsonConvert.DeserializeObject<List<JsonModel>>(template.AdministratorQuestions);
-            List<Forms> formList = new List<Forms>(forms);
+            List<FormViewModel> serializedFormList = new List<FormViewModel>();
+            foreach (var form in forms)
+            {
+                Templates template = _context.Templates.Find(form.TemplateId);
+                serializedFormList.Add(new FormViewModel
+                {
+                    Id = form.Id,
+                    //Form = JsonConvert.DeserializeObject<List<FormJsonModel>>(form.Answers),
+                    //FormName = template.DisplayName,
+                    //Disclaimer = template.Disclaimer,
+                    StudentName = form.StudentName,
+                    //StudentEmail = form.StudentEmail,
+                    //FacultyEmail = form.FacultyEmail,
+                    //EmployerEmail = form.EmployerEmail,
+                    UpdatedAt = form.UpdatedAt,
+                    StatusCodesViewModel = _context.StatusCodes.Find(form.StatusCodeId),
+
+                });
+
+            }
+            List<Companies> companies = _context.Companies.ToList<Companies>();
+            ViewBag.Companies = companies;
+            ViewBag.Forms = serializedFormList;
+
             //formList = forms;
 
-            return View(formList);
+            return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult QueryByCompanyName(IFormCollection formcollection)
+        {
+            var forms = _context.Forms.Where(m => m.CompanyId == Int32.Parse(formcollection["Id"])).ToList();
+
+            List<FormViewModel> serializedFormList = new List<FormViewModel>();
+            foreach (var form in forms)
+            {
+                Templates template = _context.Templates.Find(form.TemplateId);
+                serializedFormList.Add(new FormViewModel
+                {
+                    Id = form.Id,
+                    //Form = JsonConvert.DeserializeObject<List<FormJsonModel>>(form.Answers),
+                    //FormName = template.DisplayName,
+                    //Disclaimer = template.Disclaimer,
+                    StudentName = form.StudentName,
+                    //StudentEmail = form.StudentEmail,
+                    //FacultyEmail = form.FacultyEmail,
+                    //EmployerEmail = form.EmployerEmail,
+                    UpdatedAt = form.UpdatedAt,
+                    StatusCodesViewModel = _context.StatusCodes.Find(form.StatusCodeId),
+
+                });
+
+            }
+            List<Companies> companies = _context.Companies.ToList<Companies>();
+            ViewBag.Companies = companies;
+            ViewBag.Forms = serializedFormList;
+
+
+            return View("../Admin_Query_Page/Index");
+        }
+
     }
 }
