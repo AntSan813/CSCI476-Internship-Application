@@ -81,7 +81,7 @@ a.audienceMenuText:hover {
     text-decoration: underline;
 }
 
-#adminNavBar, #commonNavBar {
+#allNavBar {
     background: #F0B323;
     font-family: 'Raleway', Arial, sans-serif;
     -o-background-size: 100% 100%;
