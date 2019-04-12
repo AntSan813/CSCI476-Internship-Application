@@ -57,6 +57,31 @@ namespace Internship_Application.Controllers
         [HttpGet]
         public async Task<IActionResult> DisplayForm(int? id)
         {
+            if(id == null)
+            {
+                //insert form
+                //string studentEmail = User.Identity.Name;
+                string studentEmail = "taitem2@winthrop.edu";
+
+                Forms newForm = new Forms { };
+                newForm.Answers = "[]";
+                newForm.StudentEmail = studentEmail;
+                newForm.StatusCodeId = 1;
+
+                Templates temp = _context.Templates
+                    .First(m => m.IsActive == true);
+
+                newForm.TemplateId = temp.Id;
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(newForm);
+                    await _context.SaveChangesAsync();
+                    id = newForm.Id;
+                    // return RedirectToAction(nameof(Index));
+                }
+            }
+
              var form = await _context.Forms
                 .FirstOrDefaultAsync(m => m.Id == id);
             var template = _context.Templates
@@ -77,7 +102,9 @@ namespace Internship_Application.Controllers
                     Details = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).Details
                 }
             };
-
+            /*template.Questions = template.Questions.TrimStart('\"');
+            template.Questions = template.Questions.TrimEnd('\"');
+            template.Questions = template.Questions.Replace("\\", "");*/
             List<Answers> answers = JsonConvert.DeserializeObject<List<Answers>>(form.Answers);
             List<Questions> questions = JsonConvert.DeserializeObject<List<Questions>>(template.Questions);
             QuestionsAndAnswers qaList = new QuestionsAndAnswers

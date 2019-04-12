@@ -9,8 +9,7 @@ namespace Internship_Application.Models
         public string Prompt { get; set; }
         public string InputType { get; set; }
         public string HelperText { get; set; }
-        public List<string> Options { get; set; }
-        public string DateSigned { get; set; }
+        public string Options { get; set; }
         public Boolean Signed { get; set; }
         public Boolean Required { get; set; }
         public Boolean ProcessQuestion { get; set; }

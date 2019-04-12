@@ -8,5 +8,6 @@ namespace Internship_Application.Models
 
         public string Order { get; set; }
         public string Value { get; set; }
+        public string DateSigned { get; set; }
     }
 }
