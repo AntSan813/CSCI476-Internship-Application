@@ -1,7 +1,4 @@
 ﻿@model List<Internship_Application.Models.FormViewModel>
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
 
 <style>
 
@@ -81,15 +78,15 @@
 
 @if (User.IsInRole("Admin"))
 {
-<ul class="navbar-nav">
-    
-          
-    <li class="nav-item">
-        
-        <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-    </li>
-      }-->
-</ul>
+    <ul class="navbar-nav">
+
+
+        <li class="nav-item">
+
+            <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+        </li>
+        }-->
+    </ul>
     <div id="adminLandingPageUI">
         <div id="titleAndSortContent">
             <div id="tableTitle">
@@ -187,16 +184,17 @@
     </div>
 }
 
-<!--COMMON-->
 
-@if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
+//common nav bar
+
+else if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
 {
     <ul class="navbar-nav">
-        
+
         <li class="nav-item">
             <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
         </li>
-        
+
     </ul>
     <div id="commonLandingPageUI">
         <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
@@ -325,9 +323,7 @@
         </div>
     </div>
 }
-@if (!User.IsInRole("Admin") || !User.IsInRole("Student") || !User.IsInRole("StudentServices") || !User.IsInRole("FacultyOfRec") || !User.IsInRole("Employer"))
+else
 {
     <h2>UNAUTHORIZED ACCESS</h2>
 }
-
-
