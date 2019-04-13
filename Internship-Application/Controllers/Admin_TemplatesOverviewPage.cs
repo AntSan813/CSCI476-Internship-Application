@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,11 +11,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Internship_Application.Controllers
 {
-    public class LandingPageController : Controller
+    public class Admin_TemplatesOverviewPageController : Controller
     {
         private readonly DataContext _context;
 
-        public LandingPageController(DataContext context)
+        public Admin_TemplatesOverviewPageController(DataContext context)
         {
             _context = context;
         }
@@ -23,27 +23,23 @@ namespace Internship_Application.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            var formViewModels = _context.Forms.Select(x => new FormViewModel {
+            var templateList = _context.Templates.Select(x => new Templates
+            {
                 Id = x.Id,
-                StudentName = x.StudentName,
+                TemplateName = x.TemplateName,
                 UpdatedAt = x.UpdatedAt,
-                StudentEmail = x.StudentEmail,
-                EmployerEmail = x.EmployerEmail,
-                FacultyEmail = x.FacultyEmail,
-                StatusCodesViewModel = new StatusCodes
-                {
-                    Id = x.StatusCodeId,
-                    StatusCode = _context.StatusCodes.FirstOrDefault(s => s.Id == x.StatusCodeId).StatusCode,
-                    Details = _context.StatusCodes.FirstOrDefault(s => s.Id == x.StatusCodeId).Details
-                }
+                CreatedAt = x.CreatedAt,
+                RetiredAt = x.RetiredAt,
+                IsActive = x.IsActive,
+                IsRetired = x.IsRetired,
             }).ToList();
 
-            if (formViewModels == null)
+            if (templateList == null)
             {
                 return View();
             }
 
-            return View(formViewModels);
+            return View(templateList);
         }
 
         public async Task<IActionResult> EditForm(int? id)
@@ -57,7 +53,7 @@ namespace Internship_Application.Controllers
         [HttpGet]
         public async Task<IActionResult> DisplayForm(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 //insert form
                 string studentEmail = User.Identity.Name;
@@ -82,8 +78,8 @@ namespace Internship_Application.Controllers
                 }
             }
 
-             var form = await _context.Forms
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var form = await _context.Forms
+               .FirstOrDefaultAsync(m => m.Id == id);
             var template = _context.Templates
                 .FirstOrDefault(m => m.Id == form.TemplateId);
 

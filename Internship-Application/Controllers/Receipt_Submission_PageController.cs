@@ -36,9 +36,7 @@ namespace Internship_Application.Controllers
 
             if (User.IsInRole("Admin") || User.IsInRole("Employer") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec"))
                 sendEmailtoSelf();
-
-            if(User.IsInRole("StudentServices"))
-                testStudent();
+            
 
             return View();
         }
