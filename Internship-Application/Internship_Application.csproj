@@ -29,7 +29,6 @@
   <ItemGroup>
     <Compile Remove="Areas\Identity\IdentityHostingStartup.cs" />
     <Compile Remove="Controllers\CompaniesController.cs" />
-    <Compile Remove="Controllers\FormsController.cs" />
     <Compile Remove="Controllers\StatusCodesController.cs" />
     <Compile Remove="Controllers\TemplatesController.cs" />
     <Compile Remove="Controllers\TemplatesControllerBackup.cs" />

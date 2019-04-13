@@ -11,7 +11,7 @@ namespace Internship_Application.Models
         //public List<Forms> Forms { get; set; }
         //public List<JsonModel> Template { get; set; }
         public int Id { get; set; }
-        //public List<FormJsonModel> Form { get; set; }
+        public List<FormJsonModel> Form { get; set; }
         public string FormName { get; set; }
         public string Disclaimer { get; set; }
 
