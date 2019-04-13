@@ -1,4 +1,4 @@
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 <!DOCTYPE html>
 
@@ -52,18 +52,16 @@
             <!-- <a class="audienceMenuText" asp-area="" asp-controller="SignIn" asp-action="Index">Sign In</a>-->
 
         </div>
-
-        @if (User.IsInRole("Admin"))
-        {
-            <!-- Admin Nav Bar -->
-            <div id="adminNavBar" class="navbar">
+            <!-- Common Nav Bar -->
+            <div id="allNavBar">
                 <div class="row">
                     <div class="col-4">
                         <div class="dropdown" style="line-height: 10px;">
                             <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
                                 <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
                             </button>
-                            <div>
+                            @if (User.IsInRole("Admin"))
+                            {
                                 <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
                                     <a class="dropdown-item" href="#">View Active Forms</a>
                                     <a class="dropdown-item" href="#">View Archived Forms</a>
@@ -72,55 +70,24 @@
                                     <a class="dropdown-item" href="#">Account Settings</a>
                                     <a class="dropdown-item" href="#">Log Out</a>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
+                                    <a class="dropdown-item" href="#">View Forms</a>
+                                    <a class="dropdown-item" href="#">Log Out</a>
+                                </div>
+                            }
                         </div>
                     </div>
                     <div class="col-4">
                         <big class="gradientAudience"><b>Winthrop University Internship Portal</b></big>
                     </div>
                     <div class="col-4">
-                        <div class="loggingInfo">
-                            ADMIN VIEW
-                        </div>
-                        <div class="loggingInfo">
-                            SIGNED IN: 4:01PM 3/17/19
-                        </div>
+                        <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
                     </div>
                 </div>
             </div>
-        }
-        @if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
-        {
-            <!-- Common Nav Bar -->
-            <div id="commonNavBar" class="navbar">
-                <div class="row">
-                    <div class="col-4">
-                        <div class="dropdown" style="line-height: 10px;">
-                            <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
-                                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-                            </button>
-                            <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
-                                <a class="dropdown-item" href="#">View Forms</a>
-                                <a class="dropdown-item" href="#">Log Out</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <big class="gradientAudience"><b>Winthrop University Internship Portal</b></big>
-                    </div>
-                    <div class="col-4">
-                        <div class="loggingInfo">
-                            USER VIEW
-                        </div>
-                        <div class="loggingInfo">
-                            SIGNED IN: 4:01PM 3/17/19
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        }
-
 
 
         <div class="body-content">
