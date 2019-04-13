@@ -121,6 +121,9 @@
                             <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
                             <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
                             <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
                         }
                         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                         <script type="text/javascript">
@@ -149,6 +152,9 @@
                             <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
                             <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
                             <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
                         }
                         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                         <script type="text/javascript">
@@ -248,10 +254,13 @@
                             }
                             @Html.Hidden("Year", null, new { @id = "year" })
 
-                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
                             <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
                             <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
+                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
                             <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
 
                         }
 
@@ -312,9 +321,13 @@
                             }
                             @Html.Hidden("Semester", null, new { @id = "semester" })
                             <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
-                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
                             <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
                             <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
+                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+
                         }
 
 
@@ -329,28 +342,105 @@
 
                         <p> </p>
 
-                        
+
                         <h5>Unpaid vs Paid:</h5>
-                        <input type="checkbox" name="paid" value="paid">Paid
-                        <br>
-                        <input type="checkbox" name="unpaid" value="unpaid">Unpaid
-                        <br>
+                        @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryByPaidForm" }))
+                        {
+                            if (ViewBag.QueryByPaid == 1)
+                            {
+                                <p>Paid:@Html.CheckBox("Paid", true)</p>
+                            }
+                            else
+                            {
+                                <p>Paid:@Html.CheckBox("Paid", false)</p>
+                            }
+                            if (ViewBag.QueryByUnpaid == 1)
+                            {
+                                <p>Unpaid:@Html.CheckBox("Unpaid", true)</p>
+                            }
+                            else
+                            {
+                                <p>Unpaid:@Html.CheckBox("Unpaid", false)</p>
+                            }
+                            <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
+                            <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
+                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
+                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                        }
+
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+                        <script type="text/javascript">
+                            $("body").on("change", "#Paid", function () {
+                                $("#Paid").val($(this));
+                                document.forms["QueryByPaidForm"].submit();
+                            });
+                            $("body").on("change", "#Unpaid", function () {
+                                $("#Unpaid").val($(this));
+                                document.forms["QueryByPaidForm"].submit();
+                            });
+                        </script>
+
                         <p> </p>
 
                         <h5>Application Status:</h5>
-                        <input type="checkbox" name="all" value="all">ALL
-                        <br>
-                        <input type="checkbox" name="inprog" value="inprog">In Progress
-                        <br>
-                        <input type="checkbox" name="comp" value="comp">Completed
-                        <br>
-                        <input type="checkbox" name="withdrawn" value="withdrawn">Withdrawn
-                        <br>
+                        @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryByStatusCodeForm" }))
+                        {
+                            @if (ViewBag.QueryByStatusCode != 0)
+                            {
+                                @Html.DropDownList("StatusCodeId", new SelectList(ViewBag.StatusCodes, "Id", "StatusCode", ViewBag.QueryByStatusCode), "All", new { @id = "statusCodes" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("StatusCodeId", new SelectList(ViewBag.StatusCodes, "Id", "StatusCode"), "All", new { @id = "statusCodes" })
+
+                            }
+                            @Html.Hidden("StatusCode", null, new { @id = "statusCode" })
+                            <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
+                            <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
+                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
+                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                        }
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $("body").on("change", "#statusCodes", function () {
+                                $("#statusCode").val($(this).find("option:selected").text());
+                                document.forms["QueryByStatusCodeForm"].submit();
+                            });
+                        </script>
+                        @*<input type="checkbox" name="all" value="all">ALL
+        <br>
+        <input type="checkbox" name="inprog" value="inprog">In Progress
+        <br>
+        <input type="checkbox" name="comp" value="comp">Completed
+        <br>
+        <input type="checkbox" name="withdrawn" value="withdrawn">Withdrawn
+        <br>*@
                         <p></p>
                     </div>
                     <div class="aligncenter" style="width:100%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div class="col-8">
                 <!--right side of page-->
                 <br />
