@@ -1,0 +1,138 @@
+@model Internship_Application.Models.QuestionsAndAnswers
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<script src="Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
+<link href="Bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="Bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+<style>
+    #tablesDiv {
+        padding-top: 25px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        box-shadow: 0px 0px 10px grey;
+        border-radius: 3px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.TemplateDetails.Id)
+    {
+        <br />
+        <div id="tablesDiv">
+            <div>
+                <h1 style="text-align:center;">@Model.TemplateDetails.DisplayName</h1>
+                <h2 style="text-align:center;">Template name: @Model.TemplateDetails.TemplateName: </h2>
+                <br />
+                <h4 style="text-align:center;">@Model.TemplateDetails.Disclaimer</h4>
+                <div>
+                    @Html.DisplayFor(modelItem => Model)
+                    @{
+                        int visibleCount = 0;
+                        string role = "Student";
+                        <h2><b style="color: red;">* = Required</b></h2>
+                        @foreach (var q in Model.QuestionList)
+                        {
+                            if (q.InputType == "formInfo")
+                            {
+                                <div style="margin: 20pt;"><b>@q.Prompt</b></div>
+                            }
+                            else if (q.InputType == "signature")
+                            {
+                                visibleCount++;
+                                <div style="margin: 10pt;">
+                                    <div>
+                                        @visibleCount. @q.Prompt: <input type="@q.InputType" />
+                                        @if (q.Required && (q.Role == role))
+                                        {
+                                            <b style="color: red;">*</b>
+                                        }
+                                    </div>
+                                    <div>
+                                        <small>@q.HelperText</small>
+                                    </div>
+                                </div>
+                            }
+                            else if (q.InputType == "text-area")
+                            {
+                                visibleCount++;
+                                <div style="margin: 10pt;">
+                                    <div>
+                                        @visibleCount. @q.Prompt: <textarea></textarea>
+                                        @if (q.Required && (q.Role == role))
+                                        {
+                                            <b style="color: red;">*</b>
+                                        }
+                                    </div>
+                                    <div>
+                                        <small>@q.HelperText</small>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                visibleCount++;
+                                <div>
+                                    @if (q.Options != "")
+                                    {
+                                        <div>
+                                            @visibleCount. @q.Prompt:
+                                            <input type="radio" name="yes" value="yes" /><label>Yes</label>
+                                            <input type="radio" name="no" value="no" /><label>No</label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            @visibleCount. @q.Prompt: <input type="@q.InputType" />
+                                        </div>
+                                    }
+                                    @if (q.Required && (q.Role == role))
+                                    {
+                                        <b style="color: red;">*</b>
+                                    }
+                                </div>
+
+                            }
+                        }
+                    }
+                </div>
+            </div>
+
+            <div>
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+        <br />
+
+        <button type="button"><a asp-action="Index">Back to Templates</a></button>
+
+        @if (Model.TemplateDetails.IsActive == true && Model.TemplateDetails.IsRetired == false)//buttons to show for active templates
+        {
+            <input name="submit" type="submit" id="RetireTemplate" value="Retire Template" />
+        }
+
+        @if (Model.TemplateDetails.IsActive == false && Model.TemplateDetails.IsRetired == false)//buttons to show for in-progress templtes
+        {
+            <button type="button"><a asp-action="formtemplateeditor/Edit/" asp-route-id="@Model.TemplateDetails.Id">Edit Template</a></button>
+            <input name="submit" type="submit" id="MakeTemplateActive" value="Make Template Active" />
+            <input name="submit" type="submit" id="RetireTemplate" value="Retire Template" />
+        }
+
+        @if (Model.TemplateDetails.IsActive == false && Model.TemplateDetails.IsRetired == true)//buttons to show for retired templates
+        {
+            <input name="submit" type="submit" id="MakeTemplateInProgress" value="Move Template to In-Progress" />
+        }
+        <br />
+        <br />
+        <br />
+    }
+}
+
+

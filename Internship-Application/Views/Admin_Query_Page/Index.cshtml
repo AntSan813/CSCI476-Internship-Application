@@ -80,167 +80,414 @@
     #exportButton {
         margin-left: 50pt;
     }
-
 </style>
 
-@model List<Internship_Application.Models.FormViewModel>
+@model Internship_Application.Models.QueryPageViewModel
 <div id="adminQueryPageUI">
     <div>
-        @*@foreach (var item in Model)
-        {
-                <div>
-                    @Html.DisplayFor(modelItem => item.WuId)
-                </div>
-        }*@
-                <div class="row" style="padding: 10pt;">
-                    <!--split page into two columns-->
-                    <br />
-                    <div class="col-4">
-                        <!--left side of page-->
-                        <div id="titleAndSortContent">
-                            <div id="tableTitle">
-                                <br />
-                                <h2>FILTER BY: </h2>
-                            </div>
-                            <div>
-                            </div>
-                        </div>
+        <div class="row" style="padding: 10pt;">
+            <!--split page into two columns-->
+            <br />
+            <div class="col-4">
+                <!--left side of page-->
 
-                        <div id="tablesDiv" style="padding: 10pt;">
-                            <div id="needsAdminContainer">
-                                <p> </p>
-
-                                <h5>Company:</h5>
-
-                                <div class="dropdown">
-                                    @*<button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left; " >Input Type</button>
-        <div class="dropdown-menu">*@
-                                    @using (Html.BeginForm("QueryByCompanyName", "Admin_Query_Page", FormMethod.Post, new { @name = "Form1" }))
-                                    {
-                                        @Html.DropDownList("Id", new SelectList(ViewBag.Companies, "Id", "CompanyName"), "Please select", new { @id = "companies" })
-                                        @Html.Hidden("CompanyName", null, new { @id = "companyName" })
-                                        @Html.Hidden("", null, new { @id = "companyName" })
-                                    }
-                                    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
-                                    <script type="text/javascript">
-                                        $("body").on("change", "#companies", function () {
-                                            $("#companyName").val($(this).find("option:selected").text());
-                                            document.forms["Form1"].submit();
-                                        });
-                                    </script>
-                                    @*<a class="dropdown-item" value="-1"> -- select an option -- </a>
-        @foreach (var company in ViewBag.Companies)
-        {
-            <button type="button" class="dropdown-item" value="@company.Id" onclick="location.href='@Url.Action("QueryByCompanyName/", "Admin_Query_PageController")'" />@company.CompanyName</button>
-            @*<option value="@company.Id">@company.CompanyName</option>*@
-                                    @*}
-                                    *@
-                                    @*</div>*@
-                                </div>
-                                @*<select>
-                                    <option value="-1"> -- select an option -- </option>
-                                    @foreach (var company in ViewBag.Companies)
-                                    {
-                                        <option value="@company.Id" onclick="location.href='@Url.Action("QueryByCompanyName", "Admin_Query_PageController",new { Id = company.Id})'" />@company.CompnayName</option>
-                                        @*<option value="@company.Id">@company.CompanyName</option>*@
-                                    
-                                    @*}
-                                        <option value="-1"> -- select an option -- </option>
-            <option value="-1">All </option>
-            <option value="0">Ally</option>
-            <option value="1">Delta Bravo</option>
-            <option value="2">Lending Tree</option>
-            <option value="3">Wells Fargo</option>*@
-                                @*</select>*@
-                                <p> </p>
-                                <h5>Location:</h5>
-                                <select>
-                                    <option value="-1"> -- select an option -- </option>
-                                    @foreach (var company in ViewBag.Companies)
-                                    {
-                                        <option value="@company.Id">@company.CompanyLocation</option>
-                                    }
-                                    @*<option value="'-1'"> -- select an option -- </option>
-            <option value="-1"> ALL </option>
-            <option value="0">Alabama</option>
-            <option value="1">California</option>
-            <option value="2">North Carolina</option>
-            <option value="3">South Carolina</option>*@
-                                </select>
-                                <p> </p>
-                                <h5>Year:</h5>
-                                <select>
-                                    <option value="'-1'"> -- select an option -- </option>
-                                    <option value="-1"> ALL </option>
-                                    <option value="0">2015</option>
-                                    <option value="1">2016</option>
-                                    <option value="2">2017</option>
-                                    <option value="3">2018</option>
-                                    <option value="4">2019</option>
-                                </select>
-                                <p></p>
-                                <h5>Unpaid vs Paid:</h5>
-                                <input type="checkbox" name="paid" value="paid">Paid<br>
-                                <input type="checkbox" name="unpaid" value="unpaid">Unpaid<br>
-                                <p> </p>
-                                <h5>Application Status:</h5>
-                                <input type="checkbox" name="all" value="all">ALL<br>
-                                <input type="checkbox" name="inprog" value="inprog">In Progress<br>
-                                <input type="checkbox" name="comp" value="comp">Completed<br>
-                                <input type="checkbox" name="withdrawn" value="withdrawn">Withdrawn<br>
-                                <p></p>
-                            </div>
-                            <div class="aligncenter" style="width:100%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <!--right side of page-->
+                <div id="titleAndSortContent">
+                    <form asp-controller="Admin_Query_Page" asp-action="Filter">
+                        <p>
+                            Search Student Email: <input type="text" name="SearchString">
+                            <input type="submit" value="Filter" />
+                        </p>
+                    </form>
+                    <div id="tableTitle">
                         <br />
-                        <div class="vl" />
-                        <div id="titleAndSortContent">
-                            <div id="tableTitle">
-                                <h2>RESULTS OF QUERY: </h2>
-                            </div>
-                            <div>
-                            </div>
-                        </div>
-                        <div id="tablesDiv">
-                            <div id="queryResultsTable">
-                                <table style="width:100%">
-                                    <h3 style="text-align:center;">Your search returned @ViewBag.Forms.Count results: </h3>
+
+                        <h2>FILTER BY: </h2>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+
+                <div id="tablesDiv" style="padding: 10pt;">
+                    <div id="needsAdminContainer">
+                        <p> </p>
+
+
+                        <h5>Company:</h5>
+                        @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryByCompanyNameForm" }))
+                        {
+                            @if (ViewBag.QueryByCompanyName != 0)
+                            {
+                                @Html.DropDownList("CompanyNameId", new SelectList(ViewBag.Companies, "Id", "CompanyName", ViewBag.QueryByCompanyName), "All", new { @id = "companyNames" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("CompanyNameId", new SelectList(ViewBag.Companies, "Id", "CompanyName"), "All", new { @id = "companyNames" })
+
+                            }
+                            @Html.Hidden("CompanyName", null, new { @id = "companyName" })
+                            <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
+                            <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
+                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
+                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
+                        }
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $("body").on("change", "#companyNames", function () {
+                                $("#companyName").val($(this).find("option:selected").text());
+                                document.forms["QueryByCompanyNameForm"].submit();
+                            });
+                        </script>
+                        <p> </p>
+
+
+                        <h5>Location:</h5>
+                        @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryByCompanyLocationForm" }))
+                        {
+                            @if (ViewBag.QueryByCompanyLocation != 0)
+                            {
+                                @Html.DropDownList("CompanyLocationId", new SelectList(ViewBag.Companies, "Id", "CompanyLocation", ViewBag.QueryByCompanyLocation), "All", new { @id = "companyLocations" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("CompanyLocationId", new SelectList(ViewBag.Companies, "Id", "CompanyLocation"), "All", new { @id = "companyLocations" })
+
+                            }
+                            @Html.Hidden("CompanyLocation", null, new { @id = "companyLocation" })
+                            <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
+                            <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
+                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
+                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
+                        }
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            $("body").on("change", "#companyLocations", function () {
+                                $("#companyLocation").val($(this).find("option:selected").text());
+                                document.forms["QueryByCompanyLocationForm"].submit();
+                            });
+                        </script>
+                        <p> </p>
+
+
+
+                        <h5>Year:</h5>
+                        @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryByYear" }))
+                        {
+                            @if (ViewBag.QueryByYear != 0)
+                            {
+
+                                @Html.DropDownList("YearId", new SelectList(new List<Object>{
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(1).Year,
+                                        Year = @DateTime.Now.AddYears(1).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.Year,
+                                        Year = @DateTime.Now.Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-1).Year,
+                                        Year = @DateTime.Now.AddYears(-1).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-2).Year,
+                                        Year = @DateTime.Now.AddYears(-2).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-3).Year,
+                                        Year = @DateTime.Now.AddYears(-3).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-4).Year,
+                                        Year = @DateTime.Now.AddYears(-4).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-5).Year,
+                                        Year = @DateTime.Now.AddYears(-5).Year
+                                    }
+                                }, "Id", "Year", ViewBag.QueryByYear), "All", new { @id = "years" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("YearId", new SelectList(new List<Object>{
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(1).Year,
+                                        Year = @DateTime.Now.AddYears(1).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.Year,
+                                        Year = @DateTime.Now.Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-1).Year,
+                                        Year = @DateTime.Now.AddYears(-1).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-2).Year,
+                                        Year = @DateTime.Now.AddYears(-2).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-3).Year,
+                                        Year = @DateTime.Now.AddYears(-3).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-4).Year,
+                                        Year = @DateTime.Now.AddYears(-4).Year
+                                    },
+                                    new
+                                    {
+                                        Id = @DateTime.Now.AddYears(-5).Year,
+                                        Year = @DateTime.Now.AddYears(-5).Year
+                                    }
+                            }, "Id", "Year"), "All", new { @id = "years" })
+
+                            }
+                            @Html.Hidden("Year", null, new { @id = "year" })
+
+                            <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
+                            <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
+                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
+                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
+
+                        }
+
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+                        <script type="text/javascript">
+                            $("body").on("change", "#years", function () {
+                                $("#year").val($(this).find("option:selected").text());
+                                document.forms["QueryByYear"].submit();
+                            });
+                        </script>
+
+
+
+                        <h5>Semester:</h5>
+
+                        @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryBySemesterForm" }))
+                        {
+                            @if (ViewBag.QueryBySemester != 0)
+                            {
+                                @Html.DropDownList("SemesterId", new SelectList(new List<Object>{
+                                    new
+                                    {
+                                        Id = 1,
+                                        Semester = "Fall"
+                                    },
+                                    new
+                                    {
+                                        Id = 2,
+                                        Semester = "Summer"
+                                    },
+                                    new
+                                    {
+                                        Id = 3,
+                                        Semester = "Spring"
+                                    }
+                                }, "Id", "Semester", ViewBag.QueryBySemester), "All", new { @id = "semesters" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("SemesterId", new SelectList(new List<Object>{
+                                   new
+                                   {
+                                       Id = 1,
+                                       Semester = "Fall"
+                                   },
+                                   new
+                                   {
+                                       Id = 2,
+                                       Semester = "Summer"
+                                   },
+                                   new
+                                   {
+                                       Id = 3,
+                                       Semester = "Spring"
+                                   }
+                                }, "Id", "Semester"), "All", new { @id = "semesters" })
+                            }
+                            @Html.Hidden("Semester", null, new { @id = "semester" })
+                            <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
+                            <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
+                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
+                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
+
+                        }
+
+
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+                        <script type="text/javascript">
+                            $("body").on("change", "#semesters", function () {
+                                $("#semester").val($(this).find("option:selected").text());
+                                document.forms["QueryBySemesterForm"].submit();
+                            });
+                        </script>
+
+                        <p> </p>
+
+
+                        <h5>Unpaid vs Paid:</h5>
+                        @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryByPaidForm" }))
+                        {
+                            if (ViewBag.QueryByPaid == 1)
+                            {
+                                <p>Paid:@Html.CheckBox("Paid", true)</p>
+                            }
+                            else
+                            {
+                                <p>Paid:@Html.CheckBox("Paid", false)</p>
+                            }
+                            if (ViewBag.QueryByUnpaid == 1)
+                            {
+                                <p>Unpaid:@Html.CheckBox("Unpaid", true)</p>
+                            }
+                            else
+                            {
+                                <p>Unpaid:@Html.CheckBox("Unpaid", false)</p>
+                            }
+                            <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
+                            <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
+                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
+                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
+                        }
+
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+                        <script type="text/javascript">
+                            $("body").on("change", "#Paid", function () {
+                                $("#Paid").val($(this));
+                                document.forms["QueryByPaidForm"].submit();
+                            });
+                            $("body").on("change", "#Unpaid", function () {
+                                $("#Unpaid").val($(this));
+                                document.forms["QueryByPaidForm"].submit();
+                            });
+                        </script>
+
+                        <p> </p>
+
+                        <h5>Application Status:</h5>
+                        @using (Html.BeginForm("Index", "Admin_Query_Page", FormMethod.Post, new { @name = "QueryByStatusCodeForm" }))
+                        {
+                            @if (ViewBag.QueryByStatusCode != 0)
+                            {
+                                @Html.DropDownList("StatusCodeId", new SelectList(ViewBag.StatusCodes, "Id", "StatusCode", ViewBag.QueryByStatusCode), "All", new { @id = "statusCodes" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("StatusCodeId", new SelectList(ViewBag.StatusCodes, "Id", "StatusCode"), "All", new { @id = "statusCodes" })
+
+                            }
+                            @Html.Hidden("StatusCode", null, new { @id = "statusCode" })
+                            <input type="hidden" name="PreviousCompanyNameQuery" value="@Model.PreviousCompanyNameQuery">
+                            <input type="hidden" name="PreviousCompanyLocationQuery" value="@Model.PreviousCompanyLocationQuery">
+                            <input type="hidden" name="PreviousYearQuery" value="@Model.PreviousYearQuery">
+                            <input type="hidden" name="PreviousSemesterQuery" value="@Model.PreviousSemesterQuery">
+                            <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
+                            <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
+                            <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
+
+                        }
+                        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+                        <script type="text/javascript">
+                            $("body").on("change", "#statusCodes", function () {
+                                $("#statusCode").val($(this).find("option:selected").text());
+                                document.forms["QueryByStatusCodeForm"].submit();
+                            });
+                        </script>
+                        
+                        <p></p>
+                    </div>
+                    <div class="aligncenter" style="width:100%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
+                </div>
+            </div>
+
+
+
+            <div class="col-8">
+                <!--right side of page-->
+                <br />
+                <div class="vl" />
+                <div id="titleAndSortContent">
+                    <div id="tableTitle">
+                        <h2>RESULTS OF QUERY: </h2>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+                <div id="tablesDiv">
+                    <div id="queryResultsTable">
+                        <table style="width:100%">
+                            <h3 style="text-align:center;">Your search returned @ViewBag.Forms.Count results: </h3>
+                            @if(ViewBag.Forms.Count == 0)
+                            {
+                                <h colspan="3">No forms to view!</h>
+                            }
+                            else
+                            { 
+                            <tr>
+                                <th>STUDENT NAME</th>
+                                <th>LAST UPDATED</th>
+                                <th>STATUS</th>
+                                <th></th>
+                            </tr>
+                                @foreach (var item in ViewBag.Forms)
+                                {
                                     <tr>
-                                        <th>STUDENT NAME</th>
-                                        <th>LAST UPDATED</th>
-                                        <th>STATUS</th>
-                                        <th></th>
-                                    </tr>
-                                    @foreach (var item in ViewBag.Forms)
-                                    {
-                                        <tr>
-                                            <td>@item.StudentName</td>
-                                            <td>@item.UpdatedAt</td>
-                                            <td>@item.StatusCodesViewModel.StatusCode</td>
-                                            <td><button type="button">View</button></td>
-                                        </tr>
-                                        
-                                    }
-                                    @*<tr>
-                                        <td>Jane Doe</td>
-                                        <td>2/5/2019 10:16AM</td>
-                                        <td>NAA</td>
+                                        <td>@item.StudentName</td>
+                                        <td>@item.UpdatedAt</td>
+                                        <td>@item.StatusCodesViewModel.StatusCode</td>
                                         <td><button type="button">View</button></td>
-                                    </tr>*@
-                                    </table>
-                                </div>
-                            <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
-                        </div>
-                        <br />
-                        <div>
-                            <button type="button" id="exportButton">Export to Excel document</button>
-                        </div>
+                                    </tr>
+                                }
+                            }
+                        </table>
                     </div>
+                    <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
                 </div>
+                <br />
+                <div>
+                    @*@{TempData["Forms"] = new List<FormViewModel>(ViewBag.Forms);}*@
+                    @Html.ActionLink("ExportCSV", "ExportCSV", "Admin_Query_Page", Model, new { @class = "btn" })
+
+                </div>
+            </div>
         </div>
     </div>
+</div>
 </div>

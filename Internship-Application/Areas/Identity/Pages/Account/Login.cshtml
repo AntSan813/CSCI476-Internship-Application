@@ -4,6 +4,11 @@
 @{
     ViewData["Title"] = "Log in";
 }
+<!--
+    This is the page that shows the user login. It shows the email,password, and gives the user the option to check
+    remember me. There is also a link to navigate to forgot password or register as a new user which will take them
+    to the register page
+-->
 
 <h1>@ViewData["Title"]</h1>
 
@@ -32,7 +37,7 @@
                         </label>
                     </div>
                 </div>
-                <br>
+
                 <button type="submit" class="btn-default" style=" background-color:#660000; color:white">Login</button>
               
                 <div class="form-group">
@@ -42,11 +47,12 @@
                     </p>
                     <p>
                         <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                        <br />
                     </p>
+                    <br>
                 </div>
             </form>
+
     </section>
 </div>
     
-<br />
+

@@ -7,6 +7,6 @@ namespace Internship_Application.Models
 
         public List<JsonModel> Questions { get; set; }
         public List<Templates> Templates { get; set; }
-
+        public string TemplateName { get; internal set; }
     }
 }

@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Internship_Application.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 
 namespace Internship_Application.Controllers
@@ -20,8 +17,6 @@ namespace Internship_Application.Controllers
         {
             _context = context;
         }
-
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var formViewModels = _context.Forms.Select(x => new FormViewModel {
@@ -61,8 +56,7 @@ namespace Internship_Application.Controllers
             if(id == null)
             {
                 //insert form
-                //string studentEmail = User.Identity.Name;
-                string studentEmail = "taitem2@winthrop.edu";
+                string studentEmail = User.Identity.Name;
 
                 Forms newForm = new Forms { };
                 newForm.Answers = "[]";
@@ -79,7 +73,6 @@ namespace Internship_Application.Controllers
                     _context.Add(newForm);
                     await _context.SaveChangesAsync();
                     id = newForm.Id;
-                    // return RedirectToAction(nameof(Index));
                 }
             }
 

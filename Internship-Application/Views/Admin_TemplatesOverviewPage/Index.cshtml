@@ -1,0 +1,191 @@
+﻿@model List<Internship_Application.Models.Templates>
+
+<style>
+
+    tr {
+        border: white 2px solid;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    table {
+        margin: 0px auto;
+    }
+
+    #needsAdminContainer td {
+        color: white;
+        background-color: #660000;
+    }
+
+    #needsAdminContainer {
+        padding-bottom: 50px;
+    }
+
+        #needsAdminContainer th {
+            padding-bottom: 25px;
+        }
+
+    #radioFilter {
+        display: inline;
+        margin-right: 5px;
+    }
+
+    #tableTitle {
+        display: inline-block;
+    }
+
+    #titleAndSortContent {
+        padding: 20px;
+        width: 100%;
+        display: inline-block;
+    }
+
+    #radioFilter {
+        display: inline-block;
+        text-align: right;
+        float: right;
+    }
+
+    #tablesDiv {
+        padding-top: 25px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        box-shadow: 0px 0px 10px grey;
+        border-radius: 3px;
+    }
+
+    #remFormsContainer {
+        padding-bottom: 25px;
+    }
+
+    button {
+        color: white;
+        background-color: #F0B323;
+        padding: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border: none;
+        border-radius: 3px;
+    }
+    }
+</style>
+
+<!--Admin-->
+
+@if (User.IsInRole("Admin"))
+{
+<div id="adminLandingPageUI">
+    <br />
+    <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto"></div>
+    <div id="needsAdminContainer" style="margin-bottom: 25pt;">
+        <table style="width:90%">
+            <div id="tableTitle">
+                <h2> ACIVE TEMPLATE(S)</h2>
+            </div>
+            <thead style='visibility: hidden; line-height:0%'>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].TemplateName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].CreatedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].RetiredAt)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                @if (item.IsActive == true)
+                {
+                    <tr>
+                        <td>@item.TemplateName</td>
+                        <td>@item.CreatedAt</td>
+                        <td>NOT RETIRED</td> <!--because retired at will be null for an active form-->
+                        <td><button type="button"><a asp-action="DisplayTemplate" asp-route-id="@item.Id">View</a></button></td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto"></div>
+    <div id="remFormsContainer" style="margin-bottom: 25pt;">
+        <table style="width:90%">
+            <div id="tableTitle">
+                <h2> IN PROGRESS TEMPLATE(S)</h2>
+            </div>
+            <thead style='visibility: hidden; line-height:0%'>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].TemplateName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].CreatedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].RetiredAt)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                @if (item.IsActive == false && item.IsRetired == false)
+                {
+                    <tr>
+                        <td>@item.TemplateName</td>
+                        <td>@item.CreatedAt</td>
+                        <td>NOT RETIRED</td> <!--because retired at will be null for an in progress form-->
+                        <td><button type="button"><a asp-action="DisplayTemplate" asp-route-id="@item.Id">View</a></button></td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto"></div>
+    <div id="remFormsContainer" style="margin-bottom: 25pt;">
+        <table style="width:90%">
+            <div id="tableTitle">
+                <h2> RETIRED TEMPLATE(S)</h2>
+            </div>
+            <thead style='visibility: hidden; line-height:0%'>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].TemplateName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].CreatedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].RetiredAt)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                @if (item.IsRetired == true)
+                {
+                    <tr>
+                        <td>@item.TemplateName</td>
+                        <td>@item.CreatedAt</td>
+                        <td>@item.RetiredAt</td> <!--because retired at will be null for an in progress form-->
+                        <td><button type="button"><a asp-action="DisplayTemplate" asp-route-id="@item.Id">View</a></button></td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>
+
+}
+else
+{
+    <h2>UNAUTHORIZED ACCESS</h2>
+}

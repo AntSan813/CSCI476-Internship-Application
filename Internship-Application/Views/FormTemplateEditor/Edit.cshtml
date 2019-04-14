@@ -112,9 +112,7 @@
                                 }
                                 else if (item.InputType == "checkbox" || item.InputType == "signature")
                                 {
-                                    <textarea type="checkbox" name="@(Model.Questions.IndexOf(item)+1)">
-                                     Enter text here...
-                                    </textarea>
+                                    <input type="checkbox" name="@(Model.Questions.IndexOf(item)+1)">
                                     <br />
                                 }
                                 else if (item.InputType == "money")

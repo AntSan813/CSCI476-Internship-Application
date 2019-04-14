@@ -1,15 +1,54 @@
 ﻿@page
 @model LogoutModel
+
 @{
     ViewData["Title"] = "Log out";
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    <p>You have successfully logged out of the application.</p>
-</header>
+@inject SignInManager<IdentityUser> SignInManager
+<!--
+    This is the page that shows the user Logout. It shows the user that they have successfully logged out of the
+    application. There is also a link to navigate back to the login page if they desire. If they do not wish to logout go back to 
+    landing page
+-->
 
-<br>
-<br>
 
-<a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Login">Return to Login</a>
+
+<div class="row">
+    <div class="col-md-4">
+        <section>
+
+            @if (SignInManager.IsSignedIn(User))//if user is signed in allow them to sign out...
+            {
+
+                <form id="account" method="post">
+
+                    <header>
+                        <h1>@ViewData["Title"]</h1>
+
+                        <p>Are you sure you want to logout of the application?</p>
+                    </header>
+
+                    <button type="submit" class="nav-link text-dark">Yes</button>
+                    <button><a class="nav-link text-dark" asp-controller="LandingPage">No</a></button>
+                </form>
+            }
+            else//the user is signed out...tell them that
+            {
+                <header>
+                    <h1>@ViewData["Title"]</h1>
+
+                    <p>You have successfully logged out of the application.</p>
+                </header>
+
+                <br>
+                <br>
+
+                <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Login">Return to Login</a>
+
+            }
+
+        </section>
+    </div>
+</div>
+

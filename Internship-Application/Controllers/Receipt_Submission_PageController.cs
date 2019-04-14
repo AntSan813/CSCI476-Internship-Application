@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Internship_Application.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.IO;
-using System.Net;
 using System.Net.Mail;
 
 namespace Internship_Application.Controllers
 {
+
+    [Authorize(Roles = "Student, StudentServices, Admin, Employer, FacultyOfRec")]//all of the roles can access this page
     public class Receipt_Submission_PageController : Controller
     {
         private readonly DataContext _context;
@@ -21,7 +19,6 @@ namespace Internship_Application.Controllers
             _context = context;
         }
 
-        // [Authorize(Roles = "Student")]
         public IActionResult Index(int id)
         {
             var form = _context.Forms
@@ -57,12 +54,12 @@ namespace Internship_Application.Controllers
 
             foreach (var record in form)
             {
-                employerEmail = record.EmployerEmail;
+                employerEmail = record.EmployerEmail;//get the employer email and student name
                 studentName = record.StudentName;
             }
 
-            string mailbody = studentName + "( " + User.Identity.Name + ") sent his/her form to the employer (" + employerEmail + ").";
-            message.Subject = "Student Application Sent to Employer";
+            string mailbody = studentName + "( " + User.Identity.Name + ") sent his/her form to the employer (" + employerEmail + ").";//the body of the email
+            message.Subject = "Student Application Sent to Employer";//the subject of the email
             message.Body = mailbody;
             message.BodyEncoding = System.Text.Encoding.UTF8;
             message.IsBodyHtml = true;
@@ -74,7 +71,7 @@ namespace Internship_Application.Controllers
             client.Credentials = basicCredential1;
             try
             {
-                client.Send(message);
+                client.Send(message);//send the email
             }
 
             catch (Exception ex)
@@ -128,11 +125,11 @@ namespace Internship_Application.Controllers
             string from = "smtps19@winthrop.edu"; //From address    
             MailMessage message = new MailMessage(from, to);
 
-            string mailbody = "Thank you for completing your portion of the CBA Internship Agreement. It has been sent to your employer, " + employerEmail +". If the employer email is incorrect, you must contact the Director of External Relations for assistance as your form will not be completed until this is fixed."
-                ;
+            //the students body of the email....tell them the employer they sent their application to. If this email is incorrect it is shown here
+            string mailbody = "Thank you for completing your portion of the CBA Internship Agreement. It has been sent to your employer, " + employerEmail +". If the employer email is incorrect, you must contact the Director of External Relations for assistance as your form will not be completed until this is fixed." ;
 
 
-            message.Subject = "Student Application Sent to Employer";
+            message.Subject = "Thank You, Your Application is Being Sent to Employer";//the subject of the email
             message.Body = mailbody;
             message.BodyEncoding = System.Text.Encoding.UTF8;
             message.IsBodyHtml = true;
@@ -144,7 +141,7 @@ namespace Internship_Application.Controllers
             client.Credentials = basicCredential1;
             try
             {
-                client.Send(message);
+                client.Send(message);//send the email
             }
 
             catch (Exception ex)
@@ -190,40 +187,10 @@ namespace Internship_Application.Controllers
             string from = "smtps19@winthrop.edu"; //From address    
             MailMessage message = new MailMessage(from, to);
 
-            string mailbody = "Thank you for completing your portion of the CBA Internship Agreement.";
+            string mailbody = "Thank you for completing your portion of the CBA Internship Agreement.";//tell them thank you for submitting their part of the application
 
 
-            message.Subject = "Internship Agreement Confirmation Email";
-            message.Body = mailbody;
-            message.BodyEncoding = System.Text.Encoding.UTF8;
-            message.IsBodyHtml = true;
-            SmtpClient client = new SmtpClient("smtp.office365.com", 587); //Gmail smtp    
-            System.Net.NetworkCredential basicCredential1 = new
-            System.Net.NetworkCredential("smtps19@winthrop.edu", "SpringSnow2019!");
-            client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
-            client.Credentials = basicCredential1;
-            try
-            {
-                client.Send(message);
-            }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-   
-        public void testStudent()
-        {
-            string to = "rominek2@winthrop.edu"; //To address    
-            string from = "smtps19@winthrop.edu"; //From address    
-            MailMessage message = new MailMessage(from, to);
-
-            string mailbody = "WE ARE STUDENT ROLE";
-
-
-            message.Subject = "STUDENT ROLE";
+            message.Subject = "Internship Agreement Confirmation Email";//subject of the email
             message.Body = mailbody;
             message.BodyEncoding = System.Text.Encoding.UTF8;
             message.IsBodyHtml = true;

@@ -30,6 +30,10 @@ namespace Internship_Application.Models
         [DisplayName("Last Updated")]
         public DateTime UpdatedAt { get; set; }
 
+
+        [DisplayName("Template ID")]
+        public int TemplateId { get; set; }
+
         public StatusCodes StatusCodesViewModel { get; set; }
         public List<TemplateViewModel> TemplateViewModels { get; set; }
     }

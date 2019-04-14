@@ -208,10 +208,6 @@ namespace Internship_Application.Controllers
                 return NotFound();
             }
 
-            //ViewBag.Template = template;
-            //ViewBag.Questions = JsonConvert.DeserializeObject<List<JsonModel>>(template.Questions);
-            //return View();
-
             TemplateViewModel templateView = new TemplateViewModel { };
             templateView.Templates = new List<Templates> {template};
 
@@ -315,9 +311,7 @@ namespace Internship_Application.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var templates = await _context.Templates.FindAsync(id);
-            //_context.Templates.Remove(templates);
-            //await _context.SaveChangesAsync();
-
+        
             //TODO: Change this to only set the DeleteAt field iff there is a reference to this template in the Forms table
             //meaning, that if someone made a application with this template, we have to keep the template in the database until that application
             //gets deleted after 5 years. 

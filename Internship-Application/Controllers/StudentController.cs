@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Internship_Application.Controllers
 {
+
+    [Authorize(Roles = "Student")]//only allow if student role
     public class StudentController : Controller
     {
-        [Authorize(Roles = "Student")]
         public IActionResult Index()
         {
             return View();

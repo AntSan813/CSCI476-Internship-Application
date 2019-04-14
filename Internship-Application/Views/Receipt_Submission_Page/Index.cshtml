@@ -20,23 +20,5 @@
         </div>
     </fieldset>
 </div>
-@if (User.IsInRole("Student"))
-{
-    <form asp-controller="Receipt_Submission_Page_Student" asp-action="Index">
-        <button type="submit"> Student-Submit </button>
-    </form>
-}
-@if (User.IsInRole("Admin"))
-{
-    <form asp-controller="Receipt_Submission_Page_Admin" asp-action="Index">
-        <button type="submit"> Admin-Submit</button>
-    </form>
-}
 
-@if ((User.IsInRole("Employer")) || (User.IsInRole("StudentServices")) || (User.IsInRole("FacultyOfRec")))
-{
-    <form asp-controller="Receipt_Submission_Page_EmployerSSFor" asp-action="Index">
-        <button type="submit"> Emply,SS,FoR-Submit</button>
-    </form>
-}
 <button><a class="nav-link text-dark" asp-controller="LandingPage">Back to View Forms</a></button>
