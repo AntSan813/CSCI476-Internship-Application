@@ -97,7 +97,7 @@
     }
     else if (User.IsInRole("StudentServices"))
     {
-        role = "Student Services";
+        role = "StudentServices";
     }
 }
 
@@ -272,21 +272,21 @@
                                 <td>@item.StudentName</td>
                                 <td>@item.UpdatedAt</td>
                                 <td>@item.StatusCodesViewModel.StatusCode</td>
-                                <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                                <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
 
                             </tr>
                         }
-                        else if (User.IsInRole("FacultyOfRec") && item.FacultyEmail == @User.Identity.Name)
+                        else if (role == "FacultyOfRec" && item.FacultyEmail == @User.Identity.Name)
                         {
                             <tr>
                                 <td>@item.StudentName</td>
                                 <td>@item.UpdatedAt</td>
                                 <td>@item.StatusCodesViewModel.StatusCode</td>
-                                <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                                <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
                             </tr>
                         }
                     }
-                    @User.IsInRole("Student")
+                    @if(role == "Student")
                     {
                     <tr>
                         <td></td>
@@ -337,8 +337,4 @@
             </div>
         </div>
     </div>
-}
-@if (!User.IsInRole("Admin") || !User.IsInRole("Student") || !User.IsInRole("StudentServices") || !User.IsInRole("FacultyOfRec") || !User.IsInRole("Employer"))
-{
-    <h2>UNAUTHORIZED ACCESS</h2>
 }

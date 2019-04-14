@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -123,7 +124,7 @@ namespace Internship_Application.Controllers
             }
             else if (User.IsInRole("StudentServices"))
             {
-                role = "Student Services";
+                role = "StudentServices";
             }
 
             Boolean correctRoleSubmit = false;
@@ -303,15 +304,18 @@ namespace Internship_Application.Controllers
                 case "Accept":
                     form.StatusCodeId = 8;
                     form.UpdatedAt = DateTime.Now;
-                    break;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Receipt_Submission_Page", new { id = questionsAndAnswers.FormDetails.Id });
                 case "Decline":
                     form.StatusCodeId = 9;
                     form.UpdatedAt = DateTime.Now;
-                    break;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Receipt_Submission_Page", new { id = questionsAndAnswers.FormDetails.Id });
                 case "Withdraw":
                     form.StatusCodeId = 10;
                     form.UpdatedAt = DateTime.Now;
-                    break;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Receipt_Submission_Page", new { id = questionsAndAnswers.FormDetails.Id });
                 case "SendBack":
                     form.UpdatedAt = DateTime.Now;
                     break;
@@ -350,7 +354,7 @@ namespace Internship_Application.Controllers
             }
             else if (User.IsInRole("StudentServices"))
             {
-                role = "Student Services";
+                role = "StudentServices";
             }
             return role;
         }
