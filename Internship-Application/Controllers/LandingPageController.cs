@@ -54,18 +54,34 @@ namespace Internship_Application.Controllers
         [HttpGet]
         public async Task<IActionResult> DisplayForm(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 //insert form
                 string studentEmail = User.Identity.Name;
+                string tempStartName = studentEmail.Split('@')[0];
 
                 Forms newForm = new Forms { };
-                newForm.Answers = "[]";
                 newForm.StudentEmail = studentEmail;
                 newForm.StatusCodeId = 1;
 
                 Templates temp = _context.Templates
                     .First(m => m.IsActive == true);
+
+                List<Questions> qList = JsonConvert.DeserializeObject<List<Questions>>(temp.Questions);
+                string emptyAnswers = "[";
+                foreach (var item in qList)
+                {
+                    if(item.Prompt == "Email")
+                    {
+                        emptyAnswers = emptyAnswers + "{\"Order\":\"" + item.Order + "\", \"Value\":\"" + studentEmail + "\", \"DateSigned\":\"\"},";
+                    }
+                    else
+                    {
+                        emptyAnswers = emptyAnswers + "{\"Order\":\"" + item.Order + "\", \"Value\":\"" + "\", \"DateSigned\":\"" + "\"},";
+                    }
+                }
+                emptyAnswers = emptyAnswers + "]";
+                newForm.Answers = emptyAnswers;
 
                 newForm.TemplateId = temp.Id;
 
@@ -220,17 +236,11 @@ namespace Internship_Application.Controllers
             var form = await _context.Forms.FindAsync(questionsAndAnswers.FormDetails.Id);
             var userInput = questionsAndAnswers.InputList;
 
-            //
             string userRole = getRole();
             bool canSubmit = getCorrRoleSubmit(userRole, questionsAndAnswers.FormDetails.StatusCodesViewModel.Id);
-            var reqCount = 0;
-            string studentName = "", wuId = "", studentEmail = "", facultyEmail = "", employerEmail = "";
             bool answeredAll = true;
             foreach(var item in userInput)
             {
-                /*if(userRole == item.Role && item.isRequired) {
-                    reqCount++;
-                }*/
                 if(item.isRequired && (item.Value == null || item.Value.Length <= 0))
                 {
                     answeredAll = false;
@@ -260,12 +270,12 @@ namespace Internship_Application.Controllers
                     }
                 }
             }
-            //
 
             string answerString = "[";
             foreach(var item in userInput)
             {
-                answerString = answerString + "{\"Order\":\"" + item.Order + "\", \"Value\":\"" + item.Value + "\", \"DateSigned\":\"" + item.DateSigned + "\"},";  
+                answerString = answerString + "{\"Order\":\"" + item.Order + "\", \"Value\":\"" + item.Value + "\", \"DateSigned\":\"" + item.DateSigned + "\"},";
+                
             }
             answerString = answerString + "]";
             switch (submit)
@@ -302,10 +312,20 @@ namespace Internship_Application.Controllers
                         return RedirectToAction(nameof(DisplayForm));
                     }
                 case "Accept":
-                    form.StatusCodeId = 8;
-                    form.UpdatedAt = DateTime.Now;
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", "Receipt_Submission_Page", new { id = questionsAndAnswers.FormDetails.Id });
+                    if (answeredAll)
+                    {
+                        form.StatusCodeId = 8;
+                        form.Answers = answerString;
+                        form.UpdatedAt = DateTime.Now;
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index", "Receipt_Submission_Page", new { id = questionsAndAnswers.FormDetails.Id });
+                    }
+                    else
+                    {
+                        form.Answers = answerString;
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(DisplayForm));
+                    }
                 case "Decline":
                     form.StatusCodeId = 9;
                     form.UpdatedAt = DateTime.Now;
@@ -316,8 +336,13 @@ namespace Internship_Application.Controllers
                     form.UpdatedAt = DateTime.Now;
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index", "Receipt_Submission_Page", new { id = questionsAndAnswers.FormDetails.Id });
-                case "SendBack":
-                    form.UpdatedAt = DateTime.Now;
+                case "Send Back":
+                    if(questionsAndAnswers.SendBackListId < form.StatusCodeId)
+                    {
+                        form.StatusCodeId = questionsAndAnswers.SendBackListId;
+                        form.UpdatedAt = DateTime.Now;
+                    }
+                    await _context.SaveChangesAsync();
                     break;
                 case "Save":
                     form.Answers = answerString;
@@ -329,7 +354,6 @@ namespace Internship_Application.Controllers
                 default:
                     throw new Exception();
             }
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
