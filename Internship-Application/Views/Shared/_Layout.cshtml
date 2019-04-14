@@ -1,7 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Principal;
+
+
 @inject SignInManager<IdentityUser> SignInManager
 <!DOCTYPE html>
-
+<!-- The purpose of this page is to show certain things on each page such as the navigation bar -->
 <html>
 
 <head>
@@ -60,49 +63,69 @@
                             <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
                                 <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
                             </button>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
-                                    <a class="dropdown-item" href="#">View Active Forms</a>
-                                    <a class="dropdown-item" href="#">View Archived Forms</a>
-                                    <a class="dropdown-item" href="#">Add/Remove User</a>
-                                    <a class="dropdown-item" href="#">View/Edit Form Template</a>
-                                    <a class="dropdown-item" href="#">Account Settings</a>
-                                    <a class="dropdown-item" href="#">Log Out</a>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
-                                    <a class="dropdown-item" href="#">View Forms</a>
-                                    <a class="dropdown-item" href="#">Log Out</a>
-                                </div>
-                            }
+                            <!--  if (User.IsInRole("Admin"))-->
+                            <!--    {
+        <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
+            <a class="dropdown-item" href="#">View Active Forms</a>
+            <a class="dropdown-item" href="#">View Archived Forms</a>
+            <a class="dropdown-item" href="#">Add/Remove User</a>
+            <a class="dropdown-item" href="#">View/Edit Form Template</a>
+            <a class="dropdown-item" href="#">Account Settings</a>
+            <a class="dropdown-item" href="#">Log Out</a>
+            <a class="dropdown-item" href="@Url.Action("Index", "Logout")">Logout</a>
+        </div>
+        }
+        else
+        {
+                             <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
+                            <a class="dropdown-item" href="#">View Forms</a>
+                            <a class="dropdown-item" href="#">Log Out</a>
+                            </div>
+                                }-->
+                            <ul class="navbar-nav">
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+                                    </li>
+                                   
+
+
+                                    <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
+                                        <a class="dropdown-item" href="#">View Active Forms</a>
+                                        <a class="dropdown-item" href="#">View Archived Forms</a>
+                                        <a class="dropdown-item" href="#">Add/Remove User</a>
+                                        <a class="dropdown-item" href="#">View/Edit Form Template</a>
+                                        <a class="dropdown-item" href="#">Account Settings</a>
+                                        <a class="dropdown-item" href="#">Log Out</a>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Logout")">Logout</a>
+                                    </div>
+
+                                }
+                            </ul>
+
                         </div>
                     </div>
                     <div class="col-4">
-                        <big class="gradientAudience"><b>Winthrop University Internship Portal</b></big>
+                        <big class="gradientAudience"><b>Winthrop University CBA Internship</b></big>
                     </div>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
                     <div class="col-4">
-                        <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                        <!-- <button><a class="nav-link text-light" style ="background-color: #ffc107;color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a></button>-->
+                        <a type="text" style=" border:none;background-color:#f0b323; color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                       
                     </div>
+                    }
                 </div>
             </div>
 
 
         <div class="body-content">
-            <!-- <div>
-             <!--Database tables:<br />
-            Html.ActionLink("", "Index", "Forms")<br />
-            Html.ActionLink("", "Index", "Templates")<br />
-        </div>-->
-        <!--
-
-    await Html.PartialAsync("_LoginPartial")-->
-        <!--The following renders the current pages body-->
+            
         @RenderBody()
 
-        <!--  <div style="min-height:645px">CSCI 475 Team One</div> -->
         </div>
 
         <footer class="footer">

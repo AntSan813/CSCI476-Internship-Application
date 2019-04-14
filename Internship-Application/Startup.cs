@@ -19,7 +19,11 @@ namespace Internship_Application
         }
 
         public IConfiguration Configuration { get; }
-        // This method gets called by the runtime. Use this method to add services to the container.
+
+        /*Name:ConfigureServices
+         * Purpose: This method gets called by the runtime. Use this method to add services to the container. A service
+         * is a reusable component that allows our app to have functionality.
+         */
         public void ConfigureServices(IServiceCollection services)
         {
            
@@ -49,50 +53,26 @@ namespace Internship_Application
                 .AddDefaultUI(UIFramework.Bootstrap4)                 
                 .AddRoles<IdentityRole>()                 
                 .AddEntityFrameworkStores<IdentityContext>();
-
-          //      services.AddIdentity<IdentityUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<IdentityContext>()
-              //  .AddDefaultUI(UIFramework.Bootstrap4);
-            // .AddDefaultTokenProviders();
-            //services.AddMvc();
-
+            
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = $"/Identity/Account/Login";
                 options.LogoutPath = $"/Identity/Account/Logout";
-               // options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
             
-
-
-            /*
-             services.AddIdentity<Internship_Application.Areas.Identity.Data.InternshipApplicationUser, Internship_Application.Areas.Identity.Data.InternshipApplicationRole>()
-                //services.AddDefaultIdentity<InternshipApplicationUser>()
-                 .AddEntityFrameworkStores<InternshipApplicationIdentityContext>()
-                 .AddDefaultTokenProviders();
-
-             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                 .AddRazorPagesOptions(options =>
-                 {
-                     options.AllowAreas = true;
-                     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
-                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
-                 });
-
              services.ConfigureApplicationCookie(options =>
              {
                  options.LoginPath = $"/Identity/Account/Login";
                  options.LogoutPath = $"/Identity/Account/Logout";
                  options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
              });
-             */
-
-            services.AddMvc();
-             // using Microsoft.AspNetCore.Identity.UI.Services;
-            
+            services.AddMvc();     
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /*Name:Configure
+         * Purpose:This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+         * The services IHostingEnvironement and IServiceProvider are injectected
+         */
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
@@ -112,26 +92,24 @@ namespace Internship_Application
             app.UseCookiePolicy();
             app.UseAuthentication();
 
-
-
-
+            //create a default route to sign in controller
             app.UseMvc(routes =>
             {
                     routes.MapRoute(
                     name: "default",
                     template: "{controller=SignIn}/{action=Index}/{id?}");
-                //    routes.MapRoute("adminLandingPage", "{controller=landingPage_Admin}/{action=landingPage_Admin}/{id?}");
-
-                
-
             });
-            CreateUserRoles(services).Wait();
+            CreateUserRoles(services).Wait();//go to the function CreateUserRoles
         }
 
 
 
 
-
+        /*Name:CreateUserRoles
+        * Purpose:This method creates the roles Student, Admin, StudentServices, FacultyOfRec, and Employer.
+        * The Admin role is assigned to the user in the Identity user variable. The administrators email will be
+        * put in there, currently Celeste Tiller's email.
+        */
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -149,30 +127,34 @@ namespace Internship_Application
             //login id for Admin management
 
 
-            IdentityUser user = await UserManager.FindByEmailAsync("santosa4@winthrop.edu");
+
+            IdentityUser user = await UserManager.FindByEmailAsync("rominek2@winthrop.edu");//the admin's email will be put here
 
             var User = new IdentityUser();
             await UserManager.AddToRoleAsync(user, "Admin");
 
 
-                // creating Creating student role     
+            // creating Creating student role     
             roleCheck = await RoleManager.RoleExistsAsync("Student");
             if (!roleCheck)
             {
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("Student"));
             }
+
             // creating Creating studentServices role     
             roleCheck = await RoleManager.RoleExistsAsync("StudentServices");
             if (!roleCheck)
             {
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("StudentServices"));
             }
+
             // creating Creating FacultyofRecord role     
             roleCheck = await RoleManager.RoleExistsAsync("FacultyOfRec");
             if (!roleCheck)
             {
                 roleResult = await RoleManager.CreateAsync(new IdentityRole("FacultyOfRec"));
             }
+
             // creating Creating Employer role     
             roleCheck = await RoleManager.RoleExistsAsync("Employer");
             if (!roleCheck)

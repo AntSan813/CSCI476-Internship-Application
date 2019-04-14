@@ -74,7 +74,7 @@
     }
 </style>
 
-<!--Admin-->
+<!--Show if the role is admin-->
 
 @if (User.IsInRole("Admin"))
 {
@@ -176,17 +176,10 @@
 }
 
 
-//common nav bar
+//show if the role is any role other than admin....
 
 else if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
 {
-    <ul class="navbar-nav">
-
-        <li class="nav-item">
-            <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-        </li>
-
-    </ul>
     <div id="commonLandingPageUI">
         <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
             <div>
@@ -270,11 +263,6 @@ else if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.Is
                         <td></td>
                         <td>
                            <a asp-action="DisplayForm">Start New Form</a>
-                            <!-- 
-    <form asp-controller="Student_Application_Page" asp-action="Index" method="post">
-        <button type="submit" style="height:55px; background-color:#660000">Start New Form</button>
-    </form>-->
-                            <!--<button style="height:55px; background-color:#660000">Start New Form</button>-->
                         </td>
                     </tr>
                     }

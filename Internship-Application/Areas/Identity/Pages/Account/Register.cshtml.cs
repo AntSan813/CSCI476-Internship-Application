@@ -69,6 +69,12 @@ namespace Internship_Application.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
+        /*Name:OnPostAsync
+         * Purpose: The purpose of this function is to allow the user. If the user is able to login, they will be assigned a role here.
+         * They will have the role as a student, employer, faculty, or studentservices. The user cannot be assigned the role of the administrator
+         * here. 
+         */ 
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
@@ -76,10 +82,7 @@ namespace Internship_Application.Areas.Identity.Pages.Account
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
-
-
-                if (result.Succeeded)
+                if (result.Succeeded)//the user is able to register an account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
@@ -94,40 +97,29 @@ namespace Internship_Application.Areas.Identity.Pages.Account
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                     
                     //ASSIGN ROLES BASED ON EMAIL
-                    string userEmail = Input.Email;
-                    string winthrop = "@winthrop.edu";
-                    if (userEmail == "studentservices@winthrop.edu")//Person is Student Services
+                    string userEmail = Input.Email;//get the user's email
+                    string winthrop = "@winthrop.edu";//set the string as @winthrop.edu to do some check later
+                    if (userEmail == "studentservices@winthrop.edu")//Person is Student Services, this is hardcoded because this is the only email that student services can be
                     {
-                        await _userManager.AddToRoleAsync(user, "StudentServices");
+                        await _userManager.AddToRoleAsync(user, "StudentServices");//assign this role
                     }
-                    else//Person is not an Admin, or Student Services so they must be Student or Employer or FacultyOfRec
+                    else//Person is not an Admin, or Student Services so they must be Student, Employer, or FacultyOfRec
                     {
-                        int numLoc = -1;
-                        //char[] numArray = {'1','2','3','4','5','6','7','8','9','0'};
+                        int numLoc = -1;//find the location of the number in the email
                         bool student = false;
-                        var length = userEmail.Length;
-                        if(userEmail.Contains(winthrop))
+                        var length = userEmail.Length;//get the length of the email
+                        if(userEmail.Contains(winthrop))//if the email contains @winthrop.edu
                         {
-                            //for (int i = 0; i < userEmail.Length; i++)
-                            //{
-                            //length = userEmail.Length;
                             numLoc = userEmail.IndexOf('@');//checking char before @. If #, student. If not, faculty
-                                
                             numLoc = numLoc - 1;
-                                
-                            //}
-                           //for (int x = 0; x < 10; x++)
-                            //{
-                                bool result2 = Char.IsDigit(Input.Email, numLoc);
-                                  if (result2)
-                                     student = true;
-                           //}
-
-                            if (student)// && userEmail.Contains(winthrop))
+                            bool result2 = Char.IsDigit(Input.Email, numLoc);
+                            if (result2)
+                                     student = true;//the user is a student
+                            if (student)//if true, set the user as a student
                             {
                                 await _userManager.AddToRoleAsync(user, "Student");
                             }
-                            else// if (userEmail.Contains(winthrop))
+                            else//false, the user is a faculty of record
                             {
                                 await _userManager.AddToRoleAsync(user, "FacultyOfRec");
                             }
@@ -136,7 +128,6 @@ namespace Internship_Application.Areas.Identity.Pages.Account
                         //check if employer role
                         //look through all entries in employer_email column in forms table and if the email being used to register
                         //is in that table, it is an employer and let them.
-
                         var form = _context.Forms.ToList<Forms>();
 
                         foreach (var record in form)

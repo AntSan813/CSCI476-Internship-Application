@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Internship_Application.Controllers
 {
+    [Authorize(Roles = "Admin")]//only let the user on this page if they have the admin role
     public class Admin_TemplatesOverviewPageController : Controller
     {
         private readonly DataContext _context;
@@ -20,7 +21,6 @@ namespace Internship_Application.Controllers
             _context = context;
         }
 
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var templateList = _context.Templates.Select(x => new Templates
@@ -51,14 +51,13 @@ namespace Internship_Application.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DisplayForm(int? id)
+        public async Task<IActionResult> DisplayTemplate(int? id)
         {
             if (id == null)
             {
                 //insert form
                 string studentEmail = User.Identity.Name;
-                //string studentEmail = "taitem2@winthrop.edu";
-
+               
                 Forms newForm = new Forms { };
                 newForm.Answers = "[]";
                 newForm.StudentEmail = studentEmail;
@@ -74,53 +73,139 @@ namespace Internship_Application.Controllers
                     _context.Add(newForm);
                     await _context.SaveChangesAsync();
                     id = newForm.Id;
-                    // return RedirectToAction(nameof(Index));
                 }
             }
 
-            var form = await _context.Forms
+            var template = await _context.Templates
                .FirstOrDefaultAsync(m => m.Id == id);
-            var template = _context.Templates
-                .FirstOrDefault(m => m.Id == form.TemplateId);
-
-            var formViewModel = new FormViewModel
-            {
-                Id = form.Id,
-                StudentName = form.StudentName,
-                UpdatedAt = form.UpdatedAt,
-                StudentEmail = form.StudentEmail,
-                EmployerEmail = form.EmployerEmail,
-                FacultyEmail = form.FacultyEmail,
-                StatusCodesViewModel = new StatusCodes
-                {
-                    Id = form.StatusCodeId,
-                    StatusCode = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).StatusCode,
-                    Details = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).Details
-                }
-            };
+            template = _context.Templates
+                .FirstOrDefault(m => m.Id == template.Id);
+                
             /*template.Questions = template.Questions.TrimStart('\"');
             template.Questions = template.Questions.TrimEnd('\"');
             template.Questions = template.Questions.Replace("\\", "");*/
-            List<Answers> answers = JsonConvert.DeserializeObject<List<Answers>>(form.Answers);
+
             List<Questions> questions = JsonConvert.DeserializeObject<List<Questions>>(template.Questions);
-            QuestionsAndAnswers qaList = new QuestionsAndAnswers
+            QuestionsAndAnswers qList = new QuestionsAndAnswers
             {
-                FormDetails = formViewModel,
                 TemplateDetails = template,
                 QuestionList = questions,
-                AnswerList = answers
             };
-            return View(qaList);
+            return View(qList);
         }
 
         [HttpPost]
-        public async Task<IActionResult> DisplayForm(QuestionsAndAnswers questionsAndAnswers)
+        public async Task<IActionResult> DisplayTemplate(QuestionsAndAnswers questionsAndAnswers, string submit)
         {
-            var form = await _context.Forms.FindAsync(questionsAndAnswers.FormDetails.Id);
-            form.StatusCodeId++;
+            var template = await _context.Templates.FindAsync(questionsAndAnswers.TemplateDetails.Id);
+
+            var templateList = _context.Templates.Select(x => new Templates
+            {
+                Id = x.Id,
+                TemplateName = x.TemplateName,
+                UpdatedAt = x.UpdatedAt,
+                CreatedAt = x.CreatedAt,
+                RetiredAt = x.RetiredAt,
+                IsActive = x.IsActive,
+                IsRetired = x.IsRetired,
+            }).ToList();
+
+            var formViewModels = _context.Forms.Select(x => new FormViewModel
+            {
+                Id = x.Id,
+                StudentName = x.StudentName,
+                UpdatedAt = x.UpdatedAt,
+                StudentEmail = x.StudentEmail,
+                EmployerEmail = x.EmployerEmail,
+                FacultyEmail = x.FacultyEmail,
+                TemplateId = x.TemplateId,
+                StatusCodesViewModel = new StatusCodes
+                {
+                    Id = x.StatusCodeId,
+                    StatusCode = _context.StatusCodes.FirstOrDefault(s => s.Id == x.StatusCodeId).StatusCode,
+                    Details = _context.StatusCodes.FirstOrDefault(s => s.Id == x.StatusCodeId).Details
+                }
+            }).ToList();
+
+            switch (submit)
+            {
+                case "Make Template Active":
+                    //can only have ONE active template at a time
+                    var countActives = 0;
+                    foreach (var item in templateList)
+                    {
+                        if(item.IsActive == true)
+                        {
+                            //found an active template
+                            countActives++;
+                        }
+                        else
+                        {
+                            countActives = countActives + 0;
+                        }
+                    }
+
+                    if(countActives > 0)
+                    {
+                        //already an active template
+                        template.IsActive = false;
+                        template.IsRetired = false;
+                    }
+                    else
+                    {
+                        template.IsActive = true;
+                        template.IsRetired = false;
+                    }
+                    break;
+                case "Retire Template":
+                    //cannot retire a template if there is any student still using it. 
+                    var usingTemplateCount = 0;
+                    var list = new List<dynamic>();
+                    foreach (var item in formViewModels)
+                    {
+                        if (item.TemplateId == template.Id)
+                        {
+                            //currently looking at a form that references the id of the template about to be retired, if it is any status code other than 8, 9, or 10, it cannot be retired
+                            if ((item.StatusCodesViewModel.Id == 8) || (item.StatusCodesViewModel.Id == 9) || (item.StatusCodesViewModel.Id == 10))
+                            {
+                                //doesn't stop the form from being retired
+                                usingTemplateCount = usingTemplateCount + 0;
+                            }
+                            else
+                            {
+                                //store student email to let her know who is using the template
+                                usingTemplateCount++;
+                                list.Add(item.StudentEmail);
+                            }
+                        }
+                        //if any record in the forms database is referencing the id of the template that is trying to be retired, show admin the emails of those users and prevent template from being retired
+                    }
+
+                    if(usingTemplateCount > 0)
+                    {
+                        template.IsActive = true; //must stay active
+                        template.IsRetired = false; //cannot be retired
+                    }
+                    else
+                    {
+                        template.IsActive = false;
+                        template.IsRetired = true; //can retire form
+                        template.RetiredAt = DateTime.Now; //updates when form was retired
+                    }
+                    break;
+
+                case "Move Template to In-Progress":
+                    template.IsActive = false;
+                    template.IsRetired = false;
+                    template.RetiredAt = null;
+                    break;
+
+                default:
+                    throw new Exception();
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

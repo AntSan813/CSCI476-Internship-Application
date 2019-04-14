@@ -78,115 +78,112 @@
 
 @if (User.IsInRole("Admin"))
 {
-    <div id="adminLandingPageUI">
-        <br />
-        <div id="tablesDiv">
-            <div id="needsAdminContainer">
-                <table style="width:90%">
-                    <div id="tableTitle">
-                        <h2>ACTIVE TEMPLATE</h2>
-                    </div>
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].TemplateName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].CreatedAt)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].RetiredAt)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model)
-                    {
-                        bool isactive = item.IsActive;
-
-                        @if (isactive == true)
-                        {
-                        <tr>
-                            <td>@item.TemplateName</td>
-                            <td>@item.CreatedAt</td>
-                            <td>NULL</td> <!--because retired at will be null for an active form-->
-                            <td><button type="button"><a asp-action="DisplayTemplate" asp-route-id="@item.Id">View</a></button></td>
-                        </tr>
-                        }
-                    }
-                </table>
+<div id="adminLandingPageUI">
+    <br />
+    <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto"></div>
+    <div id="needsAdminContainer" style="margin-bottom: 25pt;">
+        <table style="width:90%">
+            <div id="tableTitle">
+                <h2> ACIVE TEMPLATE(S)</h2>
             </div>
-            <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
-            <div id="remFormsContainer" style="margin-bottom: 25pt;">
-                <table style="width:90%">
-                    <div id="tableTitle">
-                        <h2>IN PROGRESS TEMPLATE(S)</h2>
-                    </div>
-                    <thead style='visibility: hidden; line-height:0%'>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].TemplateName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].CreatedAt)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].RetiredAt)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model)
-                    {
-                        @if (item.IsActive == false && item.IsRetired == false)
-                        {
-                        <tr>
-                            <td>@item.TemplateName</td>
-                            <td>@item.CreatedAt</td>
-                            <td>NULL</td> <!--because retired at will be null for an in progress form-->
+            <thead style='visibility: hidden; line-height:0%'>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].TemplateName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].CreatedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].RetiredAt)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                @if (item.IsActive == true)
+                {
+                    <tr>
+                        <td>@item.TemplateName</td>
+                        <td>@item.CreatedAt</td>
+                        <td>NOT RETIRED</td> <!--because retired at will be null for an active form-->
                         <td><button type="button"><a asp-action="DisplayTemplate" asp-route-id="@item.Id">View</a></button></td>
                     </tr>
-                        }
-                    }
-                </table>
-            </div>
-            <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
-            <div id="remFormsContainer" style="margin-bottom: 25pt;">
-                <table style="width:90%">
-                    <div id="tableTitle">
-                        <h2>RETIRED TEMPLATE(S)</h2>
-                    </div>
-                    <thead style='visibility: hidden; line-height:0%'>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].TemplateName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].CreatedAt)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model[0].RetiredAt)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model)
-                    {
-                        @if (item.IsActive == false && item.IsRetired == true)
-                        {
-                            <tr>
-                                <td>@item.TemplateName</td>
-                                <td>@item.CreatedAt</td>
-                                <td>@item.RetiredAt</td>
-                                <td><button type="button"><a asp-action="DisplayTemplate" asp-route-id="@item.Id">View</a></button></td>
-                            </tr>
-                        }
-                    }
-                </table>
-            </div>
-        </div>
-
+                }
+            }
+        </table>
     </div>
+    <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto"></div>
+    <div id="remFormsContainer" style="margin-bottom: 25pt;">
+        <table style="width:90%">
+            <div id="tableTitle">
+                <h2> IN PROGRESS TEMPLATE(S)</h2>
+            </div>
+            <thead style='visibility: hidden; line-height:0%'>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].TemplateName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].CreatedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].RetiredAt)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                @if (item.IsActive == false && item.IsRetired == false)
+                {
+                    <tr>
+                        <td>@item.TemplateName</td>
+                        <td>@item.CreatedAt</td>
+                        <td>NOT RETIRED</td> <!--because retired at will be null for an in progress form-->
+                        <td><button type="button"><a asp-action="DisplayTemplate" asp-route-id="@item.Id">View</a></button></td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto"></div>
+    <div id="remFormsContainer" style="margin-bottom: 25pt;">
+        <table style="width:90%">
+            <div id="tableTitle">
+                <h2> RETIRED TEMPLATE(S)</h2>
+            </div>
+            <thead style='visibility: hidden; line-height:0%'>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].TemplateName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].CreatedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model[0].RetiredAt)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                @if (item.IsRetired == true)
+                {
+                    <tr>
+                        <td>@item.TemplateName</td>
+                        <td>@item.CreatedAt</td>
+                        <td>@item.RetiredAt</td> <!--because retired at will be null for an in progress form-->
+                        <td><button type="button"><a asp-action="DisplayTemplate" asp-route-id="@item.Id">View</a></button></td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+</div>
+
 }
 else
 {
