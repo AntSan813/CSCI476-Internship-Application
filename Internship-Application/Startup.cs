@@ -128,7 +128,7 @@ namespace Internship_Application
 
 
 
-            IdentityUser user = await UserManager.FindByEmailAsync("santosa4@winthrop.edu");//the admin's email will be put here
+            IdentityUser user = await UserManager.FindByEmailAsync("taitem2@winthrop.edu");//the admin's email will be put here
 
             var User = new IdentityUser();
             await UserManager.AddToRoleAsync(user, "Admin");
