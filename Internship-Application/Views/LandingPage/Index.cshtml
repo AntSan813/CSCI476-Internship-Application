@@ -89,6 +89,30 @@
     }
 </style>
 
+@{
+    string role = "";
+    if (User.IsInRole("Admin"))
+    {
+        role = "Admin";
+    }
+    else if (User.IsInRole("Student"))
+    {
+        role = "Student";
+    }
+    else if (User.IsInRole("FacultyOfRec"))
+    {
+        role = "FacultyOfRec";
+    }
+    else if (User.IsInRole("Employer"))
+    {
+        role = "Employer";
+    }
+    else if (User.IsInRole("StudentServices"))
+    {
+        role = "StudentServices";
+    }
+}
+
 <!--Admin-->
 
 @if (User.IsInRole("Admin"))
@@ -289,6 +313,7 @@
                                 <td>@item.StudentName</td>
                                 <td>@item.UpdatedAt</td>
                                 <td>@item.StatusCodesViewModel.StatusCode</td>
+
                                 @if (item.StatusCodesViewModel.Id == 5)
                                 {
                                     <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
@@ -300,7 +325,7 @@
                             </tr>
                         }
                     }
-                    @User.IsInRole("Student")
+                    @if(role == "Student")
                     {
                     <tr>
                         <td></td>
@@ -352,9 +377,3 @@
         </div>
     </div>
 }
-@if (!User.IsInRole("Admin") || !User.IsInRole("Student") || !User.IsInRole("StudentServices") || !User.IsInRole("FacultyOfRec") || !User.IsInRole("Employer"))
-{
-    <h2>UNAUTHORIZED ACCESS</h2>
-}
-
-
