@@ -1,4 +1,7 @@
-﻿@model List<Internship_Application.Models.FormViewModel>
+@model List<Internship_Application.Models.FormViewModel>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 <style>
 
@@ -74,10 +77,39 @@
     }
 </style>
 
-<!--Show if the role is admin-->
+@{
+    string role = "";
+    if (User.IsInRole("Admin"))
+    {
+        role = "Admin";
+    }
+    else if (User.IsInRole("Student"))
+    {
+        role = "Student";
+    }
+    else if (User.IsInRole("FacultyOfRec"))
+    {
+        role = "FacultyOfRec";
+    }
+    else if (User.IsInRole("Employer"))
+    {
+        role = "Employer";
+    }
+    else if (User.IsInRole("StudentServices"))
+    {
+        role = "Student Services";
+    }
+}
 
-@if (User.IsInRole("Admin"))
+<!--Admin-->
+
+@if (role == "Admin")
 {
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+        </li>
+    </ul>
     <div id="adminLandingPageUI">
         <div id="titleAndSortContent">
             <div id="tableTitle">
@@ -99,7 +131,7 @@
                         var adminNeeded = 0;
                         foreach (var item in Model)
                         {
-                            if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 6)
+                            if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 5 || item.StatusCodesViewModel.Id == 7)
                             {
                                 adminNeeded++;
                             }
@@ -116,9 +148,6 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].Id)
-                            </th>
-                            <th>
                                 @Html.DisplayNameFor(model => model[0].StudentName)
                             </th>
                             <th>
@@ -132,19 +161,22 @@
                     </thead>
                     @foreach (var item in Model)
                     {
-                        @if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 6)
+                        @if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 5 || item.StatusCodesViewModel.Id == 7)
                         {
                             <tr>
-                                <td>@item.Id</td>
                                 <td>@item.StudentName</td>
                                 <td>@item.UpdatedAt</td>
                                 <td>@item.StatusCodesViewModel.StatusCode</td>
-                                <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
+                                <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></button></td>
                             </tr>
                         }
                     }
                 </table>
             </div>
+            @if(role == "Admin")
+            {
+                <label style="margin-left:40%; margin-bottom: 20px;" >No forms require your attention at the moment.</label>
+            }
             <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
             <div id="remFormsContainer" style="margin-bottom: 25pt;">
                 <table style="width:90%">
@@ -158,7 +190,7 @@
                     </thead>
                     @foreach (var item in Model)
                     {
-                        @if (item.StatusCodesViewModel.Id != 3 && item.StatusCodesViewModel.Id != 6)
+                        @if (item.StatusCodesViewModel.Id != 3 && item.StatusCodesViewModel.Id != 5 && item.StatusCodesViewModel.Id != 7)
                         {
                             <tr>
                                 <td>@item.StudentName</td>
@@ -175,11 +207,17 @@
     </div>
 }
 
+<!--COMMON-->
 
-//show if the role is any role other than admin....
-
-else if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
+@if (role == "Student" || role == "StudentServices" || role == "FacultyOfRec" || role == "Employer")
 {
+    <ul class="navbar-nav">
+
+        <li class="nav-item">
+            <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+        </li>
+
+    </ul>
     <div id="commonLandingPageUI">
         <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
             <div>
@@ -211,7 +249,7 @@ else if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.Is
                                 <td>@item.StatusCodesViewModel.StatusCode</td>
                                 @if (item.StatusCodesViewModel.Id == 1)
                                 {
-                                    <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                                    <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
                                 }
                                 else
                                 {
@@ -225,7 +263,7 @@ else if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.Is
                                 <td>@item.StudentName</td>
                                 <td>@item.UpdatedAt</td>
                                 <td>@item.StatusCodesViewModel.StatusCode</td>
-                                <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
+                                <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
                             </tr>
                         }
                         else if (User.IsInRole("StudentServices") && item.StatusCodesViewModel.Id == 4)
@@ -238,20 +276,13 @@ else if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.Is
 
                             </tr>
                         }
-                        else if (User.IsInRole("FacultyOfRecord") && item.FacultyEmail == @User.Identity.Name && item.StatusCodesViewModel.Id == 5)
+                        else if (User.IsInRole("FacultyOfRec") && item.FacultyEmail == @User.Identity.Name)
                         {
                             <tr>
                                 <td>@item.StudentName</td>
                                 <td>@item.UpdatedAt</td>
                                 <td>@item.StatusCodesViewModel.StatusCode</td>
-                                @if (item.StatusCodesViewModel.Id == 5)
-                                {
-                                    <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
-                                }
-                                else
-                                {
-                                    <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
-                                }
+                                <td><a asp-action="EditForm" asp-route-id="@item.Id">Edit</a></td>
                             </tr>
                         }
                     }
@@ -262,7 +293,12 @@ else if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.Is
                         <td></td>
                         <td></td>
                         <td>
-                           <a asp-action="DisplayForm">Start New Form</a>
+                            <a asp-action="DisplayForm">Start New Form</a>
+                            <!--
+                            <form asp-controller="Student_Application_Page" asp-action="Index" method="post">
+                                <button type="submit" style="height:55px; background-color:#660000">Start New Form</button>
+                            </form>-->
+                            <!--<button style="height:55px; background-color:#660000">Start New Form</button>-->
                         </td>
                     </tr>
                     }
@@ -302,7 +338,7 @@ else if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.Is
         </div>
     </div>
 }
-else
+@if (!User.IsInRole("Admin") || !User.IsInRole("Student") || !User.IsInRole("StudentServices") || !User.IsInRole("FacultyOfRec") || !User.IsInRole("Employer"))
 {
     <h2>UNAUTHORIZED ACCESS</h2>
 }

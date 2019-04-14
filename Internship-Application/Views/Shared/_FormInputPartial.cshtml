@@ -1,0 +1,103 @@
+﻿@using HtmlHelpers.BeginCollectionItemCore
+@model Internship_Application.Models.InputViewModel
+
+<div>
+    @using (Html.BeginCollectionItem("InputList"))
+    {
+        <input asp-for="Order" hidden />
+        <input asp-for="isRequired" hidden />
+        <input asp-for="ProcessQuestion" hidden />
+        <input asp-for="Prompt" hidden />
+        if (Model.InputType == "formInfo")
+        {
+            <label style="margin: 20pt;"><b>@Model.Prompt</b></label>
+            //<label asp-for="Order" hidden />
+            <input asp-for="Value" hidden />
+            <input asp-for="DateSigned" hidden />
+        }
+        else
+        {
+            <label style="display: inline-block;">@Model.Prompt: </label>
+            @if (Model.isRequired)
+            {
+                <b style="color: red;">*</b>
+            }
+            @if (Model.InputType == "signature")
+            {
+                if (!Model.isDisabled)
+                {
+                    <input asp-for="Value" />
+                }
+                else
+                {
+                    <input asp-for="Value" disabled />
+                    <input asp-for="Value" hidden />
+                }
+                <label style="display: inline-block">@Model.DateSigned</label>
+
+            }
+            else if (Model.InputType == "text-area")
+            {
+                <br />
+                if (!Model.isDisabled)
+                {
+                    <input style="width: 95%; height: 300px; margin: 5px;" asp-for="Value" />
+                    //<textarea style="width: 95%; height: 300px; margin: 5px;" value="@answerV"></textarea>
+                }
+                else
+                {
+                    <input style="width: 95%; height: 300px; margin: 5px;" asp-for="Value" disabled />
+                    <input asp-for="Value" hidden />
+                }
+            }
+            else if (Model.InputType == "date")
+            {
+                if (!Model.isDisabled)
+                {
+                    <input asp-for="Value" />
+                }
+                else
+                {
+                    <input asp-for="Value" disabled />
+                    <input asp-for="Value" hidden />
+                }
+                <small>(ex. 11/10/2019)</small>
+            }
+            else if (Model.InputType == "radio")
+            //if (q.Options != "")
+            {
+                <div style="display: inline-block">
+                    @if (!Model.isDisabled)
+                    {
+                        <input asp-for="Value" />
+                    }
+                    else
+                    {
+                        <input asp-for="Value" disabled />
+                        <input asp-for="Value" hidden />
+                    }
+                </div>
+            }
+            else
+            {
+                if (!Model.isDisabled)
+                {
+                    <input asp-for="Value" />
+                }
+                else
+                {
+                    <input asp-for="Value" disabled />
+                    <input asp-for="Value" hidden />
+                }
+
+
+            }
+            @if (Model.HelperText != "")
+            {
+                <div>
+                    <small>@Model.HelperText</small>
+                </div>
+            }
+        }
+    }
+</div>

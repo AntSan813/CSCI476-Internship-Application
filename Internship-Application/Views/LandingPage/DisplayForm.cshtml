@@ -20,38 +20,94 @@
     }
 </style>
 
-@Html.HiddenFor(m => m.FormDetails.Id)
-@Html.HiddenFor(m => m.FormDetails.StatusCodesViewModel.Id)
-<div id="tablesDiv">
-    <h2 style="text-align:center;">Form Information: </h2>
-    <br />
+@{
+    string role = "";
+    if (User.IsInRole("Admin"))
+    {
+        role = "Admin";
+    }
+    else if (User.IsInRole("Student"))
+    {
+        role = "Student";
+    }
+    else if (User.IsInRole("FacultyOfRec"))
+    {
+        role = "FacultyOfRec";
+    }
+    else if (User.IsInRole("Employer"))
+    {
+        role = "Employer";
+    }
+    else if (User.IsInRole("StudentServices"))
+    {
+        role = "Student Services";
+    }
 
-    <div style="display: block">
-        <div style="text-align:center;">
-            <b>STUDENT NAME:</b> @Model.FormDetails.StudentName
-        </div>
-        <div style="text-align:center;">
-            <b>STATUS CODE:</b> @Model.FormDetails.StatusCodesViewModel.StatusCode
-        </div>
-        @if (User.IsInRole("Admin"))
+    Boolean correctRoleSubmit = false;
+    //if all required questions met and status code is for them
+    if (role == "Admin")
+    {
+        if (Model.FormDetails.StatusCodesViewModel.Id == 3 || Model.FormDetails.StatusCodesViewModel.Id == 5 || Model.FormDetails.StatusCodesViewModel.Id == 7)
         {
-            @if (Model.FormDetails.StatusCodesViewModel.Id != 3 && Model.FormDetails.Id != 6)
+            correctRoleSubmit = true;
+        }
+    }
+    else if (role == "Student")
+    {
+        if (Model.FormDetails.StatusCodesViewModel.Id == 1)
+        {
+            correctRoleSubmit = true;
+        }
+    }
+    else if (role == "FacultyOfRec")
+    {
+        if (Model.FormDetails.StatusCodesViewModel.Id == 6)
+        {
+            correctRoleSubmit = true;
+        }
+    }
+    else if (role == "StudentServices")
+    {
+        if (Model.FormDetails.StatusCodesViewModel.Id == 4)
+        {
+            correctRoleSubmit = true;
+        }
+    }
+    else if (role == "Employer")
+    {
+        if (Model.FormDetails.StatusCodesViewModel.Id == 2)
+        {
+            correctRoleSubmit = true;
+        }
+    }
+}
+
+@using (Html.BeginForm())
+{
+
+    @Html.HiddenFor(m => m.FormDetails.Id)
+    @Html.HiddenFor(m => m.FormDetails.StatusCodesViewModel.Id)
+
+    <div id="tablesDiv">
+        <h2 style="text-align:center;">Form Information: </h2>
+        <br />
+
+        <div style="display: block">
+            <div style="text-align:center;">
+                <b>STUDENT NAME:</b> @Model.FormDetails.StudentName
+            </div>
+            <div style="text-align:center;">
+                <b>STATUS CODE:</b> @Model.FormDetails.StatusCodesViewModel.StatusCode
+            </div>
+            @if (!correctRoleSubmit)
             {
                 <div style="text-align:center;"><mark>This form does not currently require your attention.</mark></div>
             }
-            else if (Model.FormDetails.StatusCodesViewModel.Id == 3)
+            else
             {
-                <div style="text-align:center;"><mark>This form requires your approval. Have a look and, if you think it's ready, click here to move it forward: </mark><button type="submit">Send Form to Student Services</button></div>
+                <div style="text-align:center;"><mark>This form requires your attention.</mark></div>
             }
-            else if (Model.FormDetails.StatusCodesViewModel.Id == 6)
-            {
-                <div style="text-align:center;"><mark>This form requires your signature. Sign it and approve it when you're done or decline it</mark></div>
-                <div style="display: inline-block">
-                    <button id="approveButton" onclick="approveApplication">Approved</button>
-                    <button id="declinedButton" onclick="declineApplication">Declined</button>
-                </div>
-            }
-            @if (Model.FormDetails.StatusCodesViewModel.Id != 9)
+            @if (role == "Admin" && Model.FormDetails.StatusCodesViewModel.Id != 8 && Model.FormDetails.StatusCodesViewModel.Id != 9 && Model.FormDetails.StatusCodesViewModel.Id != 10)
             {
                 <p>
                     <!--Need to only display valid options (status codes below the current status code)-->
@@ -67,111 +123,100 @@
                             <option value="5">5 - Faculty of Record</option>
                             <option value="6">6 - DER (Signature Required)</option>
                         </select>
-
-                        <button id="sendBackButton" onclick="" value="-1">Send Back</button>
+                        <input name="submit" type="submit" id="sendBack" value="Send Back" />
                     </div>
                 </p>
             }
-            <div style="text-align:center;">At any time you may force withdraw this form by clicking here: <button>Force Withdraw</button></div>
-            <br />
-        }
-    </div>
-</div>
-
-
-<div id="tablesDiv">
-    <div>
-        <h1 style="text-align:center;">@Model.TemplateDetails.DisplayName</h1>
-        <h4 style="text-align:center;">@Model.TemplateDetails.Disclaimer</h4>
-        <div>
-            @Html.DisplayFor(modelItem => Model)
-            @{
-                int visibleCount = 0;
-                string role = "Student";
-                <h2><b style="color: red;">* = Required</b></h2>
-                @foreach (var q in Model.QuestionList)
+            @if (role == "Student" || role == "Admin")
+            {
+                @if (Model.FormDetails.StatusCodesViewModel.Id != 9 && Model.FormDetails.StatusCodesViewModel.Id != 10)
                 {
-                    if (q.InputType == "formInfo")
+                    <div style="text-align:center;">At any time you may force withdraw this form by clicking here: <input name="submit" type="submit" id="withdraw" value="Withdraw" /></div>
+                }
+            }
+            <br />
+        </div>
+    </div>
+
+    <!--QUESTIONS AND ANSWERS DISPLAY HERE-->
+    Dictionary<int, string> AnswerList = new Dictionary<int, string>();
+    foreach (var a in Model.AnswerList)
+    {
+        AnswerList.Add(Convert.ToInt32(a.Order), a.Value);
+    }
+
+    <div id="tablesDiv">
+        <div>
+            <h1 style="text-align:center;">@Model.TemplateDetails.DisplayName</h1>
+            <h4 style="text-align:center;">@Model.TemplateDetails.Disclaimer</h4>
+            <div>
+                @Html.DisplayFor(modelItem => Model)
+                @{
+                    int invisibleCount = 0;
+                    int reqCount = 0;
+                    <h2><b style="color: red;">* = Required</b></h2>
+                    @foreach (var item in Model.InputList)
                     {
-                        <div style="margin: 20pt;"><b>@q.Prompt</b></div>
-                    }
-                    else if (q.InputType == "signature")
-                    {
-                        visibleCount++;
-                        <div style="margin: 10pt;">
-                            <div>
-                                @visibleCount. @q.Prompt: <input type="@q.InputType" />
-                                @if (q.Required && (q.Role == role))
-                                {
-                                    <b style="color: red;">*</b>
-                                }
-                            </div>
-                            <div>
-                                <small>@q.HelperText</small>
-                            </div>
-                        </div>
-                    }
-                    else if (q.InputType == "text-area")
-                    {
-                        visibleCount++;
-                        <div style="margin: 10pt;">
-                            <div>
-                                @visibleCount. @q.Prompt: <textarea></textarea>
-                                @if (q.Required && (q.Role == role))
-                                {
-                                    <b style="color: red;">*</b>
-                                }
-                            </div>
-                            <div>
-                                <small>@q.HelperText</small>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        visibleCount++;
-                        <div>
-                            @if (q.Options != "")
+                    <div>
+                        <div style="display: block;">
+                            @if (item.InputType == "formInfo")
                             {
-                                <div>
-                                    @visibleCount. @q.Prompt:
-                                    <input type="radio" name="yes" value="yes" /><label>Yes</label>
-                                    <input type="radio" name="no" value="no" /><label>No</label>
-                                </div>
+                                invisibleCount++;
                             }
                             else
                             {
-                                <div>
-                                    @visibleCount. @q.Prompt: <input type="@q.InputType" />
-                                </div>
+                                int displayOrder = item.Order - invisibleCount;
+                                <label style="display: inline-block;">@displayOrder. </label>
                             }
-                            @if (q.Required && (q.Role == role))
-                            {
-                                <b style="color: red;">*</b>
-                            }
+                            <partial style="display: inline-block;" name="_FormInputPartial" model="item" />
                         </div>
-
-                    }
-                    @foreach (var a in Model.AnswerList)
-                    {
-                        if (q.Order == a.Order)
-                        {
-                            <div>@a.Value</div>
-                        }
+                    </div>
                     }
                 }
-            }
+            </div>
         </div>
     </div>
-</div>
 
-<form asp-controller="Student_Application_Page" asp-action="SaveForm" method="post">
-    <button type="submit">Submit</button>
-</form>
+    Boolean allRequiredAnswersFilled = true;
 
-@using (Html.BeginForm())
-{
-    <div>
-        <a asp-action="Index">Back to List</a>
+
+    <div style="margin: 50px">
+        <div class="row" style="width: 100%">
+            @if (correctRoleSubmit && allRequiredAnswersFilled)
+            {
+                if (Model.FormDetails.StatusCodesViewModel.Id == 7)
+                {
+                    <div class="col-4">
+                        <input name="submit" type="submit" id="accept" value="Accept" />
+                    </div>
+                    <div class="col-4">
+                        <input name="submit" type="submit" id="decline" value="Decline" />
+                    </div>
+                    <div class="col-4">
+                        <input style="float: left;" name="submit" type="submit" id="backToList" value="Back To List" />
+                    </div>
+                }
+                else
+                {
+                        <div style="margin-left: 15px; margin-right: 15px;">
+                            <input name="submit" type="submit" id="save" value="Save" />
+                        </div>
+                        <div style="margin-left: 15px; margin-right: 15px;">
+                            <input name="submit" type="submit" id="submit" value="Submit" />
+                        </div>
+                        <div style="margin-left: 15px; margin-right: 15px;">
+                            <input name="submit" type="submit" id="backToList" value="Back To List" />
+                        </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <input style="margin-left: 50%" name="submit" type="submit" id="backToList" value="Back To List" />
+                </div>
+            }
+
+        </div>
     </div>
 }
+
