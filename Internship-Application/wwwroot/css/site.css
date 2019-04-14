@@ -1,5 +1,7 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+   for details on configuring this project to bundle and minify static web assets. 
+   Purpose of this page is to describe the presentation of our web pages 
+*/
 
 a.navbar-brand {
     white-space: normal;
@@ -120,7 +122,6 @@ a.audienceMenuText:hover {
 }
 
 .whiteBottomText {
-    /*font-family: "Arial Narrow", Arial, sans-serif;*/
     font-family: 'Raleway', Arial, sans-serif;
     font-size: 14px;
     font-style: normal;
@@ -140,8 +141,6 @@ a.audienceMenuText:hover {
 /*ADDED BY CHRISTINA & KELEIGH 1/30/2019*/
 .topLinks {
     position: relative;
-    /* top: 92px; */
-    /* top: 88px; */
     top: 0px;
     width: 320px;
     z-index: 10;

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+
 
 namespace Internship_Application.Areas.Identity.Pages.Account
 {
@@ -24,8 +24,12 @@ namespace Internship_Application.Areas.Identity.Pages.Account
 
         public void OnGet()
         {
-        }
 
+        }
+        
+        /*Name: OnPost
+         * Purpose:This allows the user to logout of the system succesfully.
+         */
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
             await _signInManager.SignOutAsync();
@@ -36,7 +40,8 @@ namespace Internship_Application.Areas.Identity.Pages.Account
             }
             else
             {
-                return Page();
+                //return Page();
+                return RedirectToPage();
             }
         }
     }

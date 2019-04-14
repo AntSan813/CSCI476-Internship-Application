@@ -16,10 +16,16 @@
     }
 </style>
 
+<!--
+    The purpose of this page is to allow the student to see their forms 
+-->
+
+
 <br />
 <h1 style="text-align:center;"> Undergraduate Application Form</h1>
 <br />
 @model List<Internship_Application.Models.Forms>
+
 
 <div style="box-shadow: 0px 0px 10px grey; border-radius: 3px; margin: 25pt; padding: 50pt;">
 
@@ -64,7 +70,7 @@
         }
         else
         {
-            <tr>No applications found for user.Start by creating your first application</tr>
+            <tr>No applications found for user. Start by creating your first application</tr>
         }
 
     </table>
@@ -102,9 +108,9 @@
         Student ID #:  <br />
         <input type="text" name="WUID"><br><br>*@
 
-        <form asp-controller="Student_Application_Page" asp-action="Edit">
-            <button type="submit"> Create Application</button>
-        </form>
+    <form asp-controller="Student_Application_Page" asp-action="Edit">
+        <button type="submit"> Create Application</button>
+    </form>
 
 </div>
 

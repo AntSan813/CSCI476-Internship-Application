@@ -1,17 +1,16 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Internship_Application.Models;
 using System;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Internship_Application.Controllers
 {
+    [Authorize(Roles = "Admin")]//only the admin is allowed to access this page
     public class Admin_Query_PageController : Controller
     {
         private readonly DataContext _context;
