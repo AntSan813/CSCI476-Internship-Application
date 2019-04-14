@@ -122,17 +122,10 @@
                     <div style="text-align:center;">
                         <label>Don't like what you see? Choose who to send it back to:</label>
                     </div>
-                    <div style="text-align:center;">
-                        <select id="sendBackList">
-                            <option value="1">1 - Student</option>
-                            <option value="2">2 - Employer</option>
-                            <option value="3">3 - DER (Approval)</option>
-                            <option value="4">4 - Student Services</option>
-                            <option value="5">5 - Faculty of Record</option>
-                            <option value="6">6 - DER (Signature Required)</option>
-                        </select>
+                        <select asp-for="SendBackListId" class="form-control" asp-items="@Model.SendBackList"></select>
+                        <input hidden asp-for="SendBackListId" />
+                        <span asp-validation-for="SendBackListId" class="text-danger"/>
                         <input name="submit" type="submit" id="sendBack" value="Send Back" />
-                    </div>
                 </p>
             }
             @if (role == "Student")

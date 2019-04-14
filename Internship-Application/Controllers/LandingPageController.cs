@@ -337,8 +337,12 @@ namespace Internship_Application.Controllers
                     form.UpdatedAt = DateTime.Now;
                     await _context.SaveChangesAsync();
                     break;
-                case "SendBack":
-                    form.UpdatedAt = DateTime.Now;
+                case "Send Back":
+                    if(questionsAndAnswers.SendBackListId < form.StatusCodeId)
+                    {
+                        form.StatusCodeId = questionsAndAnswers.SendBackListId;
+                        form.UpdatedAt = DateTime.Now;
+                    }
                     await _context.SaveChangesAsync();
                     break;
                 case "Save":
