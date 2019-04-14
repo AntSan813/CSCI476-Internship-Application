@@ -7,6 +7,9 @@ using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using System.Text;
+using System.IO;
+using System.Xml;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -76,8 +79,69 @@ namespace Internship_Application.Controllers
 
             return View(queryPageModel);
         }
-        
-        private Dictionary<string, List<int>> GetSemesters(List<Forms> forms)
+
+        [HttpPost]
+        public IActionResult Filter(string searchString)
+        {
+            // forms is a list of all forms
+           // var forms = _context.Forms.ToList<Forms>();
+            var forms = from m in _context.Forms
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                forms = forms.Where(s => s.StudentEmail.Contains(searchString));
+            }
+
+            if (forms == null)
+            {
+                //TODO: move this to a function
+                return View();
+            }
+            List<FormViewModel> serializedFormList = new List<FormViewModel>();
+            foreach (var form in forms)
+            {
+                Templates template = _context.Templates.Find(form.TemplateId);
+                serializedFormList.Add(new FormViewModel
+                {
+                    Id = form.Id,
+                    StudentName = form.StudentName,
+                    UpdatedAt = form.UpdatedAt,
+                    StatusCodesViewModel = _context.StatusCodes.Find(form.StatusCodeId),
+                });
+            }
+            List<Companies> companies = _context.Companies.ToList();
+            List<Models.StatusCodes> status_codes = _context.StatusCodes.ToList();
+
+            ViewBag.Companies = companies;
+            ViewBag.Forms = serializedFormList;
+            ViewBag.StatusCodes = status_codes;
+
+            ViewBag.QueryByCompanyName = 0;
+            ViewBag.QueryByYear = 0;
+            ViewBag.QueryBySemester = 0;
+            ViewBag.QueryByCompanyLocation = 0;
+            ViewBag.QueryByPaid = 0;
+            ViewBag.QueryByUnpaid = 0;
+            ViewBag.QueryByStatusCode = 0;
+
+
+            QueryPageViewModel queryPageModel = new QueryPageViewModel
+            {
+                PreviousCompanyLocationQuery = 0,
+                PreviousCompanyNameQuery = 0,
+                PreviousYearQuery = 0,
+                PreviousPaidQuery = 0,
+                PreviousUnpaidQuery = 0,
+                PreviousSemesterQuery = 0,
+                PreviousStatusCodeQuery = 0,
+                QueriedFormIds = new List<int> { 0 }
+            };
+
+            return View("Index",queryPageModel);
+
+        }
+            private Dictionary<string, List<int>> GetSemesters(List<Forms> forms)
         {
             var semesters = new Dictionary<string, List<int>>()
             {
@@ -163,11 +227,13 @@ namespace Internship_Application.Controllers
             }
             return false;
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public IActionResult QueryByCompanyName(IFormCollection formcollection)
         //TODO: refactor following function to call other functions that process each type of query
-        public IActionResult Index(IFormCollection formcollection, [Bind("PreviousCompanyNameQuery,PreviousCompanyLocationQuery,PreviousYearQuery,PreviousSemesterQuery,PreviousPaidQuery,PreviousUnpaidQuery,PreviousStatusCodeQuery")] QueryPageViewModel queryPageModel)
+        public IActionResult Index(IFormCollection formcollection, QueryPageViewModel queryPageModel)
         {
             IQueryable<Forms> query = _context.Forms;
             List<FormViewModel> serializedFormList = new List<FormViewModel>();
@@ -362,6 +428,7 @@ namespace Internship_Application.Controllers
                     StatusCodesViewModel = _context.StatusCodes.Find(form.StatusCodeId),
                 });
 
+                queryPageModel.QueriedFormIds.Add(form.Id);
             }
 
             ViewBag.StatusCodes = _context.StatusCodes.ToList<Models.StatusCodes>();
@@ -369,6 +436,39 @@ namespace Internship_Application.Controllers
             ViewBag.Forms = serializedFormList;
 
             return View(queryPageModel);
+        }
+
+
+        public void ExportCSV([Bind("QueriedFormIds")] QueryPageViewModel queryPageModel)
+        {
+            var sb = new StringBuilder();
+            IQueryable<Forms> query = _context.Forms;
+            
+            query = query.Where(m => queryPageModel.QueriedFormIds.Contains(m.Id));
+            
+            var forms = query.ToList<Forms>();//_context.Forms.ToList<Forms>();
+
+            //header row
+            sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "Created At", "Updated At","Winthrop Id", "Student Email"
+                ,"Faculty Email","Employer Email","Student Name","Company Name", "Company Location","Status Code","Status Code Details"
+                ,"Template Name", "Is Template Retired", "Is Template Active", Environment.NewLine);
+
+            //data rows
+            foreach (var item in forms)
+            {
+                var company = _context.Companies.First(m => m.Id == item.CompanyId);
+                var template = _context.Templates.First(m => m.Id == item.TemplateId);
+                var statusCode = _context.StatusCodes.First(m => m.Id == item.StatusCodeId);
+                sb.AppendFormat("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}", item.CreatedAt, item.UpdatedAt, item.WuId, item.StudentEmail
+                    ,item.FacultyEmail, item.StudentName, company.CompanyName, company.CompanyLocation, statusCode.StatusCode,
+                    statusCode.Details, template.TemplateName, template.IsRetired,template.IsActive, Environment.NewLine);
+            }
+            //Get Current Response  
+            HttpContext.Response.Clear();
+            HttpContext.Response.Headers.Clear();
+            HttpContext.Response.Headers.Add("content-disposition", "attachment;filename=Report.CSV ");
+            HttpContext.Response.ContentType = "text/plain";
+            HttpContext.Response.WriteAsync(sb.ToString());
         }
     }
 }

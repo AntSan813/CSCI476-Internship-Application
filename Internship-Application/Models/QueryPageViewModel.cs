@@ -12,6 +12,6 @@ namespace Internship_Application.Models
         public int PreviousPaidQuery { get; set; }
         public int PreviousUnpaidQuery { get; set; }
         public int PreviousStatusCodeQuery { get; set; }
-        //public List<FormViewModel> Forms { get; set; }
+        public List<int> QueriedFormIds { get; set; }
     }
 }

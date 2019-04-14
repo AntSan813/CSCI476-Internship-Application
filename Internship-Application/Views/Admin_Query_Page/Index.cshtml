@@ -90,9 +90,17 @@
             <br />
             <div class="col-4">
                 <!--left side of page-->
+
                 <div id="titleAndSortContent">
+                    <form asp-controller="Admin_Query_Page" asp-action="Filter">
+                        <p>
+                            Search Student Email: <input type="text" name="SearchString">
+                            <input type="submit" value="Filter" />
+                        </p>
+                    </form>
                     <div id="tableTitle">
                         <br />
+
                         <h2>FILTER BY: </h2>
                     </div>
                     <div>
@@ -124,6 +132,7 @@
                             <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
                             <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
                             <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
                         }
                         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                         <script type="text/javascript">
@@ -155,6 +164,7 @@
                             <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
                             <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
                             <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
                         }
                         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
                         <script type="text/javascript">
@@ -261,6 +271,7 @@
                             <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
                             <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
                             <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
 
                         }
 
@@ -327,6 +338,7 @@
                             <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
                             <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
                             <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
 
                         }
 
@@ -369,6 +381,7 @@
                             <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
                             <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
                             <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
                         }
 
                         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -406,8 +419,11 @@
                             <input type="hidden" name="PreviousPaidQuery" value="@Model.PreviousPaidQuery">
                             <input type="hidden" name="PreviousUnpaidQuery" value="@Model.PreviousUnpaidQuery">
                             <input type="hidden" name="PreviousStatusCodeQuery" value="@Model.PreviousStatusCodeQuery">
+                            <input type="hidden" name="QueriedFormIds" value="@Model.QueriedFormIds">
+
                         }
                         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
                         <script type="text/javascript">
                             $("body").on("change", "#statusCodes", function () {
                                 $("#statusCode").val($(this).find("option:selected").text());
@@ -462,29 +478,25 @@
                                 <th>STATUS</th>
                                 <th></th>
                             </tr>
-                            @foreach (var item in ViewBag.Forms)
-                            {
-                                <tr>
-                                    <td>@item.StudentName</td>
-                                    <td>@item.UpdatedAt</td>
-                                    <td>@item.StatusCodesViewModel.StatusCode</td>
-                                    <td><button type="button">View</button></td>
-                                </tr>
-
-                            }
-                            @*<tr>
-                                    <td>Jane Doe</td>
-                                    <td>2/5/2019 10:16AM</td>
-                                    <td>NAA</td>
-                                    <td><button type="button">View</button></td>
-                                </tr>*@
+                                @foreach (var item in ViewBag.Forms)
+                                {
+                                    <tr>
+                                        <td>@item.StudentName</td>
+                                        <td>@item.UpdatedAt</td>
+                                        <td>@item.StatusCodesViewModel.StatusCode</td>
+                                        <td><button type="button">View</button></td>
+                                    </tr>
+                                }
+                            
                         </table>
                     </div>
                     <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
                 </div>
                 <br />
                 <div>
-                    <button type="button" id="exportButton">Export to Excel document</button>
+                    @*@{TempData["Forms"] = new List<FormViewModel>(ViewBag.Forms);}*@
+                    @Html.ActionLink("ExportCSV", "ExportCSV", "Admin_Query_Page", Model, new { @class = "btn" })
+
                 </div>
             </div>
         </div>
