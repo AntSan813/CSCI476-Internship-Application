@@ -430,30 +430,12 @@
                                 document.forms["QueryByStatusCodeForm"].submit();
                             });
                         </script>
-                        @*<input type="checkbox" name="all" value="all">ALL
-        <br>
-        <input type="checkbox" name="inprog" value="inprog">In Progress
-        <br>
-        <input type="checkbox" name="comp" value="comp">Completed
-        <br>
-        <input type="checkbox" name="withdrawn" value="withdrawn">Withdrawn
-        <br>*@
+                        
                         <p></p>
                     </div>
                     <div class="aligncenter" style="width:100%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -472,6 +454,12 @@
                     <div id="queryResultsTable">
                         <table style="width:100%">
                             <h3 style="text-align:center;">Your search returned @ViewBag.Forms.Count results: </h3>
+                            @if(ViewBag.Forms.Count == 0)
+                            {
+                                <h colspan="3">No forms to view!</h>
+                            }
+                            else
+                            { 
                             <tr>
                                 <th>STUDENT NAME</th>
                                 <th>LAST UPDATED</th>
@@ -487,7 +475,7 @@
                                         <td><button type="button">View</button></td>
                                     </tr>
                                 }
-                            
+                            }
                         </table>
                     </div>
                     <div class="aligncenter" style="width:90%;height:0;border-top:2px double #660000;font-size:0;padding-top:10px;margin:0 auto">-</div>
