@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Internship_Application.Controllers
 {
+    [Authorize(Roles = "Admin")]//only let the user on this page if they have the admin role
     public class Admin_TemplatesOverviewPageController : Controller
     {
         private readonly DataContext _context;
@@ -20,7 +21,6 @@ namespace Internship_Application.Controllers
             _context = context;
         }
 
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var templateList = _context.Templates.Select(x => new Templates
@@ -57,8 +57,7 @@ namespace Internship_Application.Controllers
             {
                 //insert form
                 string studentEmail = User.Identity.Name;
-                //string studentEmail = "taitem2@winthrop.edu";
-
+               
                 Forms newForm = new Forms { };
                 newForm.Answers = "[]";
                 newForm.StudentEmail = studentEmail;
@@ -74,7 +73,6 @@ namespace Internship_Application.Controllers
                     _context.Add(newForm);
                     await _context.SaveChangesAsync();
                     id = newForm.Id;
-                    // return RedirectToAction(nameof(Index));
                 }
             }
 
@@ -98,9 +96,7 @@ namespace Internship_Application.Controllers
                     Details = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).Details
                 }
             };
-            /*template.Questions = template.Questions.TrimStart('\"');
-            template.Questions = template.Questions.TrimEnd('\"');
-            template.Questions = template.Questions.Replace("\\", "");*/
+            
             List<Answers> answers = JsonConvert.DeserializeObject<List<Answers>>(form.Answers);
             List<Questions> questions = JsonConvert.DeserializeObject<List<Questions>>(template.Questions);
             QuestionsAndAnswers qaList = new QuestionsAndAnswers

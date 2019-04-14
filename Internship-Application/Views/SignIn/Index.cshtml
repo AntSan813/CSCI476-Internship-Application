@@ -3,7 +3,9 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-
+<!--
+    The purpose of this page is to allow the user the option to hit the button register or login 
+-->
 <style>
 
     button {
@@ -42,11 +44,9 @@
     <fieldset>
         <div id="loginUI">
             <div align="center">
-                <div vertical-align="center">
-                    <br />
-                    <button><a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Register</a></button>
-                    <button><a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">Login   </a></button>
-                </div>
+                <br />
+                <button><a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Register</a></button>
+                <button><a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">Login   </a></button>
             </div>
     </fieldset>
 </div>

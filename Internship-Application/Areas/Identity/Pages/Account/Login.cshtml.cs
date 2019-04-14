@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
 
 namespace Internship_Application.Areas.Identity.Pages.Account
 {
@@ -68,67 +66,41 @@ namespace Internship_Application.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
+        /*Name:OnPostAsync
+         * Purpose:If the user is able to login, they are directed to the landing page
+         * An error we encountered on this page incudes trying to check the roles and then sending them to two different landing pages based on their role.
+         * This is not good practice, for one the role of the user cannot be check on this page and for two, we should only have one landing page
+         * and on that page we should display different things based on their role there.
+         */
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-
-            
-
+            //the user name and value pairs are tested
             if (ModelState.IsValid)
             {
-                
-
-              //  var isInAdminRole = await _signInManager.UserManager.IsInRoleAsync(await _userManager.FindByNameAsync(User.Identity.Name), "Admin");
-
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
-
-                //Check to see if the user logged in is the administrator
-                //System.Security.Claims.ClaimsIdentity iuser = (System.Security.Claims.ClaimsIdentity)User.Identity;
-               // bool isadmin = iuser.HasClaim(ClaimTypes.Role, "Admin");
-                //bool isstudent = iuser.HasClaim(ClaimTypes.Role, "Student");
-              //  bool isSS = iuser.HasClaim(ClaimTypes.Role, "StudentServices");
-                //bool isFacofRec = iuser.HasClaim(ClaimTypes.Role, "FacultyofRec");
-                //bool isEmployer = iuser.HasClaim(ClaimTypes.Role, "Employer");
-                //if the user logged in
-                if (result.Succeeded)
+                
+                if (result.Succeeded)//the user was able to login
                  {
-                        //and the user is admin... go to landing page admin
-                  //      if (isadmin)
-                    //    {
-                      //      _logger.LogInformation("User logged in.");
-                            //return LocalRedirect(returnUrl);
-                            return RedirectToAction("Index", "LandingPage");
-                        //}
-                        //else if (isstudent || isSS || isFacofRec || isEmployer)//the user does not have the role admin....send them to landing page common
-                        //{
-                        //_logger.LogInformation("User logged in.");
-                        //return LocalRedirect(returnUrl);
-                        //return RedirectToAction("Index", "LandingPage");
-                        //}
-                        //else
-                        //{
-                        //return RedirectToAction(string.Empty, "Invalid login attempt.");
+                            return RedirectToAction("Index", "LandingPage");//successful login, send to landingpage index
                  }
-                   
-                //}
-                if (result.RequiresTwoFactor)
+                if (result.RequiresTwoFactor)//if true, send to new page
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
-                if (result.IsLockedOut)
+                if (result.IsLockedOut)//if user is locked out, send them to lockout page and dont let them login yet
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                else
+                else//if they enter in incorrect email or password, tell them their login attempt did not work
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }
