@@ -127,7 +127,9 @@ namespace Internship_Application
             //login id for Admin management
 
 
+
             IdentityUser user = await UserManager.FindByEmailAsync("rominek2@winthrop.edu");//the admin's email will be put here
+
             var User = new IdentityUser();
             await UserManager.AddToRoleAsync(user, "Admin");
 
