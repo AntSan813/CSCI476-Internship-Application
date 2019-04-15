@@ -131,7 +131,7 @@ namespace Internship_Application
             var User = new IdentityUser();
             await UserManager.AddToRoleAsync(user, "Admin");
 
-            IdentityUser user2 = await UserManager.FindByEmailAsync("sadakc2@winthrop.edu");//hard coding SS emai for testing purposes
+            IdentityUser user2 = await UserManager.FindByEmailAsync("sadakc2@winthrop.edu");//hard coding Stuent services emai for testing purposes
 
             var User2 = new IdentityUser();
             await UserManager.AddToRoleAsync(user2, "StudentServices");
