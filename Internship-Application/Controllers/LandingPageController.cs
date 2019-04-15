@@ -207,7 +207,6 @@ namespace Internship_Application.Controllers
                             InputType = q.InputType,
                             HelperText = q.HelperText,
                             Options = q.Options,
-                            Signed = q.Signed,
                             Required = q.Required,
                             ProcessQuestion = q.ProcessQuestion,
                             Role = q.Role,
@@ -252,7 +251,7 @@ namespace Internship_Application.Controllers
                         case "Intern Name":
                             form.StudentName = item.Value;
                             break;
-                        case "Student Id Number":
+                        case "Student ID Number":
                             form.WuId = item.Value;
                             break;
                         case "Email":

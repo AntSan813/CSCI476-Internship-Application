@@ -120,7 +120,7 @@
 
         @if (Model.TemplateDetails.IsActive == false && Model.TemplateDetails.IsRetired == false)//buttons to show for in-progress templtes
         {
-            <button type="button"><a asp-action="formtemplateeditor/Edit/" asp-route-id="@Model.TemplateDetails.Id">Edit Template</a></button>
+            <button type="button"><a asp-controller="FormTemplateEditor" asp-action="Edit" asp-route-id="@Model.TemplateDetails.Id">Edit Template</a></button>
             <input name="submit" type="submit" id="MakeTemplateActive" value="Make Template Active" />
             <input name="submit" type="submit" id="RetireTemplate" value="Retire Template" />
         }
