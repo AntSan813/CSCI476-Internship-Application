@@ -100,15 +100,6 @@
             <div id="tableTitle">
                 <h2>ALL ACTIVE FORMS</h2>
             </div>
-            <div id="radioFilter">
-                <h2>Order By</h2>
-                <form name="filterAdminUIForm">
-                    <input type="radio" id="orderByLU" name="orderBy" value="orderByLU">
-                    <label for="orderByLU">Last Updated</label>
-                    <input type="radio" id="orderByStatus" name="orderBy" value="orderByStatus">
-                    <label for="orderByLU">Status</label>
-                </form>
-            </div>
             <div>
                 <h2>
                     <i class="fa fa-bell" aria-hidden="true"></i>
@@ -116,7 +107,7 @@
                         var adminNeeded = 0;
                         foreach (var item in Model)
                         {
-                            if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 6)
+                            if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 5 || item.StatusCodesViewModel.Id == 7)
                             {
                                 adminNeeded++;
                             }
@@ -133,9 +124,6 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model[0].Id)
-                            </th>
-                            <th>
                                 @Html.DisplayNameFor(model => model[0].StudentName)
                             </th>
                             <th>
@@ -149,7 +137,7 @@
                     </thead>
                     @foreach (var item in Model)
                     {
-                        @if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 6)
+                        @if (item.StatusCodesViewModel.Id == 3 || item.StatusCodesViewModel.Id == 5 || item.StatusCodesViewModel.Id == 7)
                         {
                             <tr>
                                 <td>@item.StudentName</td>
@@ -174,7 +162,7 @@
                     </thead>
                     @foreach (var item in Model)
                     {
-                        @if (item.StatusCodesViewModel.Id != 3 && item.StatusCodesViewModel.Id != 6)
+                        @if (item.StatusCodesViewModel.Id != 3 && item.StatusCodesViewModel.Id != 5 && item.StatusCodesViewModel.Id != 7)
                         {
                             <tr>
                                 @if (item.StudentName != "" && item.StudentName != null)
@@ -269,14 +257,14 @@
 
                             </tr>
                         }
-                        else if (User.IsInRole("FacultyOfRecord") && item.FacultyEmail == @User.Identity.Name && item.StatusCodesViewModel.Id == 5)
+                        else if (User.IsInRole("FacultyOfRec") && item.FacultyEmail == @User.Identity.Name && item.StatusCodesViewModel.Id == 6)
                         {
                             <tr>
                                 <td>@item.StudentName</td>
                                 <td>@item.UpdatedAt</td>
                                 <td>@item.StatusCodesViewModel.StatusCode</td>
 
-                                @if (item.StatusCodesViewModel.Id == 5)
+                                @if (item.StatusCodesViewModel.Id == 6)
                                 {
                                     <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
                                 }

@@ -87,7 +87,6 @@ namespace Internship_Application.Controllers
                             InputType = q.InputType,
                             HelperText = q.HelperText,
                             Options = q.Options,
-                            Signed = q.Signed,
                             Required = q.Required,
                             ProcessQuestion = q.ProcessQuestion,
                             Role = q.Role,
