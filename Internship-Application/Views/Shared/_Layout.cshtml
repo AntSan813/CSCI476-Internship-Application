@@ -1,10 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using System.Security.Principal;
-
 
 @inject SignInManager<IdentityUser> SignInManager
 <!DOCTYPE html>
-<!-- The purpose of this page is to show certain things on each page such as the navigation bar -->
+<!-- The purpose of this page is to show certain things on every page, the logout button will only be shown if the user is logged in-->
 <html>
 <style>
 /* Dropdown Button */
@@ -83,17 +81,12 @@
                     <a href="http://www.winthrop.edu/map" class="topWhiteLinks">MAP</a>
 
                 </div>
-                <div class="searchBox">
-                    <fieldset class="headerSearchFieldset">
-                        <legend><span class="headerSearchLegend">Search the site or search for people</span></legend>
-                    </fieldset>
-                    <div class="clear"></div>
-                </div>
+             
             </div>
             <div class="clear"></div>
         </div>
 
-        <div id="mastheadHomePage"></div>
+        <div id="mastheadHomePage"></div><!--This shows the winthrop logo in red at the top of our all of our pages-->
 
             <!-- Common Nav Bar -->
             <div id="allNavBar">
@@ -179,13 +172,12 @@
                     <div class="col-4">
                         <big class="gradientAudience"><b>Winthrop University CBA Internship</b></big>
                     </div>
-                    @if (SignInManager.IsSignedIn(User))
+
+                    @if (SignInManager.IsSignedIn(User)) //<!--only show the logout button if the user is signed in-->
                     {
-                    <div class="col-4">
-                        <!-- <button><a class="nav-link text-light" style ="background-color: #ffc107;color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a></button>-->
-                        <a type="text" style=" border:none;background-color:#f0b323; color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-                       
-                    </div>
+                        <div class="col-4">
+                            <a type="text" style=" border:none;background-color:#f0b323; color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                        </div>
                     }
                 </div>
             </div>
@@ -197,7 +189,7 @@
 
         </div>
 
-        <footer class="footer">
+        <footer class="footer"><!--show at bottom of the page-->
             <div id="gradientBottom" style="position:fixed;bottom:0;left:0;right:0;height:30px;">
                 <span class="whiteBottomText">
                     © Winthrop University · 701 Oakland Avenue · Rock Hill, SC 29733, USA ·
