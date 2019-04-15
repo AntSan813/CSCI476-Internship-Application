@@ -303,9 +303,10 @@ namespace Internship_Application.Controllers
                     }
                     else
                     {
+                        form.UpdatedAt = DateTime.Now;
                         form.Answers = answerString;
                         await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(DisplayForm));
+                        return RedirectToAction("Index");
                     }
                 case "Accept":
                     if (answeredAll)
