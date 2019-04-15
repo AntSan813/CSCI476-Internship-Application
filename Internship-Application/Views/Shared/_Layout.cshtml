@@ -162,13 +162,14 @@
                             <big class="gradientAudience"><b>Winthrop University CBA Internship</b></big>
                         </div>
 
-                        @if (SignInManager.IsSignedIn(User)) //<!--only show the logout button if the user is signed in-->
-                        {
-                            <div class="col-4">
-                                <a type="text" style=" border:none;background-color:#f0b323; color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-                            </div>
-                        }
+                    @if (SignInManager.IsSignedIn(User)) //<!--only show the logout button if the user is signed in-->
+                    {
+                    <div class="col-4">
+                        <a type="text" style=" border:none;background-color:#f0b323; color:black" asp-area="Identity" asp-page="/Account/Logout">Logout |</a>
+                        <a style="border:none;background-color:#f0b323; color:black" asp-controller="UserManual"> Help</a>
                     </div>
+                    }
+                </div>
             </div>
         </header>
 
