@@ -23,33 +23,31 @@ namespace Internship_Application.Controllers
         {
             var form = _context.Forms
                 .FirstOrDefault(m => m.Id == id);
-    
+    //do certain functions based on what user is accessing this page
             if (User.IsInRole("Student"))
             {
-                testEmail2();
                 sendEmailtoSelf(); //confirmation email
                 sendEmailtoEmployer(form.StudentName, form.StudentEmail, form.EmployerEmail);
                 sendEmailtoAdmin(form.StudentName, form.StudentEmail, form.StatusCodeId);
             }
-            if(User.IsInRole("Admin") && form.StatusCodeId == 4)
+            if(User.IsInRole("Admin") && form.StatusCodeId == 4)//if role is admin and code is pending student services approval
             {
-                //testEmail();
                 sendEmailtoSelf();
                 sendEmailtoStudent(form.StudentName, form.StudentEmail, form.StatusCodeId);
                 sendEmailtoStudentServices(form.StudentName, form.StudentEmail, form.StatusCodeId);
             }
-            if(User.IsInRole("Admin") && form.StatusCodeId == 6)
+            if(User.IsInRole("Admin") && form.StatusCodeId == 6)//if user is admin and code is pending DER approval
             {
                 sendEmailtoSelf();
                 sendEmailtoStudent(form.StudentName, form.StudentEmail, form.StatusCodeId);
                 sendEmailtoFaculty(form.StudentName, form.StudentEmail, form.FacultyEmail, form.StatusCodeId);
             }
-            if(User.IsInRole("Admin") && (form.StatusCodeId == 8 || form.StatusCodeId == 9 || form.StatusCodeId == 10))
+            if(User.IsInRole("Admin") && (form.StatusCodeId == 8 || form.StatusCodeId == 9 || form.StatusCodeId == 10))//if role is admin and code is approved, declined, or withdrawn
             {
                 sendEmailtoSelf();
                 sendFinalEmail(form.StudentEmail, form.StatusCodeId);
             }
-            if (User.IsInRole("Employer") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec"))
+            if (User.IsInRole("Employer") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec"))//if the role is employer, SS or faculty
             {
                 sendEmailtoSelf();
                 sendEmailtoStudent(form.StudentName, form.StudentEmail, form.StatusCodeId);
@@ -99,62 +97,7 @@ namespace Internship_Application.Controllers
             }
         }
 
-
-        public void testEmail()
-        {
-            string to = "sadakc2@winthrop.edu";//hardcoded to the ADMIN EMAIL --- To address    
-            string from = "smtps19@winthrop.edu"; //From address    
-            MailMessage message = new MailMessage(from, to); var form = _context.Forms.ToList<Forms>();
-
-            string mailbody = "HERE YAY"; //the body of the email
-            message.Subject = "MADE IT";//the subject of the email
-            message.Body = mailbody;
-            message.BodyEncoding = System.Text.Encoding.UTF8;
-            message.IsBodyHtml = true;
-            SmtpClient client = new SmtpClient("smtp.office365.com", 587); //Gmail smtp    
-            System.Net.NetworkCredential basicCredential1 = new
-            System.Net.NetworkCredential("smtps19@winthrop.edu", "SpringSnow2019!");
-            client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
-            client.Credentials = basicCredential1;
-            try
-            {
-                client.Send(message);//send the email
-            }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public void testEmail2()
-        {
-            string to = "sadakc2@winthrop.edu";//hardcoded to the ADMIN EMAIL --- To address    
-            string from = "smtps19@winthrop.edu"; //From address    
-            MailMessage message = new MailMessage(from, to); var form = _context.Forms.ToList<Forms>();
-
-            string mailbody = "whooops"; //the body of the email
-            message.Subject = "shouldn't be here";//the subject of the email
-            message.Body = mailbody;
-            message.BodyEncoding = System.Text.Encoding.UTF8;
-            message.IsBodyHtml = true;
-            SmtpClient client = new SmtpClient("smtp.office365.com", 587); //Gmail smtp    
-            System.Net.NetworkCredential basicCredential1 = new
-            System.Net.NetworkCredential("smtps19@winthrop.edu", "SpringSnow2019!");
-            client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
-            client.Credentials = basicCredential1;
-            try
-            {
-                client.Send(message);//send the email
-            }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        
 
         public void sendEmailtoStudentServices(string studentName, string studentEmail, int statusCode)
         {

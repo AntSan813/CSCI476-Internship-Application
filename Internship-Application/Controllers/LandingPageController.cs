@@ -113,14 +113,11 @@ namespace Internship_Application.Controllers
                     Details = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).Details
                 }
             };
-            /*template.Questions = template.Questions.TrimStart('\"');
-            template.Questions = template.Questions.TrimEnd('\"');
-            template.Questions = template.Questions.Replace("\\", "");*/
             List<Answers> answers = JsonConvert.DeserializeObject<List<Answers>>(form.Answers);
             List<Questions> questions = JsonConvert.DeserializeObject<List<Questions>>(template.Questions);
             List<InputViewModel> inputs = new List<InputViewModel>();
 
-            //
+            
             string role = "";
             if (User.IsInRole("Admin"))
             {
@@ -180,7 +177,7 @@ namespace Internship_Application.Controllers
                     correctRoleSubmit = true;
                 }
             }
-            //
+            
             foreach(var q in questions)
             {
 
