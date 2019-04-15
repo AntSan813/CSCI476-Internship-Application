@@ -8,11 +8,9 @@
 @inject SignInManager<IdentityUser> SignInManager
 <!--
     This is the page that shows the user Logout. It shows the user that they have successfully logged out of the
-    application. There is also a link to navigate back to the login page if they desire. If they do not wish to logout go back to 
+    application. There is also a link to navigate back to the login page if they desire. If they do not wish to logout go back to
     landing page
 -->
-
-
 
 <div class="row">
     <div class="col-md-4">
@@ -28,27 +26,34 @@
 
                         <p>Are you sure you want to logout of the application?</p>
                     </header>
+                    <!--make this as a table so the yes and no buttons will be side by side-->
+                    <table>
+                        <tr>
+                            <td>
+                                <button type="submit" class="nav-link text-dark">Yes</button>
+                            </td>
+                            <td>
+                                <button><a class="nav-link text-dark" asp-controller="LandingPage">No</a></button>
+                            </td>
+                    </tr>
+                    </table>
 
-                    <button type="submit" class="nav-link text-dark">Yes</button>
-                    <button><a class="nav-link text-dark" asp-controller="LandingPage">No</a></button>
-                </form>
-            }
-            else//the user is signed out...tell them that
-            {
-                <header>
-                    <h1>@ViewData["Title"]</h1>
+                    </form>
+                }
+                else//the user is signed out...tell them that and allow them to go back to the login page
+                {
+                    <header>
+                        <h1>@ViewData["Title"]</h1>
 
-                    <p>You have successfully logged out of the application.</p>
-                </header>
+                        <p>You have successfully logged out of the application.</p>
+                    </header>
 
-                <br>
-                <br>
+                    <br>
+                
+                    <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Login">Return to Login</a>
 
-                <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Login">Return to Login</a>
+                }
 
-            }
-
-        </section>
-    </div>
-</div>
-
+                            </section>
+                            </div>
+                            </div>

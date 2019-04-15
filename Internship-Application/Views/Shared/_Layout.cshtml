@@ -1,12 +1,55 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using System.Security.Principal;
-
 
 @inject SignInManager<IdentityUser> SignInManager
 <!DOCTYPE html>
-<!-- The purpose of this page is to show certain things on each page such as the navigation bar -->
+<!-- The purpose of this page is to show certain things on every page, the logout button will only be shown if the user is logged in-->
 <html>
+<style>
+/* Dropdown Button */
+/*.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}*/
 
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: relative;
+  background-color: #f1f1f1;
+  min-width: 175px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 2px 6px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+</style>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,89 +81,97 @@
                     <a href="http://www.winthrop.edu/map" class="topWhiteLinks">MAP</a>
 
                 </div>
-                <div class="searchBox">
-                    <fieldset class="headerSearchFieldset">
-                        <legend><span class="headerSearchLegend">Search the site or search for people</span></legend>
-                    </fieldset>
-                    <div class="clear"></div>
-                </div>
+             
             </div>
             <div class="clear"></div>
         </div>
 
-        <div id="mastheadHomePage"></div>
+        <div id="mastheadHomePage"></div><!--This shows the winthrop logo in red at the top of our all of our pages-->
 
-        <div id="gradientAudience">
-            <!-- navigation bar -->
-            <!-- <a class="audienceMenuText" asp-area="" asp-controller="SignIn" asp-action="Index">Sign In</a>-->
-
-        </div>
             <!-- Common Nav Bar -->
             <div id="allNavBar">
                 <div class="row">
-                    <div class="col-4">
-                        <div class="dropdown" style="line-height: 10px;">
-                            <button type="button" class="btn btn-primary" data-toggle="dropdown" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
-                                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-                            </button>
-                            <!--  if (User.IsInRole("Admin"))-->
-                            <!--    {
-        <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
-            <a class="dropdown-item" href="#">View Active Forms</a>
-            <a class="dropdown-item" href="#">View Archived Forms</a>
-            <a class="dropdown-item" href="#">Add/Remove User</a>
-            <a class="dropdown-item" href="#">View/Edit Form Template</a>
-            <a class="dropdown-item" href="#">Account Settings</a>
-            <a class="dropdown-item" href="#">Log Out</a>
-            <a class="dropdown-item" href="@Url.Action("Index", "Logout")">Logout</a>
-        </div>
-        }
-        else
-        {
-                             <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
-                            <a class="dropdown-item" href="#">View Forms</a>
-                            <a class="dropdown-item" href="#">Log Out</a>
-                            </div>
-                                }-->
-                            <ul class="navbar-nav">
+                    
+                        <div class="col-4">
+                            <div id="dropdown" class="dropdown" style="line-height: 10px;">
                                 @if (SignInManager.IsSignedIn(User))
                                 {
+                                    <button type="button" class="btn btn-primary" onclick="toggleDropdown()" style="background-color: #F0B323; padding: 0; margin: 0 auto; border: none; color: black; height: 30%">
+                                        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+                                    </button>
+                                    <div id="navDropdown" class="dropdown-menu" style="z-index: 1;">
 
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-                                    </li>
-                                   
+                                        @using (Html.BeginForm())
+                                        {
+                                            if (User.IsInRole("Admin"))
+                                            {
+                                                <a href="@Url.Action("Index", "LandingPage")">Home</a>
+                                                <br />
+                                                <br />
+                                                <a href="@Url.Action("Index", "Admin_TemplatesOverviewPage")">View/Edit Form Template</a>
+                                                <br />
+                                                <br />
+
+                                                <a href="@Url.Action("Index", "Admin_Query_Page")">Form Lookup</a>
+                                                <br />
 
 
-                                    <div class="dropdown-menu" style="z-index: 1; margin-left: 175pt !important;">
-                                        <a class="dropdown-item" href="#">View Active Forms</a>
-                                        <a class="dropdown-item" href="#">View Archived Forms</a>
-                                        <a class="dropdown-item" href="#">Add/Remove User</a>
-                                        <a class="dropdown-item" href="#">View/Edit Form Template</a>
-                                        <a class="dropdown-item" href="#">Account Settings</a>
-                                        <a class="dropdown-item" href="#">Log Out</a>
-                                        <a class="dropdown-item" href="@Url.Action("Index", "Logout")">Logout</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("Index", "Landing_Page")">Home</a>
+                                            }
+                                        }
                                     </div>
-
                                 }
-                            </ul>
+                                </div>
+
+                            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                            <script type="text/javascript">
+                            /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
+                            function toggleDropdown() {
+                                document.getElementById("navDropdown").classList.toggle("show");
+                            }
+
+                            $(".dropdown").change(function () {
+                                var seclectedVal = $(this).val();
+                                if (seclectedVal != undefined) {
+                                    switch (seclectedVal) {
+                                        case '1':
+                                            var redirectURL = '@Url.Action("Index", "Landing_Page")';
+                                            window.location.href = redirectURL;
+                                            break;
+                                        case '2':
+                                            var redirectURL = '@Url.Action("Index", "Admin_TemplateOverviewPage")';
+                                            window.location.href = redirectURL;
+                                            break;
+                                        case '3':
+                                            var redirectURL = '@Url.Action("Index", "Admin_Query_Page")';
+                                            window.location.href = redirectURL;
+                                            break;
+                                    }
+                                }
+                            });
+
+                            </script>
+
 
                         </div>
-                    </div>
-                    <div class="col-4">
-                        <big class="gradientAudience"><b>Winthrop University CBA Internship</b></big>
-                    </div>
-                    @if (SignInManager.IsSignedIn(User))
+                    
+                        <div class="col-4">
+                            <big class="gradientAudience"><b>Winthrop University CBA Internship</b></big>
+                        </div>
+
+                    @if (SignInManager.IsSignedIn(User)) //<!--only show the logout button if the user is signed in-->
                     {
                     <div class="col-4">
-                        <!-- <button><a class="nav-link text-light" style ="background-color: #ffc107;color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a></button>-->
-                        <a type="text" style=" border:none;background-color:#f0b323; color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-                       
+                        <a type="text" style=" border:none;background-color:#f0b323; color:black" asp-area="Identity" asp-page="/Account/Logout">Logout |</a>
+                        <a style="border:none;background-color:#f0b323; color:black" asp-controller="UserManual"> Help</a>
                     </div>
                     }
                 </div>
             </div>
-
+        </header>
 
         <div class="body-content">
             
@@ -128,7 +179,7 @@
 
         </div>
 
-        <footer class="footer">
+        <footer class="footer"><!--show at bottom of the page-->
             <div id="gradientBottom" style="position:fixed;bottom:0;left:0;right:0;height:30px;">
                 <span class="whiteBottomText">
                     © Winthrop University · 701 Oakland Avenue · Rock Hill, SC 29733, USA ·

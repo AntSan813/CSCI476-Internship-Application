@@ -1,0 +1,112 @@
+﻿@model List<Internship_Application.Models.FormViewModel>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!--This page will give the user some help depending on what their role is  -->
+<!--Admin-->
+
+@if (User.IsInRole("Admin"))
+{
+
+    <div>
+        <h1>Administrator User Manual</h1>
+
+        <h2>Landing Page</h2>
+        <ul>
+            <li>Forms that require your attention are listed at the top and are highlighted garnet. These forms are also marked "Pending DER Approval"</li>
+            <li>To visit a form that requires your attention and fill our your portion, click View</li>
+            <li>Forms that do not require your attention are listed underneath the thin double lines</li>
+            <li>You may view any form at any time, though you will not be able to fill out any fields when you click View on forms that do not require your attentions</li>
+            <li>Once you click submit and the status code is 3, an email will be sent to you for confirmation, the student, and Student Services</li>
+            <li>Once you click submit and the status code is 5, an email will be sent to you for confirmation, the student, and the Faculty of Record</li>
+            <li>Once you click submit and the status code is 7, an email will be sent to you for confirmation and to the student</li>
+        </ul>
+        <h2>Display Form</h2>
+        <ul>
+            <li>Once you click View on a form, you will be directed to the Display Form page for that particular form</li>
+            <li>If this form does require your attention, there will be some fields for you to fill out that are not grayed out</li>
+            <li>If this form does not require your attention, you will still be able to view all data currently in the form, you just cannot edit it</li>
+        </ul>
+        <h2>Templates Overview Page</h2>
+        <ul>
+            <li>This page shows all active, in-progress, and retired templates</li>
+            <li>You can only have one active template at a time</li>
+            <li>If you want to make a new template Active, you must first retire the current Active template</li>
+            <li>If you wish to retire an active template, there cannot be any students currently using it</li>
+            <li>The current active template may be retired if all forms referencing it are either Accepted, Declined, or Withdrawn</li>
+            <li>In-Progress templates are the ones you are currently editing or creating</li>
+            <li>Retired templates are those that are currently not being edited, created, or used by any students</li>
+            <li>You can make a Retired template to In-Progress status for you to edit and then move to Active </li>
+        </ul>
+        <br />
+    </div>
+    <button><a class="nav-link text-dark" asp-controller="LandingPage">Return to Landing Page</a></button>
+    <br>
+    <br>
+
+}
+
+@if (User.IsInRole("Student"))
+{
+
+    <div>
+        <h1>Student User Manual</h1>
+
+        <h2>Landing Page</h2>
+        <ul>
+            <li>The landing page shows you all forms that you are currently working on</li>
+            <li>Once you submit a form, you may still view it on this page by clicking View but you cannot make changes to the data</li>
+            <li>Once you click submit, an email will be sent to you for confirmation, to your employer, and to the Director of External Relations</li>
+        </ul>
+    </div>
+
+    <button><a class="nav-link text-dark" asp-controller="LandingPage">Return to Landing Page</a></button>
+    <br>
+    <br>
+}
+@if (User.IsInRole("FacultyOfRec"))
+{
+
+
+    <h1>Faculty of Record User Manual</h1>
+    <h2>Landing Page</h2>
+    <ul>
+        <li>This page shows you all forms that currently require the action of Student Services</li>
+        <li>To view a form and fill out your portion, click View</li>
+        <li>Once you click submit, an email will be sent to you as a confirmation, to the student, and to the Director of External Relations</li>
+    </ul>
+
+    <button><a class="nav-link text-dark" asp-controller="LandingPage">Return to Landing Page</a></button>
+    <br>
+    <br>
+}
+@if (User.IsInRole("Employer"))
+{
+
+    <h2>Employer User Manual</h2>
+    <h2>Landing Page</h2>
+    <ul>
+        <li>This page shows you all forms that currently require your attention</li>
+        <li>To view a form and fill out your portion, click View</li>
+        <li>Once you click submit, an email will be sent to you as a confirmation, to the student, and to the Director of External Relations</li>
+    </ul>
+
+    <button><a class="nav-link text-dark" asp-controller="LandingPage">Return to Landing Page</a></button>
+    <br>
+    <br>
+}
+
+@if (User.IsInRole("StudentServices"))
+{
+    <h2>Student Services User Manual</h2>
+    <h2>Landing Page</h2>
+    <ul>
+        <li>This page shows you all forms that currently require the action of Student Services</li>
+        <li>To view a form and fill out your portion, click View</li>
+        <li>Once you click submit, an email will be sent to you as a confirmation, to the student, and to the Director of External Relations</li>
+    </ul>
+
+    <button><a class="nav-link text-dark" asp-controller="LandingPage">Return to Landing Page</a></button>
+    <br>
+    <br>
+}
