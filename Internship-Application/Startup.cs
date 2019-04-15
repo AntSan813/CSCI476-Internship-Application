@@ -126,15 +126,15 @@ namespace Internship_Application
             //Assign Admin role to the main User here we have given our newly registered 
             //login id for Admin management
 
-            IdentityUser user = await UserManager.FindByEmailAsync("sadakc2@winthrop.edu");//the admin's email will be put here
+            IdentityUser user = await UserManager.FindByEmailAsync("santosa4@winthrop.edu");//the admin's email will be put here
 
             var User = new IdentityUser();
             await UserManager.AddToRoleAsync(user, "Admin");
 
-            IdentityUser user2 = await UserManager.FindByEmailAsync("oliverj14@winthrop.edu");//hard coding SS emai for testing purposes
+            //IdentityUser user2 = await UserManager.FindByEmailAsync("oliverj14@winthrop.edu");//hard coding SS emai for testing purposes
 
-            var User2 = new IdentityUser();
-            await UserManager.AddToRoleAsync(user2, "StudentServices");
+            //var User2 = new IdentityUser();
+            //await UserManager.AddToRoleAsync(user2, "StudentServices");
 
             // creating Creating student role     
             roleCheck = await RoleManager.RoleExistsAsync("Student");

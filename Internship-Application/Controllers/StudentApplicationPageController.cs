@@ -14,11 +14,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace Internship_Application.Controllers
 {
     [Authorize(Roles = "Student, StudentServices, Admin, Employer, FacultyOfRec")]//all of the roles can access this page
-    public class Student_Application_Page : Controller
+    public class StudentApplicationPageController : Controller
     {
         private readonly DataContext _context;
 
-        public Student_Application_Page(DataContext context)
+        public StudentApplicationPageController(DataContext context)
         {
             _context = context;
         }
