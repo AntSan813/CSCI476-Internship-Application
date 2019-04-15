@@ -176,20 +176,20 @@
                     {
                         @if (item.StatusCodesViewModel.Id != 3 && item.StatusCodesViewModel.Id != 6)
                         {
-                    <tr>
-                        @if (item.StudentName != "" && item.StudentName != null)
-                        {
-                            <td>@item.StudentName</td>
-                        }
-                        else
-                        {
-                            string emptyName = "No name for: " + item.StudentEmail.Split('@')[0];
-                            <td>@emptyName</td>
-                        }
-                        <td>@item.UpdatedAt</td>
-                        <td>@item.StatusCodesViewModel.StatusCode</td>
-                        <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
-                    </tr>
+                            <tr>
+                                @if (item.StudentName != "" && item.StudentName != null)
+                                {
+                                    <td>@item.StudentName</td>
+                                }
+                                else
+                                {
+                                    string emptyName = "No name for: " + item.StudentEmail.Split('@')[0];
+                                    <td>@emptyName</td>
+                                }
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
+                            </tr>
                         }
                     }
                 </table>
@@ -203,6 +203,9 @@
 
 @if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
 {
+
+  
+    <button><a asp-controller="UserManual">Help</a></button>
     <div id="commonLandingPageUI">
         <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
             <div>
@@ -228,27 +231,27 @@
                     {
                         if (User.IsInRole("Student") && item.StudentEmail == @User.Identity.Name)
                         {
-                    <tr>
-                        @if (item.StudentName != "" && item.StudentName != null)
-                        {
-                            <td>@item.StudentName</td>
-                        }
-                        else
-                        {
-                            string emptyName = "No name for: " + item.StudentEmail.Split('@')[0];
-                            <td>@emptyName</td>
-                        }
-                        <td>@item.UpdatedAt</td>
-                        <td>@item.StatusCodesViewModel.StatusCode</td>
-                        @if (item.StatusCodesViewModel.Id == 1)
-                        {
-                            <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
-                        }
-                        else
-                        {
-                            <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
-                        }
-                    </tr>
+                            <tr>
+                                @if (item.StudentName != "" && item.StudentName != null)
+                                {
+                                    <td>@item.StudentName</td>
+                                }
+                                else
+                                {
+                                    string emptyName = "No name for: " + item.StudentEmail.Split('@')[0];
+                                    <td>@emptyName</td>
+                                }
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                @if (item.StatusCodesViewModel.Id == 1)
+                                {
+                                    <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
+                                }
+                                else
+                                {
+                                    <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
+                                }
+                            </tr>
                         }
                         else if (User.IsInRole("Employer") && item.EmployerEmail == @User.Identity.Name && item.StatusCodesViewModel.Id == 2)
                         {
@@ -287,14 +290,18 @@
                             </tr>
                         }
                     }
+
                     @if(User.IsInRole("Student")) 
                      {
+
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td>
+
                                <a asp-action="DisplayForm">Start New Form</a>
+
                             </td>
                         </tr>
                     }
@@ -329,6 +336,7 @@
                             }
                         </tr>
                     </table>
+                    <br />
                 </div>
             </div>
         </div>

@@ -468,12 +468,12 @@
                             </tr>
                                 @foreach (var item in ViewBag.Forms)
                                 {
-                                    <tr>
-                                        <td>@item.StudentName</td>
-                                        <td>@item.UpdatedAt</td>
-                                        <td>@item.StatusCodesViewModel.StatusCode</td>
-                                        <td><button type="button">View</button></td>
-                                    </tr>
+                            <tr>
+                                <td>@item.StudentName</td>
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
+                            </tr>
                                 }
                             }
                         </table>

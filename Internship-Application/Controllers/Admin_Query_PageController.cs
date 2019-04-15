@@ -8,6 +8,7 @@ using System.Text;
 using System.IO;
 using System.Xml;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,6 +23,94 @@ namespace Internship_Application.Controllers
         {
             _context = context;
         }
+
+        // GET: Templates/Details/5
+        [HttpGet]
+        public IActionResult DisplayForm(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var form = _context.Forms
+                .First(m => m.Id == id);
+
+            if (form == null)
+            {
+                return NotFound();
+            }
+            var template = _context.Templates
+                 .First(m => m.Id == form.TemplateId);
+            var formViewModel = new FormViewModel
+            {
+                Id = form.Id,
+                StudentName = form.StudentName,
+                UpdatedAt = form.UpdatedAt,
+                StudentEmail = form.StudentEmail,
+                EmployerEmail = form.EmployerEmail,
+                FacultyEmail = form.FacultyEmail,
+                StatusCodesViewModel = new Models.StatusCodes
+                {
+                    Id = form.StatusCodeId,
+                    StatusCode = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).StatusCode,
+                    Details = _context.StatusCodes.FirstOrDefault(s => s.Id == form.StatusCodeId).Details
+                }
+            };
+            List<Answers> answers = JsonConvert.DeserializeObject<List<Answers>>(form.Answers);
+            List<Questions> questions = JsonConvert.DeserializeObject<List<Questions>>(template.Questions);
+            List<InputViewModel> inputs = new List<InputViewModel>();
+            //
+            foreach (var q in questions)
+            {
+
+                foreach (var a in answers)
+                {
+                    if (q.Order == a.Order)
+                    {
+                        //isRequired by role?
+                        bool isReq = false;
+                        bool isDisabled = true;
+                        //if (q.Role == role && correctRoleSubmit)
+                        //{
+                            isDisabled = false;
+                        //}
+                        //if (q.Required)
+                        //{
+                            isReq = q.Required;
+                        //}
+                        inputs.Add(new InputViewModel
+                        {
+                            DisplayOrder = Convert.ToInt32(q.Order),
+                            Order = Convert.ToInt32(q.Order),
+                            Prompt = q.Prompt,
+                            InputType = q.InputType,
+                            HelperText = q.HelperText,
+                            Options = q.Options,
+                            Signed = q.Signed,
+                            Required = q.Required,
+                            ProcessQuestion = q.ProcessQuestion,
+                            Role = q.Role,
+                            Value = a.Value,
+                            DateSigned = a.DateSigned,
+                            isRequired = isReq,
+                            isDisabled = isDisabled
+                        });
+                    }
+                }
+            }
+
+            QuestionsAndAnswers qaList = new QuestionsAndAnswers
+            {
+                //FormDetails = formViewModel,
+                TemplateDetails = template,
+                QuestionList = questions,
+                AnswerList = answers,
+                InputList = inputs
+            };
+            return View(qaList);
+        }
+
 
         // GET: /<controller>/ and forms c:
         public IActionResult Index()
