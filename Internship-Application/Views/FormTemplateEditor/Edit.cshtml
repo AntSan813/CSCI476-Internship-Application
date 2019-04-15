@@ -83,7 +83,7 @@
                     {
                         <tr>
                             <td>
-                               @(Model.Questions.IndexOf(item)+1).
+                                @(Model.Questions.IndexOf(item) + 1).
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Prompt)<br />
@@ -140,84 +140,86 @@
 
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @*<input type="hidden" asp-for="@Model.Templates[0].Id" />*@
-                <input type="hidden" asp-for="Templates[0].CreatedAt" />
-                <input type="hidden" asp-for="Templates[0].UpdatedAt" />
-                <input type="hidden" asp-for="Templates[0].Id" />
-                <input type="hidden" asp-for="Templates[0].Questions" />
-                <input type="hidden" asp-for="Templates[0].RetiredAt" />
+            @*<input type="hidden" asp-for="@Model.Templates[0].Id" />*@
+            <input type="hidden" asp-for="Templates[0].CreatedAt" />
+            <input type="hidden" asp-for="Templates[0].UpdatedAt" />
+            <input type="hidden" asp-for="Templates[0].Id" />
+            <input type="hidden" asp-for="Templates[0].Questions" />
+            <input type="hidden" asp-for="Templates[0].RetiredAt" />
+            <div class="form-group">
+                <label asp-for="Templates[0].TemplateName" class="control-label"></label>
+                <input asp-for="Templates[0].TemplateName" class="form-control" />
+                <span asp-validation-for="Templates[0].TemplateName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Templates[0].DisplayName" class="control-label"></label>
+                <input asp-for="Templates[0].DisplayName" class="form-control" />
+                <span asp-validation-for="Templates[0].DisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Templates[0].Disclaimer" class="control-label"></label>
+                <input asp-for="Templates[0].Disclaimer" class="form-control" />
+                <span asp-validation-for="Templates[0].Disclaimer" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Templates[0].IsActive" /> @Html.DisplayNameFor(model => @Model.Templates[0].IsActive)
+                </label>
+            </div>
+            <div id="questionTemplateDiv" style="display: none" class="col-10">
+
+                <div class="dropdown">
+                    <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left; " onclick="typeChosen()">Input Type</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" value="text">Small Text</a>
+                        <a class="dropdown-item" value="textarea">Large Text</a>
+                        <a class="dropdown-item" value="signature">Signature</a>
+                        <a class="dropdown-item" value="checkbox">Checkbox</a>
+                        @*<option value="radio">Radio Button</option>*@
+                        <a class="dropdown-item" value="date">Date</a>
+                        @*<option value="dateRange">Date Range</option>*@
+                        <a class="dropdown-item" value="money">Dollar Amount</a>
+                        <a class="dropdown-item" value="options">Dropdown</a>
+                    </div>
+                </div>
+                <div id="isDropdown" style="display: none" class="col-10">
+                    <div class="form-group">
+                        HEYYYY
+                        <!--ADD HTML CODE TO ALLOW ADMIN TO INPUT A LIST OF OPTIONS FOR THE DROPDOWN-->
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label asp-for="Templates[0].TemplateName" class="control-label"></label>
-                    <input asp-for="Templates[0].TemplateName" class="form-control" />
-                    <span asp-validation-for="Templates[0].TemplateName" class="text-danger"></span>
+                    <label>Order:</label>
+                    <input type="number" name="order" min="1" max="@(Model.Questions.Count+1)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Prompt:</label>
+                    <input type="text" name="prompt" value="Example prompt" />
                 </div>
                 <div class="form-group">
-                    <label asp-for="Templates[0].DisplayName" class="control-label"></label>
-                    <input asp-for="Templates[0].DisplayName" class="form-control" />
-                    <span asp-validation-for="Templates[0].DisplayName" class="text-danger"></span>
+                    <label>Helper Text:</label>
+                    <input type="text" name="helper-text" value="Helper text" />
                 </div>
-                <div class="form-group">
-                    <label asp-for="Templates[0].Disclaimer" class="control-label"></label>
-                    <input asp-for="Templates[0].Disclaimer" class="form-control" />
-                    <span asp-validation-for="Templates[0].Disclaimer" class="text-danger"></span>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Templates[0].IsActive" /> @Html.DisplayNameFor(model => @Model.Templates[0].IsActive)
-                    </label>
-                </div>
-                <div id="questionTemplateDiv" style="display: none" class="col-10">
 
-                    <div class="dropdown">
-                        <button type="button" id="inputTypeDropdown" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="background-color: white; border: .5px solid grey; color: black; width: 200px; text-align: left; "onclick="typeChosen()">Input Type</button>
-                        <div class="dropdown-menu" >
-                            <a class="dropdown-item" value="text">Small Text</a>
-                            <a class="dropdown-item" value="textarea">Large Text</a>
-                            <a class="dropdown-item" value="signature">Signature</a>
-                            <a class="dropdown-item" value="checkbox">Checkbox</a>
-                            @*<option value="radio">Radio Button</option>*@
-                            <a class="dropdown-item" value="date">Date</a>
-                            @*<option value="dateRange">Date Range</option>*@
-                            <a class="dropdown-item" value="money">Dollar Amount</a>
-                            <a class="dropdown-item" value="options">Dropdown</a>
-                        </div>
-                    </div>
-                    <div id="isDropdown" style="display: none" class="col-10">
-                        <div class="form-group">
-                            HEYYYY
-                            <!--ADD HTML CODE TO ALLOW ADMIN TO INPUT A LIST OF OPTIONS FOR THE DROPDOWN-->
-                        </div>
-                    </div>
+                <label style="display: block;">Person to Answer This Question: </label>
+                <input type="checkbox" name="person" value="Student" style="display: inline-block">Student<br>
+                <input type="checkbox" name="person" value="Employer" style="display: inline-block">Employer<br>
+                <input type="checkbox" name="person" value="FacultyOfRec" style="display: inline-block">Faculty of Record<br>
+                <input type="checkbox" name="person" value="StudentServices" style="display: inline-block">Student Services<br>
+                <input type="checkbox" name="person" value="Admin" style="display: inline-block">Administrator<br>
 
-                    <div class="form-group">
-                        <label>Order:</label>
-                        <input type="number" name="order" min="1" max="@(Model.Questions.Count+1)" />
-                    </div>
-
-                    <div class="form-group">
-                        <label>Prompt:</label>
-                        <input type="text" name="prompt" value="Example prompt" />
-                    </div>
-                    <div class="form-group">
-                        <label>Helper Text:</label>
-                        <input type="text" name="helper-text" value="Helper text" />
-                    </div>
-
-                    <label style="display: block;">Person to Answer This Question: </label>
-                    <input type="checkbox" name="person" value="Student" style="display: inline-block">Student<br>
-                    <input type="checkbox" name="person" value="Employer" style="display: inline-block">Employer<br>
-                    <input type="checkbox" name="person" value="FacultyOfRec" style="display: inline-block">Faculty of Record<br>
-                    <input type="checkbox" name="person" value="StudentServices" style="display: inline-block">Student Services<br>
-                    <input type="checkbox" name="person" value="Admin" style="display: inline-block">Administrator<br>
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    </div>
-                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
         </form>
     </div>
 
 </div>
-<input type="submit" value="Back" class="btn btn-primary" asp-action="Index">
+
+<input value="Back" class="btn btn-primary" asp-action="Index">
 
 <br />
 <br />

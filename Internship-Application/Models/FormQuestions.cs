@@ -10,7 +10,6 @@ namespace Internship_Application.Models
         public string InputType { get; set; }
         public string HelperText { get; set; }
         public string Options { get; set; }
-        public Boolean Signed { get; set; }
         public Boolean Required { get; set; }
         public Boolean ProcessQuestion { get; set; }
         public string Role { get; set; }

@@ -206,5 +206,136 @@ namespace Internship_Application.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        // GET: Templates/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Templates/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateTemplate(Templates template)
+        {
+            //try to copy from active template
+            Templates temp = _context.Templates
+                   .First(m => m.IsActive == true);
+            if(temp != null)
+            {
+                //List<Questions> qList = JsonConvert.DeserializeObject<List<Questions>>(temp.Questions);
+                template.Questions = temp.Questions;
+            }
+            else
+            {
+                //Required questions in the form: student name, Winthrop id, employer email, and faculty of record email
+
+                //START OF ADDING DEFAULT QUESTIONS
+                List<Questions> qList = new List<Questions> { };
+                qList.Add(new Questions
+                {
+                    Order = "1",
+                    Prompt = "Intern Name",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Student"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "2",
+                    Prompt = "Email",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Student"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "3",
+                    Prompt = "Student ID Number",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Student"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "4",
+                    Prompt = "Employer Email",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Student"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "5",
+                    Prompt = "Instructor of Record Email",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Admin"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "6",
+                    Prompt = "Organization Name",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Employer"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "7",
+                    Prompt = "Paid",
+                    InputType = "radio",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Employer"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "8",
+                    Prompt = "Physical Address",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Employer"
+                });
+                template.Questions = JsonConvert.SerializeObject(qList);
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(template);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            var errors = ModelState.Select(x => x.Value.Errors)
+                           .Where(y => y.Count > 0)
+                           .ToList();
+
+            return View(template);
+        }
     }
 }

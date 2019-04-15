@@ -18,12 +18,15 @@ namespace Internship_Application.Models
         [Display(Name = "Retired")]
         public DateTime? RetiredAt { get; set; }
 
+        [Required]
         [Display(Name = "Template Name")]
         public string TemplateName { get; set; }
 
+        [Required]
         [Display(Name = "Template Display Name")]
         public string DisplayName { get; set; }
 
+        [Required]
         public string Disclaimer { get; set; }
         public string Questions { get; set; }
 

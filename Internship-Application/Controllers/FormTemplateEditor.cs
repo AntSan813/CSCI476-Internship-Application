@@ -65,131 +65,127 @@ namespace Internship_Application.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(/*[Bind("IsActive,TemplateName,DisplayName,Questions,Disclaimer")] */ Templates templates)
+        public async Task<IActionResult> Create(/*[Bind("IsActive,TemplateName,DisplayName,Questions,Disclaimer")] */ Templates template)
         {
             //Required questions in the form: student name, Winthrop id, employer email, and faculty of record email
 
             //START OF ADDING DEFAULT QUESTIONS
-            List<JsonModel> questions = new List<JsonModel> { };
-            questions.Add(new JsonModel
+            //try to copy from active template
+            Templates temp = _context.Templates
+                   .First(m => m.IsActive == true);
+            if (temp != null)
             {
-                Prompt = "Student Name",
-                InputType = "text",
-                Order = 1,
-                HelperText = "",
-                DateSigned = "",
-                Signed = false,
-                Options = new List<string> { },
-                Required = true,
-                Person = "student",
-            });
-
-            questions.Add(new JsonModel
+                //List<Questions> qList = JsonConvert.DeserializeObject<List<Questions>>(temp.Questions);
+                template.Questions = temp.Questions;
+            }
+            else
             {
-                Prompt = "Class Name",
-                InputType = "options",
-                Order = 2,
-                HelperText = "E.g. CSCI 491",
-                DateSigned = "",
-                Signed = false,
-                Options = new List<string> {
-                    "ACCT 491","FINC 491","CSCI 491", "CSCI 492","MGMT 491","MKTG 491","ENTR 491","BADM 492","BADM 491","BADM 694"
-                },
-                Required = true,
-                Person = "student",
-            });
+                //Required questions in the form: student name, Winthrop id, employer email, and faculty of record email
 
-            questions.Add(new JsonModel
+                //START OF ADDING DEFAULT QUESTIONS
+                List<Questions> qList = new List<Questions> { };
+                qList.Add(new Questions
+                {
+                    Order = "1",
+                    Prompt = "Intern Name",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Student"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "2",
+                    Prompt = "Email",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Student"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "3",
+                    Prompt = "Student ID Number",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Student"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "4",
+                    Prompt = "Employer Email",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Student"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "5",
+                    Prompt = "Instructor of Record Email",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Admin"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "6",
+                    Prompt = "Organization Name",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Employer"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "7",
+                    Prompt = "Paid",
+                    InputType = "radio",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Employer"
+                });
+                qList.Add(new Questions
+                {
+                    Order = "8",
+                    Prompt = "Physical Address",
+                    InputType = "text",
+                    HelperText = "",
+                    Options = "",
+                    Required = true,
+                    ProcessQuestion = true,
+                    Role = "Employer"
+                });
+                template.Questions = JsonConvert.SerializeObject(qList);
+            }
+
+                if (ModelState.IsValid)
             {
-                Prompt = "Employer Email",
-                InputType = "text",
-                Order = 3,
-                HelperText = "",
-                DateSigned = "",
-                Signed = false,
-                Options = new List<string> { },
-                Required = true,
-                Person = "employer",
-            });
-
-            questions.Add(new JsonModel
-            {
-                Prompt = "Company Name",
-                InputType = "text",
-                Order = 4,
-                HelperText = "",
-                DateSigned = "",
-                Signed = false,
-                Options = new List<string> { },
-                Required = true,
-                Person = "employer",
-            });
-
-            questions.Add(new JsonModel
-            {
-                Prompt = "Company Location",
-                InputType = "text",
-                Order = 5,
-                HelperText = "",
-                DateSigned = "",
-                Signed = false,
-                Options = new List<string> { },
-                Required = true,
-                Person = "faculty-of-record",
-            });
-
-            questions.Add(new JsonModel
-            {
-                Prompt = "Paid",
-                InputType = "signature",
-                Order = 6,
-                HelperText = "",
-                DateSigned = "",
-                Signed = false,
-                Options = new List<string> { },
-                Required = true,
-                Person = "employer",
-            });
-
-            questions.Add(new JsonModel
-            {
-                Prompt = "Salary",
-                InputType = "money",
-                Order = 7,
-                HelperText = "",
-                DateSigned = "",
-                Signed = false,
-                Options = new List<string> { },
-                Required = false, //false in the case of no paid internship
-                Person = "employer",
-            });
-
-            questions.Add(new JsonModel
-            {
-                Prompt = "Faculty of Record Email",
-                InputType = "text",
-                Order = 8,
-                HelperText = "",
-                DateSigned = "",
-                Signed = false,
-                Options = new List<string> { },
-                Required = true,
-                Person = "faculty-of-record",
-            });
-
-            templates.Questions = JsonConvert.SerializeObject(questions);
-
-            if (ModelState.IsValid)
-            {
-                _context.Add(templates);
+                _context.Add(template);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Admin_TemplatesOverviewPage");
             }
             var errors = ModelState.Select(x => x.Value.Errors)
                            .Where(y => y.Count > 0)
                            .ToList();
 
-            return View(templates);
+            return View(template);
         }
 
         // GET: Templates/Edit/5
@@ -234,6 +230,7 @@ namespace Internship_Application.Controllers
             {
                 return NotFound();
             }
+
 
             List<JsonModel> questionModel = JsonConvert.DeserializeObject<List<JsonModel>>(templateView.Templates[0].Questions);
             var order = questionModel.Count+1;

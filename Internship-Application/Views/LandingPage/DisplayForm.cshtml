@@ -122,7 +122,7 @@
                     <div style="text-align:center;">
                         <label>Don't like what you see? Choose who to send it back to:</label>
                     </div>
-                        <select asp-for="SendBackListId" class="form-control" asp-items="@Model.SendBackList"></select>
+                        <select asp-for="SendBackListId" class="form-control" asp-items=@Model.SendBackList></select>
                         <input hidden asp-for="SendBackListId" />
                         <span asp-validation-for="SendBackListId" class="text-danger"/>
                         <input name="submit" type="submit" id="sendBack" value="Send Back" />
