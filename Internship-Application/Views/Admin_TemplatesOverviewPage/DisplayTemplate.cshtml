@@ -32,7 +32,6 @@
                 <br />
                 <h4 style="text-align:center;">@Model.TemplateDetails.Disclaimer</h4>
                 <div>
-                    @Html.DisplayFor(modelItem => Model)
                     @{
                         int visibleCount = 0;
                         string role = "Student";
@@ -64,7 +63,7 @@
                                 visibleCount++;
                                 <div style="margin: 10pt;">
                                     <div>
-                                        @visibleCount. @q.Prompt: <textarea></textarea>
+                                        @visibleCount. @q.Prompt: <textarea style="width: 600px; height: 300px"></textarea>
                                         @if (q.Required && (q.Role == role))
                                         {
                                             <b style="color: red;">*</b>

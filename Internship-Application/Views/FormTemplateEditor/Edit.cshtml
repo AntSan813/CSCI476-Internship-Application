@@ -74,6 +74,75 @@
 
     <div id="formColumn" class="col-10">
         <h3>Template View</h3><br />
+        <!--QUESTIONS AND ANSWERS DISPLAY HERE-->
+
+        @*<div id="tablesDiv">
+            <div>
+                <h1 style="text-align:center;">@Model.Templates[0].TemplateName</h1>
+                <h1 style="text-align:center;">@Model.Templates[0].DisplayName</h1>
+                <h4 style="text-align:center;">@Model.Templates[0].Disclaimer</h4>
+                <div>
+                    @{
+                        int invisibleCount = 0;
+                        <h2><b style="color: red;">* = Required</b></h2>
+                        @foreach (var item in Model.Questions)
+                        {
+                            <tr>
+                                <td>
+                                    @(Model.Questions.IndexOf(item) + 1).
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Prompt)<br />
+                                    @Html.DisplayFor(modelItem => item.HelperText)
+                                </td>
+                                <td>
+
+                                    @if (item.InputType == "options")
+                                    {
+                                        <div class="dropdown">
+                                            <div class="dropdown-content">
+                                                <select name="input-type" class="btn btn-primary dropdown-toggle" onclick="typeChosen()">
+
+                                                    @foreach (var option in item.Options)
+                                                    {
+                                                        <option value="@option">@option</option>}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @Html.DisplayFor(modelItem => item.Options)
+                                    }
+                                    else if (item.InputType == "textarea")
+                                    {
+                                        <textarea name="@(Model.Questions.IndexOf(item)+1)">Enter text here...</textarea>
+                                        <br />
+                                    }
+                                    else if (item.InputType == "checkbox" || item.InputType == "signature")
+                                    {
+                                        <input type="checkbox" name="@(Model.Questions.IndexOf(item)+1)">
+                                        <br />
+                                    }
+                                    else if (item.InputType == "money")
+                                    {
+                                        <p>$<input type="number" min="0.01" step="0.01" max="2500" value="0.0" name="@(Model.Questions.IndexOf(item)+1)" /></p>
+                                        <br />
+                                    }
+                                    else
+                                    {// if its text or signature itll end up here
+                                        <input type="@item.InputType" name="@(Model.Questions.IndexOf(item)+1)">
+                                        <br />
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-action="EditJson" asp-route-id="@item.Order">Edit</a> |
+                                    <a asp-action="DeleteJson" asp-route-id="@item.Order">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </div>
+            </div>
+        </div>*@
+
         @*<button id="activateOrRetireFormButton">Make active form</button>*@
         <div>
             <h4>@Html.DisplayNameFor(model => Model.Templates[0].TemplateName)</h4>
@@ -219,8 +288,13 @@
 
 </div>
 
-<input value="Back" class="btn btn-primary" asp-action="Index">
-
+<div style="margin: 50px">
+    <div class="row" style="width: 100%">
+        <div style="margin-left: 15px; margin-right: 15px;">
+            <button>@Html.ActionLink("Back", "Index", "Admin_TemplatesOverviewPage", null, new { style = "margin-left: 50%" })</button>
+        </div>
+    </div>
+</div>
 <br />
 <br />
 

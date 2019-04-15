@@ -115,17 +115,17 @@
             {
                 <div style="text-align:center;"><mark>This form requires your attention.</mark></div>
             }
-            @if (role == "Admin" && Model.FormDetails.StatusCodesViewModel.Id != 8 && Model.FormDetails.StatusCodesViewModel.Id != 9 && Model.FormDetails.StatusCodesViewModel.Id != 10)
+            @if ((role == "Admin") && (Model.FormDetails.StatusCodesViewModel.Id != 8) && (Model.FormDetails.StatusCodesViewModel.Id != 9) && (Model.FormDetails.StatusCodesViewModel.Id != 10))
             {
                 <p>
                     <!--Need to only display valid options (status codes below the current status code)-->
                     <div style="text-align:center;">
                         <label>Don't like what you see? Choose who to send it back to:</label>
                     </div>
-                        <select asp-for="SendBackListId" class="form-control" asp-items=@Model.SendBackList></select>
-                        <input hidden asp-for="SendBackListId" />
-                        <span asp-validation-for="SendBackListId" class="text-danger"/>
-                        <input name="submit" type="submit" id="sendBack" value="Send Back" />
+                    <select asp-for="SendBackListId" class="form-control" asp-items=@Model.SendBackList></select>
+                    <input hidden asp-for="SendBackListId" />
+                    <span asp-validation-for="SendBackListId" class="text-danger" />
+                    <input name="submit" type="submit" id="sendBack" value="Send Back" />
                 </p>
             }
             @if (role == "Student")
@@ -153,26 +153,25 @@
             <h1 style="text-align:center;">@Model.TemplateDetails.DisplayName</h1>
             <h4 style="text-align:center;">@Model.TemplateDetails.Disclaimer</h4>
             <div>
-                @Html.DisplayFor(modelItem => Model)
                 @{
                     int invisibleCount = 0;
                     <h2><b style="color: red;">* = Required</b></h2>
                     @foreach (var item in Model.InputList)
                     {
-                    <div>
-                        <div style="display: block;">
-                            @if (item.InputType == "formInfo")
-                            {
-                                invisibleCount++;
-                            }
-                            else
-                            {
-                                int displayOrder = item.Order - invisibleCount;
-                                <label style="display: inline-block;">@displayOrder. </label>
-                            }
-                            <partial style="display: inline-block;" name="_FormInputPartial" model="item" />
+                        <div>
+                            <div style="display: block;">
+                                @if (item.InputType == "formInfo")
+                                {
+                                    invisibleCount++;
+                                }
+                                else
+                                {
+                                    int displayOrder = item.Order - invisibleCount;
+                                    <label style="display: inline-block;">@displayOrder. </label>
+                                }
+                                <partial style="display: inline-block;" name="_FormInputPartial" model="item" />
+                            </div>
                         </div>
-                    </div>
                     }
                 }
             </div>
@@ -200,15 +199,15 @@
                 }
                 else
                 {
-                        <div style="margin-left: 15px; margin-right: 15px;">
-                            <input name="submit" type="submit" id="save" value="Save" />
-                        </div>
-                        <div style="margin-left: 15px; margin-right: 15px;">
-                            <input name="submit" type="submit" id="submit" value="Submit" />
-                        </div>
-                        <div style="margin-left: 15px; margin-right: 15px;">
-                            <input name="submit" type="submit" id="backToList" value="Back To List" />
-                        </div>
+                    <div style="margin-left: 15px; margin-right: 15px;">
+                        <input name="submit" type="submit" id="save" value="Save" />
+                    </div>
+                    <div style="margin-left: 15px; margin-right: 15px;">
+                        <input name="submit" type="submit" id="submit" value="Submit" />
+                    </div>
+                    <div style="margin-left: 15px; margin-right: 15px;">
+                        <input name="submit" type="submit" id="backToList" value="Back To List" />
+                    </div>
                 }
             }
             else
@@ -222,3 +221,12 @@
     </div>
 }
 
+<script>
+    function typeChosen() {
+        var it = document.getElementById("dropdown-menu");
+        if (it == "options") {
+            var options = document.getElementById("isDropown");
+            options.style.display = "block";
+        }
+    }
+</script>

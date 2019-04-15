@@ -22,24 +22,20 @@
             {
                 <b style="color: red;">*</b>
             }
-            @if (Model.Prompt == "Email")
-            {
-                <input asp-for="Value" disabled />
-                <input asp-for="Value" hidden />
-            }
-            else if (Model.InputType == "signature")
-            {
-                if (!Model.isDisabled)
-                {
-                    <input asp-for="Value" />
-                }
-                else
-                {
-                    <input asp-for="Value" disabled />
-                    <input asp-for="Value" hidden />
-                }
-                <label style="display: inline-block">@Model.DateSigned</label>
 
+            @if (Model.InputType == "options")
+            {
+                <div class="dropdown">
+                    <div class="dropdown-content">
+                        <select name="input-type" class="btn btn-primary dropdown-toggle" onclick="typeChosen()">
+                            @foreach (var option in Model.Options)
+                            {
+                                <option value="@option">@option</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                @*@Html.DisplayFor(modelItem => item.Options)*@
             }
             else if (Model.InputType == "text-area")
             {
@@ -54,12 +50,46 @@
                     <input style="width: 95%; height: 300px; margin: 5px;" asp-for="Value" disabled />
                     <input asp-for="Value" hidden />
                 }
+                @*<textarea name="@(Model.Questions.IndexOf(item)+1)">Enter text here...</textarea>
+                    <br />*@
+            }
+            else if (Model.InputType == "checkbox" || Model.InputType == "signature")
+            {
+
+                if (!Model.isDisabled)
+                {
+                    if (Model.Value == "" || Model.Value == "False")
+                    {
+                        <input type="checkbox" value="false" asp-for="Value" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" value="true" asp-for="Value" />
+                    }
+                }
+                else
+                {
+                    if (Model.Value == "" || Model.Value == "False")
+                    {
+                        <input type="checkbox" value="false" disabled />
+                    }
+                    else
+                    {
+                        <input type="checkbox" value="true" disabled />
+                    }
+                    <input asp-for="Value" hidden />
+                }
+                if (Model.InputType == "signature")
+                {
+                    <label style="display: inline-block">@Model.DateSigned</label>
+                }
+
             }
             else if (Model.InputType == "date")
             {
                 if (!Model.isDisabled)
                 {
-                    <input type=@Model.InputType asp-for="Value" />
+                    <input type="@Model.InputType" asp-for="Value" />
                 }
                 else
                 {
@@ -68,8 +98,12 @@
                 }
                 <small>(ex. 11/10/2019)</small>
             }
-            else if (Model.InputType == "radio")
-            //if (q.Options != "")
+            else if (Model.InputType == "money")
+            {
+                <p>$<input asp-for="Value" type="number" min="0.01" step="0.01" max="2500" value="0.0" /></p>
+                <br />
+            }
+            else
             {
                 <div style="display: inline-block">
                     @if (!Model.isDisabled)
@@ -81,28 +115,16 @@
                         <input asp-for="Value" disabled />
                         <input asp-for="Value" hidden />
                     }
-                </div>
-            }
-            else
-            {
-                if (!Model.isDisabled)
-                {
-                    <input asp-for="Value" />
-                }
-                else
-                {
-                    <input asp-for="Value" disabled />
-                    <input asp-for="Value" hidden />
-                }
+                    
 
-
-            }
-            @if (Model.HelperText != "")
-            {
-                <div>
-                    <small>@Model.HelperText</small>
+                    @if (Model.HelperText != "")
+                    {
+                        <div>
+                            <small>@Model.HelperText</small>
+                        </div>
+                    }
                 </div>
             }
         }
     }
-</div>
+

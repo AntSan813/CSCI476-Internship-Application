@@ -42,6 +42,7 @@
                     {
                         <div>
                             <div style="display: block;">
+                                <p>
                                 @if (item.InputType == "formInfo")
                                 {
                                     invisibleCount++;
@@ -49,10 +50,11 @@
                                 else
                                 {
                                     int displayOrder = item.Order - invisibleCount;
-                                    <label style="display: inline-block;">@displayOrder. </label>
+                                    <label>@displayOrder. </label>
                                 }
                                 <partial style="display: inline-block;" name="_FormInputPartial" model="item" />
-                            </div>
+                           </p>
+                                    </div>
                         </div>
                     }
                 }
