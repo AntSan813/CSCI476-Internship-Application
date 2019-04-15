@@ -22,7 +22,12 @@
             {
                 <b style="color: red;">*</b>
             }
-            @if (Model.InputType == "signature")
+            @if (Model.Prompt == "Email")
+            {
+                <input asp-for="Value" disabled />
+                <input asp-for="Value" hidden />
+            }
+            else if (Model.InputType == "signature")
             {
                 if (!Model.isDisabled)
                 {
@@ -54,7 +59,7 @@
             {
                 if (!Model.isDisabled)
                 {
-                    <input asp-for="Value" />
+                    <input type=@Model.InputType asp-for="Value" />
                 }
                 else
                 {

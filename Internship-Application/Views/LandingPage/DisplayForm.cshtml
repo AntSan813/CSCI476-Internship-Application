@@ -40,7 +40,7 @@
     }
     else if (User.IsInRole("StudentServices"))
     {
-        role = "Student Services";
+        role = "StudentServices";
     }
 
     Boolean correctRoleSubmit = false;
@@ -94,7 +94,15 @@
 
         <div style="display: block">
             <div style="text-align:center;">
-                <b>STUDENT NAME:</b> @Model.FormDetails.StudentName
+                @if (Model.FormDetails.StudentName != "" && Model.FormDetails.StudentName != null)
+                {
+                    <b>STUDENT NAME:</b> @Model.FormDetails.StudentName
+                }
+                else
+                {
+                    string emptyName = "No name for: " + Model.FormDetails.StudentEmail.Split('@')[0];
+                    <b>STUDENT NAME:</b> @emptyName
+                }
             </div>
             <div style="text-align:center;">
                 <b>STATUS CODE:</b> @Model.FormDetails.StatusCodesViewModel.StatusCode
@@ -114,24 +122,24 @@
                     <div style="text-align:center;">
                         <label>Don't like what you see? Choose who to send it back to:</label>
                     </div>
-                    <div style="text-align:center;">
-                        <select id="sendBackList">
-                            <option value="1">1 - Student</option>
-                            <option value="2">2 - Employer</option>
-                            <option value="3">3 - DER (Approval)</option>
-                            <option value="4">4 - Student Services</option>
-                            <option value="5">5 - Faculty of Record</option>
-                            <option value="6">6 - DER (Signature Required)</option>
-                        </select>
+                        <select asp-for="SendBackListId" class="form-control" asp-items="@Model.SendBackList"></select>
+                        <input hidden asp-for="SendBackListId" />
+                        <span asp-validation-for="SendBackListId" class="text-danger"/>
                         <input name="submit" type="submit" id="sendBack" value="Send Back" />
-                    </div>
                 </p>
             }
-            @if (role == "Student" || role == "Admin")
+            @if (role == "Student")
             {
                 @if (Model.FormDetails.StatusCodesViewModel.Id != 9 && Model.FormDetails.StatusCodesViewModel.Id != 10)
                 {
                     <div style="text-align:center;">At any time you may force withdraw this form by clicking here: <input name="submit" type="submit" id="withdraw" value="Withdraw" /></div>
+                }
+            }
+            @if (role == "Admin")
+            {
+                @if (Model.FormDetails.StatusCodesViewModel.Id != 9 && Model.FormDetails.StatusCodesViewModel.Id != 10)
+                {
+                    <div style="text-align:center;">At any time you may decline this form by clicking here: <input name="submit" type="submit" id="decline" value="Decline" /></div>
                 }
             }
             <br />
@@ -139,11 +147,6 @@
     </div>
 
     <!--QUESTIONS AND ANSWERS DISPLAY HERE-->
-    Dictionary<int, string> AnswerList = new Dictionary<int, string>();
-    foreach (var a in Model.AnswerList)
-    {
-        AnswerList.Add(Convert.ToInt32(a.Order), a.Value);
-    }
 
     <div id="tablesDiv">
         <div>
@@ -153,7 +156,6 @@
                 @Html.DisplayFor(modelItem => Model)
                 @{
                     int invisibleCount = 0;
-                    int reqCount = 0;
                     <h2><b style="color: red;">* = Required</b></h2>
                     @foreach (var item in Model.InputList)
                     {
