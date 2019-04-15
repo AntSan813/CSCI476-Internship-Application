@@ -117,15 +117,16 @@
 
 @if (User.IsInRole("Admin"))
 {
-<ul class="navbar-nav">
-    
-          
-    <li class="nav-item">
-        
-        <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-    </li>
-      }-->
-</ul>
+    <ul class="navbar-nav">
+
+
+        <li class="nav-item">
+
+            <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+            <button><a asp-controller="UserManual">Help</a></button>
+        </li>
+        }-->
+    </ul>
     <div id="adminLandingPageUI">
         <div id="titleAndSortContent">
             <div id="tableTitle">
@@ -207,20 +208,20 @@
                     {
                         @if (item.StatusCodesViewModel.Id != 3 && item.StatusCodesViewModel.Id != 6)
                         {
-                    <tr>
-                        @if (item.StudentName != "" && item.StudentName != null)
-                        {
-                            <td>@item.StudentName</td>
-                        }
-                        else
-                        {
-                            string emptyName = "No name for: " + item.StudentEmail.Split('@')[0];
-                            <td>@emptyName</td>
-                        }
-                        <td>@item.UpdatedAt</td>
-                        <td>@item.StatusCodesViewModel.StatusCode</td>
-                        <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
-                    </tr>
+                            <tr>
+                                @if (item.StudentName != "" && item.StudentName != null)
+                                {
+                                    <td>@item.StudentName</td>
+                                }
+                                else
+                                {
+                                    string emptyName = "No name for: " + item.StudentEmail.Split('@')[0];
+                                    <td>@emptyName</td>
+                                }
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                <td><button type="button"><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></button></td>
+                            </tr>
                         }
                     }
                 </table>
@@ -235,12 +236,14 @@
 @if (User.IsInRole("Student") || User.IsInRole("StudentServices") || User.IsInRole("FacultyOfRec") || User.IsInRole("Employer"))
 {
     <ul class="navbar-nav">
-        
+
         <li class="nav-item">
+
             <a type="submit" style=" color:black" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+
         </li>
-        
     </ul>
+    <button><a asp-controller="UserManual">Help</a></button>
     <div id="commonLandingPageUI">
         <div id="tablesDiv" style="padding-top:20px; margin-bottom: 25px;">
             <div>
@@ -266,27 +269,27 @@
                     {
                         if (User.IsInRole("Student") && item.StudentEmail == @User.Identity.Name)
                         {
-                    <tr>
-                        @if (item.StudentName != "" && item.StudentName != null)
-                        {
-                            <td>@item.StudentName</td>
-                        }
-                        else
-                        {
-                            string emptyName = "No name for: " + item.StudentEmail.Split('@')[0];
-                            <td>@emptyName</td>
-                        }
-                        <td>@item.UpdatedAt</td>
-                        <td>@item.StatusCodesViewModel.StatusCode</td>
-                        @if (item.StatusCodesViewModel.Id == 1)
-                        {
-                            <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
-                        }
-                        else
-                        {
-                            <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
-                        }
-                    </tr>
+                            <tr>
+                                @if (item.StudentName != "" && item.StudentName != null)
+                                {
+                                    <td>@item.StudentName</td>
+                                }
+                                else
+                                {
+                                    string emptyName = "No name for: " + item.StudentEmail.Split('@')[0];
+                                    <td>@emptyName</td>
+                                }
+                                <td>@item.UpdatedAt</td>
+                                <td>@item.StatusCodesViewModel.StatusCode</td>
+                                @if (item.StatusCodesViewModel.Id == 1)
+                                {
+                                    <td><a asp-action="DisplayForm" asp-route-id="@item.Id">Edit</a></td>
+                                }
+                                else
+                                {
+                                    <td><a asp-action="DisplayForm" asp-route-id="@item.Id">View</a></td>
+                                }
+                            </tr>
                         }
                         else if (User.IsInRole("Employer") && item.EmployerEmail == @User.Identity.Name && item.StatusCodesViewModel.Id == 2)
                         {
@@ -325,21 +328,21 @@
                             </tr>
                         }
                     }
-                    @if(role == "Student")
+                    @if (role == "Student")
                     {
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                           <a asp-action="DisplayForm">Start New Form</a>
-                            <!-- 
-    <form asp-controller="Student_Application_Page" asp-action="Index" method="post">
-        <button type="submit" style="height:55px; background-color:#660000">Start New Form</button>
-    </form>-->
-                            <!--<button style="height:55px; background-color:#660000">Start New Form</button>-->
-                        </td>
-                    </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a asp-action="DisplayForm">Start New Form</a>
+                                <!--
+                                <form asp-controller="Student_Application_Page" asp-action="Index" method="post">
+                                    <button type="submit" style="height:55px; background-color:#660000">Start New Form</button>
+                                </form>-->
+                                <!--<button style="height:55px; background-color:#660000">Start New Form</button>-->
+                            </td>
+                        </tr>
                     }
                 </table>
             </div>
@@ -372,6 +375,7 @@
                             }
                         </tr>
                     </table>
+                    <br />
                 </div>
             </div>
         </div>
