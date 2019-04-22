@@ -149,7 +149,7 @@
     <!--QUESTIONS AND ANSWERS DISPLAY HERE-->
 
     <div id="tablesDiv">
-        <div>
+        <div style="margin: 20pt;">
             <h1 style="text-align:center;">@Model.TemplateDetails.DisplayName</h1>
             <h4 style="text-align:center;">@Model.TemplateDetails.Disclaimer</h4>
             <div>
@@ -175,48 +175,45 @@
                     }
                 }
             </div>
-        </div>
-    </div>
 
-    Boolean allRequiredAnswersFilled = true;
+            <div style="margin: 50px">
+                <div class="row" style="width: 100%; padding: 20pt;">
+                    @if (correctRoleSubmit)
+                    {
+                        if (Model.FormDetails.StatusCodesViewModel.Id == 7)
+                        {
+                            <div class="col-4">
+                                <input name="submit" type="submit" id="accept" value="Accept" />
+                            </div>
+                            <div class="col-4">
+                                <input name="submit" type="submit" id="decline" value="Decline" />
+                            </div>
+                            <div class="col-4">
+                                <input style="float: left;" name="submit" type="submit" id="backToList" value="Back To List" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="margin-left: 15px; margin-right: 15px;">
+                                <input name="submit" type="submit" id="save" value="Save" />
+                            </div>
+                            <div style="margin-left: 15px; margin-right: 15px;">
+                                <input name="submit" type="submit" id="submit" value="Submit" />
+                            </div>
+                            <div style="margin-left: 15px; margin-right: 15px;">
+                                <input name="submit" type="submit" id="backToList" value="Back To List" />
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <input style="margin-left: 50%" name="submit" type="submit" id="backToList" value="Back To List" />
+                        </div>
+                    }
 
-
-    <div style="margin: 50px">
-        <div class="row" style="width: 100%">
-            @if (correctRoleSubmit && allRequiredAnswersFilled)
-            {
-                if (Model.FormDetails.StatusCodesViewModel.Id == 7)
-                {
-                    <div class="col-4">
-                        <input name="submit" type="submit" id="accept" value="Accept" />
-                    </div>
-                    <div class="col-4">
-                        <input name="submit" type="submit" id="decline" value="Decline" />
-                    </div>
-                    <div class="col-4">
-                        <input style="float: left;" name="submit" type="submit" id="backToList" value="Back To List" />
-                    </div>
-                }
-                else
-                {
-                    <div style="margin-left: 15px; margin-right: 15px;">
-                        <input name="submit" type="submit" id="save" value="Save" />
-                    </div>
-                    <div style="margin-left: 15px; margin-right: 15px;">
-                        <input name="submit" type="submit" id="submit" value="Submit" />
-                    </div>
-                    <div style="margin-left: 15px; margin-right: 15px;">
-                        <input name="submit" type="submit" id="backToList" value="Back To List" />
-                    </div>
-                }
-            }
-            else
-            {
-                <div class="col-12">
-                    <input style="margin-left: 50%" name="submit" type="submit" id="backToList" value="Back To List" />
                 </div>
-            }
-
+            </div>
         </div>
     </div>
 }
@@ -225,7 +222,7 @@
     function typeChosen() {
         var it = document.getElementById("dropdown-menu");
         if (it == "options") {
-            var options = document.getElementById("isDropown");
+            var options = document.getElementById("isDropdown");
             options.style.display = "block";
         }
     }
